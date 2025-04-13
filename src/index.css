@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
+:root {
+  --primary: #4361ee;
+  --primary-hover: #3a56d4;
+  --primary-light: rgba(67, 97, 238, 0.1);
+  --secondary: #3a0ca3;
+  --accent: #f72585;
+  --bg: #f8faff;
+  --card: #ffffff;
+  --text: #2b2d42;
+  --text-light: #6b7280;
+  --text-lighter: #9ca3af;
+  --border: #e2e8f0;
+  --error: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+}
+
+.theme-dark {
+  --primary: #4dabf7;
+  --primary-hover: #3d8fd6;
+  --primary-light: rgba(77, 171, 247, 0.1);
+  --secondary: #1e3a8a;
+  --accent: #ec4899;
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #e0e0e0;
+  --text-light: #a0a0a0;
+  --text-lighter: #6b7280;
+  --border: #2e2e2e;
+  --error: #ff6b6b;
+  --success: #6ee7b7;
+  --warning: #fcd34d;
+  --overlay: rgba(0, 0, 0, 0.7);
+  --gradient-primary: linear-gradient(135deg, #4dabf7 0%, #1e3a8a 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", "Noto Sans KR", sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 공통 변수 */
+:root {
+  --sidebar-width: 280px;
+  --header-height: 70px;
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.15);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+/* 기본 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", "Noto Sans KR", sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  transition: var(--transition);
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* 모던 테크 테마 (기본) */
+:root {
+  --primary: #4361ee;
+  --primary-hover: #3a56d4;
+  --primary-light: rgba(67, 97, 238, 0.1);
+  --secondary: #3a0ca3;
+  --accent: #f72585;
+  --bg: #f8faff;
+  --card: #ffffff;
+  --text: #2b2d42;
+  --text-light: #6b7280;
+  --text-lighter: #9ca3af;
+  --border: #e2e8f0;
+  --error: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+}
+
+/* 다크 테마 */
+.app.theme-dark {
+  --primary: #4dabf7;
+  --primary-hover: #3d8fd6;
+  --primary-light: rgba(77, 171, 247, 0.1);
+  --secondary: #1e3a8a;
+  --accent: #ec4899;
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #e0e0e0;
+  --text-light: #a0a0a0;
+  --text-lighter: #6b7280;
+  --border: #2e2e2e;
+  --error: #ff6b6b;
+  --success: #6ee7b7;
+  --warning: #fcd34d;
+  --overlay: rgba(0, 0, 0, 0.7);
+  --gradient-primary: linear-gradient(135deg, #4dabf7 0%, #1e3a8a 100%);
+}
+
+/* 프레시 그린 테마 */
+.app.theme-green {
+  --primary: #10b981;
+  --primary-hover: #0d9e6e;
+  --primary-light: rgba(16, 185, 129, 0.1);
+  --secondary: #047857;
+  --accent: #ec4899;
+  --bg: #f0fdf4;
+  --card: #ffffff;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --text-lighter: #9ca3af;
+  --border: #d1fae5;
+  --error: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --gradient-primary: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .projectGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    transform: translateX(-100%);
+  }
+
+  .sidebarVisible {
+    transform: translateX(0);
+  }
+
+  .mainContent {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 0 20px;
+  }
+
+  .navMain {
+    display: none;
+  }
+
+  .searchBar {
+    width: 180px;
+  }
+
+  .mainContent {
+    padding: 20px;
+  }
+
+  .projectGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .headerRight {
+    gap: 15px;
+  }
+
+  .searchBar {
+    display: none;
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .filterBar {
+    gap: 8px;
+  }
+
+  .filterBtn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .Toastify__toast-container {
+    width: 90vw;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+/* 토스트메시지 커스텀 */
+.custom-toast {
+  background: var(--card);
+  color: var(--text);
+  border: 2px solid var(--border);
+}

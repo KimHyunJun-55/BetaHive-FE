@@ -1,0 +1,150 @@
+.container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 15px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.required {
+  color: #e63946;
+}
+
+.templateDropdown {
+  position: relative;
+  min-width: 150px;
+}
+
+.templateSelect {
+  width: 100%;
+  padding: 6px 30px 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  appearance: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.templateIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #4a6baf;
+  pointer-events: none;
+}
+
+.editorContainer {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border 0.2s;
+}
+
+.editorContainer:focus-within {
+  border-color: #4a6baf;
+  box-shadow: 0 0 0 2px rgba(74, 107, 175, 0.2);
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.textarea:focus {
+  outline: none;
+}
+
+.preview {
+  padding: 12px;
+  background: #f9f9f9;
+  line-height: 1.6;
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.markdownHint {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: #4a6baf;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.toggleButton:hover {
+  background: #f0f7ff;
+}
+
+/* 마크다운 프리뷰 스타일 */
+.preview h1,
+.preview h2,
+.preview h3 {
+  margin: 1em 0 0.5em;
+  line-height: 1.2;
+}
+
+.preview h1 {
+  font-size: 1.6rem;
+}
+.preview h2 {
+  font-size: 1.4rem;
+}
+.preview h3 {
+  font-size: 1.2rem;
+}
+
+.preview ul,
+.preview ol {
+  padding-left: 24px;
+  margin: 0.5em 0;
+}
+
+.preview ul {
+  list-style-type: disc;
+}
+
+.preview a {
+  color: #0366d6;
+  text-decoration: underline;
+}
+
+.preview code {
+  background: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+}

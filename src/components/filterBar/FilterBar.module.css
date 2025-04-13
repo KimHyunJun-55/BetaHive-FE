@@ -1,0 +1,68 @@
+.filterContainer {
+  background-color: var(--card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.filterTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.filterReset {
+  font-size: 13px;
+  color: var(--primary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filterReset:hover {
+  text-decoration: underline;
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filterBtn {
+  padding: 8px 16px;
+  border-radius: var(--radius-lg);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filterBtn:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filterBtn.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.filterBtn i {
+  font-size: 12px;
+}

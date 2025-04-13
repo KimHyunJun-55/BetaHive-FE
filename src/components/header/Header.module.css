@@ -1,0 +1,213 @@
+.header {
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoIcon {
+  color: var(--primary);
+  font-size: 28px;
+}
+
+.navMain {
+  display: flex;
+  gap: 30px;
+  margin-left: 40px;
+}
+
+.navMain a {
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  padding: 5px 0;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navMain a:hover {
+  color: var(--primary);
+}
+
+.navMain a.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.navMain a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+  border-radius: 2px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.searchBar {
+  position: relative;
+  width: 240px;
+}
+
+.searchBar input {
+  width: 100%;
+  padding: 10px 15px 10px 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.searchBar input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnPrimary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btnPrimary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btnOutline {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btnOutline:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: 600;
+  position: relative;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.userAvatar:hover {
+  transform: scale(1.05);
+}
+
+.notificationBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--card);
+}
+.userMenu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 200px;
+  background-color: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 10px 0;
+  z-index: 100;
+  border: 1px solid var(--border);
+}
+
+.userMenuItem {
+  padding: 10px 20px;
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+  transition: var(--transition);
+  font-size: 14px;
+}
+
+.userMenuItem:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.userMenuDivider {
+  height: 1px;
+  background-color: var(--border);
+  margin: 8px 0;
+}

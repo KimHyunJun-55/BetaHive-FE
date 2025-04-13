@@ -1,0 +1,780 @@
+.container {
+  display: flex;
+  min-height: calc(100vh - var(--header-height));
+}
+
+.mainContent {
+  flex: 1;
+  padding: 40px;
+  background-color: var(--bg);
+  transition: var(--transition);
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.pageActions {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.imagePreview {
+  max-height: 400px; /* 높이를 적절한 크기로 제한 */
+  object-fit: cover; /* 이미지 비율을 유지하면서 잘리도록 설정 */
+}
+.btnPrimary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btnPrimary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btnOutline {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btnOutline:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 등록 페이지 전용 스타일 */
+.formContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.formSection {
+  margin-bottom: 40px;
+}
+
+.formSection h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.formControl {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  transition: var(--transition);
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+select.formControl {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23333' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 10px 6px;
+}
+
+.formControl:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+.textareaControl {
+  min-height: 120px;
+  resize: vertical;
+}
+/* ======================================이미지업로드============================= */
+.mediaGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* 카드 사이 간격 */
+}
+
+.thumnailUpload {
+  border: 2px dashed var(--border);
+  min-height: 200px;
+  padding: 30px;
+  text-align: center;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.thumnailUpload:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.fileUpload:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.fileUpload {
+  border: 2px dashed var(--border);
+  min-height: 200px;
+  padding: 30px;
+  text-align: center;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+/* 미디어 업로드 스타일 */
+.mediaTier {
+  margin-top: 15px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 15px;
+}
+
+.mediaTierHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.mediaTierTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mediaAddButton {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.mediaAddButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mediaItem {
+  margin-bottom: 15px;
+  height: 145px;
+}
+
+.mediaInputGroup {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.mediaUploadArea {
+  flex: 0 0 250px;
+  height: 200px;
+}
+
+.mediaUploadLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+.mediaUploadLabel:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mediaPreview {
+  position: relative;
+  height: 150px;
+}
+
+.mediaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.mediaRemoveButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: var(--error);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mediaDescriptionInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  min-height: 150px;
+  resize: vertical;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.descriptionContainer {
+  margin-top: 10px;
+}
+
+.descriptionInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  resize: vertical;
+  min-height: 60px;
+  background: var(--bg);
+  color: var(--text);
+}
+/* ======================================이미지업로드============================= */
+.rewardTier {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+/* 추가 스타일 */
+.uploadIcon {
+  font-size: 24px;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+.uploadText {
+  color: var(--text-light);
+}
+
+.testersCountValue {
+  font-weight: 600;
+}
+
+.testerRequirementInput {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.addRequirementButton {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%) !important;
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: none;
+  border: none;
+
+  padding: 0; /* 높이 변화 방지 */
+  line-height: 1; /* 텍스트 정렬 안정화 */
+  font-size: 18px; /* 아이콘 크기 고정 */
+}
+
+.requirementTag {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.rewardTierHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.rewardTierTitle {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.rewardTierEditButton {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.rewardTierInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 20px;
+  }
+
+  .formContainer {
+    padding: 20px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+/* ... 기존 CSS 유지 ... */
+
+/* 다크 테마에서 입력 필드 스타일 */
+:global(.theme-dark) .formControl,
+:global(.theme-dark) .textareaControl,
+:global(.theme-dark) .fileUpload,
+:global(.theme-dark) .testerRequirementInput,
+:global(.theme-dark) .rewardTierInput,
+:global(.theme-dark) select.formControl {
+  background-color: var(--card) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+/* 다크 테마에서 플레이스홀더 색상 */
+:global(.theme-dark) .formControl::placeholder,
+:global(.theme-dark) .textareaControl::placeholder {
+  color: var(--text-light) !important;
+  opacity: 1;
+}
+
+/* 다크 테마에서 select 화살표 색상 변경 */
+:global(.theme-dark) select.formControl {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a0a0a0' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px 12px;
+}
+
+/* 다크 테마에서 파일 업로드 영역 호버 효과 */
+:global(.theme-dark) .fileUpload:hover {
+  background-color: rgba(77, 171, 247, 0.2) !important;
+}
+
+/* 다크 테마에서 input 요소들에 대한 추가 스타일 */
+:global(.theme-dark) input[type="text"],
+:global(.theme-dark) input[type="range"],
+:global(.theme-dark) input[type="radio"],
+:global(.theme-dark) input[type="file"] {
+  background-color: var(--card) !important;
+  color: var(--text) !important;
+}
+
+/* 다크 테마에서 radio 버튼 스타일 */
+:global(.theme-dark) input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+/* 다크 테마에서 range input 스타일 */
+:global(.theme-dark) input[type="range"] {
+  -webkit-appearance: none;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+}
+
+:global(.theme-dark) input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/*  */
+/* 테스터 수 스타일 */
+.testersCountLabel {
+  color: var(--text);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.testersCountInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--text-light); /* 테마에 따라 변경될 색상 */
+}
+
+.testersCountValue {
+  font-weight: 600;
+  color: var(--text); /* 테마에 따라 변경될 색상 */
+}
+
+/* 다크 모드에서 range input 스타일 */
+:global(.theme-dark) input[type="range"] {
+  background: var(--border);
+}
+
+:global(.theme-dark) input[type="range"]::-webkit-slider-thumb {
+  background: var(--primary);
+}
+/* 셀렉트박스 바 */
+/* Select 박스 기본 스타일 */
+.selectControl {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  transition: var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px 12px;
+}
+.selectControl:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+/* 다크 모드에서 Select 박스 스타일 */
+:global(.theme-dark) .selectControl {
+  background-color: var(--card);
+  color: var(--text);
+  border-color: var(--border);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a0a0a0' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+}
+/* Range Input 기본 스타일 */
+
+/* Range Input 기본 스타일 */
+.testersCountRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: transparent; /* 배경 투명 처리 */
+  outline: none;
+  margin: 15px 0;
+  transition: var(--transition);
+}
+
+/* 트랙(바탕) 스타일 */
+.testersCountRange::-webkit-slider-runnable-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.testersCountRange::-moz-range-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* Thumb(움직이는 부분) 스타일 */
+.testersCountRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid white;
+  margin-top: -6px; /* 트랙 중앙 정렬 */
+}
+
+.testersCountRange::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.testersCountRange::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* 다크 모드에서 Range Input 스타일 */
+:global(.theme-dark) .testersCountRange::-webkit-slider-runnable-track {
+  background: rgba(77, 171, 247, 0.3); /* 더 밝은 파란색 계열 */
+}
+
+:global(.theme-dark) .testersCountRange::-moz-range-track {
+  background: rgba(77, 171, 247, 0.3); /* 더 밝은 파란색 계열 */
+}
+
+:global(.theme-dark) .testersCountRange::-webkit-slider-thumb {
+  background: var(--primary);
+  border-color: var(--card);
+  box-shadow: 0 0 0 2px rgba(77, 171, 247, 0.5); /* 외곽에 광택 효과 */
+}
+
+:global(.theme-dark) .testersCountRange::-moz-range-thumb {
+  background: var(--primary);
+  border-color: var(--card);
+}
+/* 마크다운 */
+/* ==================== 마크다운 에디터 ==================== */
+/* ==================== 마크다운 에디터 ==================== */
+.markdownHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.markdownActions {
+  display: flex;
+  gap: 12px;
+}
+
+.guideToggleButton {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.guideToggleButton:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.collapsibleGuide {
+  background: var(--bg-secondary);
+  padding: 15px;
+  border-radius: var(--radius-md);
+  margin-bottom: 15px;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.collapsibleGuide h3 {
+  font-size: 1rem;
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.collapsibleGuide ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.collapsibleGuide code {
+  background: var(--code-bg);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+/* 다크 모드 대응 */
+:global(.theme-dark) .collapsibleGuide {
+  background: var(--card-dark);
+  border-color: var(--border-dark);
+}
+
+:global(.theme-dark) .collapsibleGuide code {
+  background: rgba(0, 0, 0, 0.3);
+}
+.smallButton {
+  padding: 4px 8px !important;
+  font-size: 0.8rem !important;
+  gap: 4px !important;
+}
+
+.smallButton svg {
+  font-size: 12px !important;
+}
+
+/* 우측 플로팅 가이드 */
+.floatingGuide {
+  position: absolute;
+  right: -300px;
+  top: 20px;
+  width: 280px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 15px;
+  z-index: 10;
+  box-shadow: var(--shadow-md);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.floatingGuide h3 {
+  font-size: 1rem;
+  margin-top: 0;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.floatingGuide ul {
+  padding-left: 20px;
+}
+
+.floatingGuide code {
+  background: var(--code-bg);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  display: inline-block;
+  margin: 2px 0;
+}
+
+/* 다크 모드 대응 */
+:global(.theme-dark) .floatingGuide {
+  background: var(--card-dark);
+  border-color: var(--border-dark);
+}
+
+:global(.theme-dark) .floatingGuide code {
+  background: rgba(0, 0, 0, 0.3);
+}
+.floatingGuide a {
+  pointer-events: none !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  cursor: default !important;
+}
+
+/* 이미지 대체 텍스트 스타일 */
+.floatingGuide img {
+  display: none;
+}
+
+/* 보상리워드 */
+/* ProjectCreate.module.css 안에 추가 */
+.bonusRewardsList {
+  color: var(--text);
+  list-style: none;
+  padding-left: 0; /* 기본 들여쓰기 제거 */
+  margin: 0;
+}

@@ -1,0 +1,41 @@
+/* GlobalLoading.module.css */
+/* GlobalLoading.module.css */
+.overlay {
+  z-index: 2147483647; /* 최대값 (32-bit 정수 최댓값) */
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7) !important;
+  /* 하위 요소 차단 */
+  pointer-events: auto !important;
+}
+.spinner {
+  text-align: center;
+  color: white;
+}
+
+.dualRing {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
+
+.dualRing:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: dualRing 1.2s linear infinite;
+}
+
+@keyframes dualRing {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
