@@ -5,10 +5,10 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React from "react";
 import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
 import { TEST_DURATIONS, TEST_TYPES } from "../../../type/contants";
-import MarkdownEditor from "../../common/MarkdownEditor";
+import TipTapEditor from "../../tipTapEditor/TipTapEditor";
 
 interface TestSettingsSectionProps {
   testersCount: number;
@@ -67,11 +67,11 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
             ))}
           </select>
         </div>
-        <MarkdownEditor
+        <TipTapEditor
           label="참여 방법"
           value={instructions}
           onChange={onInstructionsChange}
-          required
+          // required
           minHeight={250}
         />
 

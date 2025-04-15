@@ -1,0 +1,111 @@
+.guideContainer {
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: var(--bg);
+}
+.mainGuideContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: var(--card);
+}
+
+.guideHeader {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.guideHeader h1 {
+  font-size: 2.5rem;
+  color: var(--text);
+  margin-bottom: 15px;
+}
+
+.guideHeader p {
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.guideSection,
+.warningSection,
+.faqSection {
+  margin-bottom: 60px;
+}
+
+.guideSection h2,
+.warningSection h2,
+.faqSection h2 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+
+.cardContainer,
+.warningContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.guideCard {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 25px;
+  color: var(--text);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+.warningCard {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 25px;
+  color: var(--text);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.guideCard:hover {
+  transform: translateY(-5px);
+}
+
+.guideCard h3,
+.warningCard h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #3498db;
+}
+
+.warningCard h3 {
+  color: #e74c3c;
+}
+
+.guideCard ul,
+.warningCard ul {
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+.guideCard li,
+.warningCard li {
+  margin-bottom: 8px;
+}
+
+.faqItem {
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 25px;
+}
+
+.faqItem h3 {
+  color: var(--text);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.faqItem p {
+  line-height: 1.7;
+  color: var(--text);
+}

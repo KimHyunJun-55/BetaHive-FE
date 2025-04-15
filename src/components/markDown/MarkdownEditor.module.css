@@ -148,3 +148,49 @@ label {
   border-radius: 3px;
   font-family: monospace;
 }
+.floatingGuide {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* tabHeader: 탭 버튼들 모음 */
+.tabHeader {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 12px;
+}
+
+/* tabItem: 각각의 탭 */
+.tabItem {
+  padding: 8px 16px;
+  border: 1px solid red;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.tabItem:hover {
+  color: #a72a2a;
+}
+
+/* activeTab: 선택된 탭 스타일 */
+.activeTab {
+  color: #000;
+  border: 1px solid red;
+  font-weight: 600;
+  border-color: #007bff;
+}
+
+/* tabContent: 탭 내용 */
+.tabContent {
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

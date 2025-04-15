@@ -1,0 +1,191 @@
+.container {
+  background: var(--bg);
+  padding: 40px;
+  height: 100vh;
+}
+.mainContainer {
+  background: var(--card);
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+/* 프로필 섹션 */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 30px;
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  position: relative; /* 아이콘을 우측에 배치하기 위해 추가 */
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+}
+
+.userInfo h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--text);
+}
+
+.userInfo p {
+  margin: 5px 0;
+  color: var(--text);
+}
+
+.metaInfo {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.editIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  color: #3498db;
+  transition: color 0.3s;
+}
+
+.editIcon:hover {
+  color: #2980b9;
+}
+/* 탭 메뉴 */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 25px;
+}
+
+.tab {
+  padding: 12px 20px;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text);
+  transition: none; /* 호버 효과 제거 */
+  user-select: none; /* 클릭 시 텍스트 선택 방지 */
+}
+
+.tab.active {
+  border-bottom: 3px solid #3498db;
+  font-weight: 600;
+}
+
+/* 설정 메뉴 버튼 */
+.editButton,
+.logoutButton {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.logoutButton {
+  color: #e74c3c;
+}
+
+/* 프로젝트 그리드 */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* 빈 상태 스타일 */
+.emptyState {
+  text-align: center;
+  padding: 50px 20px;
+  background: var(--bg);
+  border-radius: 8px;
+  margin: 30px 0;
+}
+
+.emptyState p {
+  color: var(--text);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.exploreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* 설정 섹션 */
+.settingsSection {
+  margin-top: 40px;
+}
+
+.settingsSection h3 {
+  color: var(--text);
+  margin-bottom: 15px;
+}
+
+.settingsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settingsList li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.settingsList li:last-child {
+  border-bottom: none;
+}
+
+.settingsList a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.logoutButton {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .profileSection {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .metaInfo {
+    justify-content: center;
+  }
+}

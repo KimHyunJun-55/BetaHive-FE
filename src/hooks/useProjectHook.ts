@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createProject, uploadFile } from "../api/project";
+import { createProject, updateProject, uploadFile } from "../api/project";
 import { MAX_MEDIA_FILES } from "../type/contants";
 import { MediaFile, ProjectFormState } from "../type/types";
 
@@ -12,6 +12,9 @@ const initialFormState: ProjectFormState = {
     description: "test",
     detailedDescription: "test",
     objective: "",
+    webLink: "",
+    androidLink: "",
+    iosLink: "",
   },
   testSettings: {
     testersCount: 50,
@@ -23,18 +26,20 @@ const initialFormState: ProjectFormState = {
     contact: "",
   },
   media: {
-    thumbnail: "ttt",
+    thumbnail: "",
     mediaFiles: [] as MediaFile[],
   },
   rewards: {
     hasReward: false,
     baseReward: "",
     bonusRewards: [],
-    newBonusReward: "",
+    criteria: "",
   },
 };
 
-export const useProjectForm = () => {
+export const useProjectForm = (projectId?: string | undefined) => {
+  const numericProjectId = projectId ? Number(projectId) : undefined;
+
   const [formState, setFormState] =
     useState<ProjectFormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,23 +47,40 @@ export const useProjectForm = () => {
   const navigate = useNavigate();
 
   // 미리보기 URL 정리
-  useEffect(() => {
-    return () => {
-      formState.media.mediaFiles.forEach((file) => {
-        if (file.previewUrl) URL.revokeObjectURL(file.previewUrl);
-      });
-
-      // thumbnail이 File 객체인지 확인
-      if (
-        formState.media.thumbnail &&
-        formState.media.thumbnail instanceof File
-      ) {
-        URL.revokeObjectURL(URL.createObjectURL(formState.media.thumbnail));
-      }
-    };
-  }, [formState.media]);
-
-  // 파일 업로드 처리
+  console.log(formState);
+  const inflateFormData = (data: any) => ({
+    basicInfo: {
+      name: data.name,
+      category: data.category,
+      description: data.description,
+      detailedDescription: data.detailedDescription,
+      objective: data.objective,
+      webLink: data.webLink,
+      androidLink: data.androidLink,
+      iosLink: data.iosLink,
+    },
+    testSettings: {
+      testersCount: data.testersCount,
+      testType: data.testType,
+      testDuration: data.testDuration,
+      requirements: data.requirements || [],
+      newRequirement: "",
+      instructions: data.instructions,
+      contact: data.contact,
+    },
+    media: {
+      thumbnail: data.thumbnailUrl,
+      thumbnailDescription: data.thumbnailDescription || "",
+      mediaFiles: data.mediaFiles || [],
+    },
+    rewards: {
+      hasReward: data.hasReward,
+      baseReward: data.baseReward,
+      bonusRewards: data.bonusRewards || [],
+      newBonusReward: "",
+      criteria: data.criteria,
+    },
+  });
 
   // 폼 필드 업데이트 함수들
   const updateField = useCallback(
@@ -209,12 +231,10 @@ export const useProjectForm = () => {
     });
   }, []);
 
-  // const resetForm = useCallback(() => {
-  //   setFormState(initialFormState);
-  //   setUploadedThumbnailUrl("");
-  //   setUploadedMediaUrls([]);
-  //   setUploadProgress(0);
-  // }, []);
+  const resetForm = (data: any) => {
+    const inflated = inflateFormData(data);
+    setFormState(inflated);
+  };
 
   const validateForm = useCallback(() => {
     const errors = [];
@@ -229,12 +249,21 @@ export const useProjectForm = () => {
     return errors;
   }, [formState]);
 
+  const flattenFormData = (formState: ProjectFormState) => {
+    return {
+      ...formState.basicInfo,
+      ...formState.testSettings,
+      thumbnailUrl: formState.media.thumbnail,
+      mediaFiles: formState.media.mediaFiles.filter((m) => m.url),
+      ...formState.rewards,
+    };
+  };
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       console.log("폼 제출 시작");
 
-      // 유효성 검사
       const validationErrors = validateForm();
       if (validationErrors.length > 0) {
         alert(validationErrors.join("\n"));
@@ -244,45 +273,37 @@ export const useProjectForm = () => {
       setIsSubmitting(true);
 
       try {
-        // 최종 전송 데이터 구성
-        const projectData = {
-          ...formState.basicInfo,
-          ...formState.testSettings,
-          thumbnailUrl: formState.media.thumbnail, // 이미 업로드된 썸네일 URL
-          thumbnailDescription: formState.media.thumbnailDescription,
-          mediaFiles: formState.media.mediaFiles
-            .filter((media) => media.url) // URL이 있는 항목만 필터링
-            .map((media) => ({
-              url: media.url,
-              description: media.description,
-            })),
-          ...formState.rewards,
-        };
-
+        const projectData = flattenFormData(formState);
         console.log("최종 전송 데이터:", JSON.stringify(projectData, null, 2));
 
-        // API 호출
-        const projectId = await createProject(projectData);
-        console.log(projectId);
-        toast.success("프로젝트가 성공적으로 등록되었습니다.");
-        navigate(`/projects/detail/${projectId}`);
+        let resultProjectId;
 
-        // 폼 초기화 (필요시)
-        // setFormState(initialFormState);
+        if (projectId) {
+          await updateProject(Number(numericProjectId), projectData);
+          toast.success("프로젝트가 성공적으로 수정되었습니다.");
+          resultProjectId = projectId;
+        } else {
+          const newProjectId = await createProject(projectData);
+          toast.success("프로젝트가 성공적으로 등록되었습니다.");
+          resultProjectId = newProjectId;
+        }
+
+        navigate(`/projects/detail/${resultProjectId}`);
       } catch (error) {
-        console.error("프로젝트 생성 오류:", error);
-        alert("프로젝트 등록에 실패했습니다. 다시 시도해주세요.");
+        console.error("프로젝트 저장 오류:", error);
+        alert("프로젝트 저장에 실패했습니다. 다시 시도해주세요.");
       } finally {
         setIsSubmitting(false);
       }
     },
-    [formState, validateForm]
+    [formState, validateForm, numericProjectId]
   );
 
   return {
     formState,
     isSubmitting,
     uploadProgress,
+    resetForm,
     updateField,
     handleThumbnailUpload,
     handleMediaUpload,

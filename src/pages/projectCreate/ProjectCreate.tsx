@@ -1,19 +1,20 @@
-import React from "react";
-import styles from "./ProjectCreate.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCheck,
   faQuestionCircle,
   faTimes,
-  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useProjectForm } from "../../hooks/useProjectHook";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import BasicInfoSection from "../../components/project/section/BasicInfoSection";
 import MediaSection from "../../components/project/section/MediaSection";
-import TestSettingsSection from "../../components/project/section/TestSettingsSection";
 import RewardsSection from "../../components/project/section/RewardsSection";
-import { toast } from "react-toastify";
-
+import TestSettingsSection from "../../components/project/section/TestSettingsSection";
+import { useProjectForm } from "../../hooks/useProjectHook";
+import styles from "./ProjectCreate.module.css";
+import { fetchProjectDetails } from "../../api/project";
 const CreateProject: React.FC = () => {
+  const { projectId } = useParams();
   const {
     formState,
     isSubmitting,
@@ -29,14 +30,26 @@ const CreateProject: React.FC = () => {
     handleRemoveBonusReward,
     handleSubmit,
     resetForm,
-  } = useProjectForm();
+  } = useProjectForm(projectId);
   // console.log("렌더링되는 mediaFiles:", formState.media.mediaFiles);
-
+  useEffect(() => {
+    if (projectId) {
+      const fetchProjectData = async () => {
+        const data = await fetchProjectDetails(Number(projectId));
+        console.log(data);
+        // useProjectForm의 resetForm 또는 초기화 로직으로 데이터 채우기
+        resetForm(data); // 가정: useProjectForm에 resetForm 함수가 있다면
+      };
+      fetchProjectData();
+    }
+  }, [projectId]);
   return (
     <div className={styles.container}>
       <main className={styles.mainContent}>
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>새 프로젝트 등록</h1>
+          <h1 className={styles.pageTitle}>
+            {projectId ? "프로젝트 수정" : "새 프로젝트 등록"}
+          </h1>
           <div className={styles.pageActions}>
             <button className={`${styles.btn} ${styles.btnOutline}`}>
               <FontAwesomeIcon icon={faQuestionCircle} /> 가이드 보기
@@ -54,12 +67,8 @@ const CreateProject: React.FC = () => {
 
           <MediaSection
             thumbnailUrl={formState.media.thumbnail}
-            thumbnailDescription={formState.media.thumbnailDescription}
             mediaFiles={formState.media.mediaFiles}
             onThumbnailUpload={handleThumbnailUpload}
-            onThumbnailDescriptionChange={(desc) =>
-              updateField("media", "thumbnailDescription", desc)
-            }
             onMediaUpload={handleMediaUpload}
             onAddMedia={handleAddMedia}
             onDeleteMedia={handleDeleteMedia}
@@ -106,6 +115,10 @@ const CreateProject: React.FC = () => {
             baseReward={formState.rewards.baseReward}
             bonusRewards={formState.rewards.bonusRewards}
             newBonusReward={formState.rewards.newBonusReward}
+            criteria={formState.rewards.criteria}
+            onCriteriaChange={(value) =>
+              updateField("rewards", "criteria", value)
+            }
             onHasRewardChange={(hasReward) =>
               updateField("rewards", "hasReward", hasReward)
             }
@@ -133,10 +146,15 @@ const CreateProject: React.FC = () => {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                "등록 중..."
+                projectId ? (
+                  "수정 중..."
+                ) : (
+                  "등록 중..."
+                )
               ) : (
                 <>
-                  <FontAwesomeIcon icon={faCheck} /> 프로젝트 등록
+                  <FontAwesomeIcon icon={faCheck} />
+                  {projectId ? "프로젝트 수정" : "프로젝트 등록"}
                 </>
               )}
             </button>

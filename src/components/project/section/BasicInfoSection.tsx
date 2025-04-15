@@ -1,8 +1,8 @@
 // BasicInfoSection.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faLink } from "@fortawesome/free-solid-svg-icons";
 import { CATEGORIES } from "../../../type/contants";
 
 interface BasicInfoSectionProps {
@@ -12,6 +12,9 @@ interface BasicInfoSectionProps {
     description: string;
     detailedDescription: string;
     objective: string;
+    webLink?: string;
+    androidLink?: string;
+    iosLink?: string;
   };
   onFieldChange: (field: string, value: string) => void;
 }
@@ -20,12 +23,26 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
   formState,
   onFieldChange,
 }) => {
+  const [showLinks, setShowLinks] = useState({
+    web: false,
+    mobile: false,
+  });
+
+  // 카테고리 변경 시 링크 필드 자동 조정
+  useEffect(() => {
+    setShowLinks({
+      web: ["WEB", "WEB_MOBILE"].includes(formState.category),
+      mobile: ["MOBILE", "WEB_MOBILE"].includes(formState.category),
+    });
+  }, [formState.category]);
+
   return (
     <div className={styles.formSection}>
       <h2>
         <FontAwesomeIcon icon={faInfoCircle} /> 기본 정보
       </h2>
       <div className={styles.formGrid}>
+        {/* 기존 입력 필드들 유지 */}
         <div className={styles.formGroup}>
           <label htmlFor="project-name">프로젝트 이름 *</label>
           <input
@@ -57,21 +74,83 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
         </div>
       </div>
 
+      {/* 플랫폼별 링크 입력 섹션 */}
+      {showLinks.web && (
+        <div className={styles.formGroup}>
+          <label htmlFor="web-link">
+            <FontAwesomeIcon icon={faLink} /> 웹사이트 링크
+          </label>
+          <input
+            type="url"
+            id="web-link"
+            className={styles.formControl}
+            value={formState.webLink || ""}
+            onChange={(e) => onFieldChange("webLink", e.target.value)}
+            placeholder="https://example.com"
+            // pattern="https://.*"
+          />
+        </div>
+      )}
+
+      {showLinks.mobile && (
+        <>
+          <div className={styles.formGroup}>
+            <label htmlFor="android-link">
+              <FontAwesomeIcon icon={faLink} /> Google Play 스토어 링크
+            </label>
+            <input
+              type="url"
+              id="android-link"
+              className={styles.formControl}
+              value={formState.androidLink || ""}
+              onChange={(e) => onFieldChange("androidLink", e.target.value)}
+              placeholder="https://play.google.com/store/apps/details?id=com.example"
+              // pattern="https://play.google.com/store/apps/.*"
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="ios-link">
+              <FontAwesomeIcon icon={faLink} /> App Store 링크
+            </label>
+            <input
+              type="url"
+              id="ios-link"
+              className={styles.formControl}
+              value={formState.iosLink || ""}
+              onChange={(e) => onFieldChange("iosLink", e.target.value)}
+              placeholder="https://apps.apple.com/app/id123456789"
+              // pattern="https://apps.apple.com/.*"
+            />
+          </div>
+        </>
+      )}
+
+      {/* 기존 설명 필드들 유지 */}
       <div className={styles.formGroup}>
-        <label htmlFor="project-description">간단한 설명 *</label>
+        <label htmlFor="project-description">
+          프로젝트 설명 *
+          {/* <span style={{ fontSize: "12px" }}>
+            (메인페이지에 설명이 들어갈 공간입니다.)
+          </span> */}
+        </label>
         <textarea
           id="project-description"
           className={`${styles.formControl} ${styles.textareaControl}`}
           value={formState.description}
           onChange={(e) => onFieldChange("description", e.target.value)}
-          placeholder="프로젝트를 한 문장으로 설명해주세요 (최대 200자)"
+          placeholder="프로젝트를 설명해주세요 (최대 200자)"
           maxLength={200}
           required
         />
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="project-details">상세 설명 *</label>
+      {/* <div className={styles.formGroup}>
+        <label htmlFor="project-details">
+          상세 설명 *
+          <span style={{ fontSize: "12px" }}>
+            (상세페이지에 설명이 들어갈 공간입니다.)
+          </span>
+        </label>
         <textarea
           id="project-details"
           className={`${styles.formControl} ${styles.textareaControl}`}
@@ -80,19 +159,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
           placeholder="테스터들이 알아야 할 모든 내용을 상세히 작성해주세요"
           required
         />
-        {/* <p className={styles.markdownHint}>마크다운(Markdown) 문법 지원</p> */}
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="project-goals">프로젝트 목표 *</label>
-        <textarea
-          id="project-goals"
-          value={formState.objective}
-          className={`${styles.formControl} ${styles.textareaControl}`}
-          onChange={(e) => onFieldChange("objective", e.target.value)}
-          placeholder="이 프로젝트를 통해 달성하고자 하는 목표는 무엇인가요?"
-          required
-        />
-      </div>
+      </div> */}
     </div>
   );
 };

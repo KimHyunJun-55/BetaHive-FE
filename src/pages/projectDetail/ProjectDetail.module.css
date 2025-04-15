@@ -19,18 +19,6 @@
   gap: 10px;
 }
 /* Header Section */
-.pageHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.pageTitle {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text);
-}
 
 /* Project Header */
 .projectHeader {
@@ -62,22 +50,11 @@
   cursor: zoom-in;
 }
 
-.projectBadge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: var(--accent);
-  color: white;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
 .projectInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* height: 100%; */
 }
 
 .projectMeta {
@@ -100,6 +77,51 @@
   background-color: rgba(16, 185, 129, 0.1);
   padding: 4px 10px;
   border-radius: var(--radius-sm);
+}
+.statusWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.statusEdit {
+  font-size: 14px;
+  color: white;
+  background-color: #6366f1; /* 보라색 버튼 느낌 */
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s;
+  display: inline-block;
+}
+
+.dropdown {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+  width: max-content;
+  min-width: 140px;
+}
+
+.dropdownItem {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.dropdownItem:hover {
+  background-color: rgba(16, 185, 129, 0.08);
+  color: var(--success);
 }
 
 .projectTitle {
@@ -166,104 +188,25 @@
   margin-bottom: 25px;
 }
 
-.testerBadge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.testerBadge.required {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: var(--error);
-}
-
-.testerBadge.recommended {
-  background-color: rgba(245, 158, 11, 0.1);
-  color: var(--warning);
-}
-
 /* Action Buttons */
 .actionButtons {
   padding-top: 10px;
   display: flex;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-top: auto; /* 아래로 밀기 */
+  /* margin-bottom: auto; */
+  place-items: end;
 }
-
 @media (max-width: 480px) {
   .actionButtons {
     flex-direction: column;
   }
 }
 
-.btn {
-  padding: 12px 20px;
-  border-radius: var(--radius-lg);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btnPrimary {
-  background-color: var(--primary);
-  color: white;
-}
-
-.btnPrimary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.btnOutline {
-  background-color: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-.btnOutline:hover {
-  background-color: var(--bg-light);
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
 /* Rating Section */
-.ratingSection {
-  margin-top: auto;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-}
 
 .section {
   color: var(--text);
-}
-.ratingSection p {
-  font-size: 14px;
-  color: var(--text-light);
-  margin-bottom: 10px;
-}
-
-.stars {
-  display: flex;
-  gap: 5px;
-}
-
-.star {
-  color: var(--warning);
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.star:hover {
-  transform: scale(1.2);
 }
 
 /* Tabs */
@@ -345,29 +288,6 @@
 }
 
 /* Guide Cards */
-.guideCard {
-  background-color: var(--card);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
-}
-
-.guideCard h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: var(--primary);
-}
-
-.guideCard ul {
-  padding-left: 20px;
-}
-
-.guideCard li {
-  margin-bottom: 8px;
-  color: var(--text);
-}
 
 /* Media Gallery */
 .mediaGallery {
@@ -411,386 +331,30 @@
   transition: transform 0.3s ease;
 }
 
-.mediaItem:hover .mediaImageContainer img {
+/* .mediaItem:hover .mediaImageContainer img {
   transform: scale(1.05);
-}
-
-.expandButton {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
+} */
 
 .mediaImageContainer:hover .expandButton {
   opacity: 1;
 }
 
 .mediaDescription {
-  padding: 15px;
-  font-size: 14px;
-  color: var(--text-light);
+  padding: 17px;
+  font-size: 12px;
+  color: var(--text);
   border-top: 1px solid var(--border);
   margin: 0;
+  height: 5rem;
 
-  /* ✅ 멀티라인 말줄임 설정 */
   display: -webkit-box;
-  display: box; /* 표준 line-clamp 대응 (일부 브라우저용) */
-  line-clamp: 3; /* 표준 속성 정의 */
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
-  box-orient: vertical; /* 표준 속성 대응 */
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Feedback Tab */
-.feedbackForm {
-  background: var(--card);
-  padding: 1.5rem;
-  border-radius: var(--radius-md);
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border);
-}
-
-.feedbackForm h3 {
-  margin-bottom: 1rem;
-  font-size: 18px;
-  color: var(--text);
-}
-
-.feedbackForm textarea {
-  width: 100%;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  margin-bottom: 1rem;
-  resize: vertical;
-  min-height: 120px;
-  font-family: inherit;
-  background: var(--bg);
-  color: var(--text);
-  transition: var(--transition);
-}
-
-.feedbackForm textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.ratingInput {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.ratingInput span {
-  font-size: 14px;
-  color: var(--text-light);
-}
-
-.submitButton {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  font-weight: 500;
-  transition: var(--transition);
-}
-
-.submitButton:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-}
-
-.feedbackList {
-  margin-top: 2rem;
-}
-
-.feedbackList h3 {
-  font-size: 18px;
-  margin-bottom: 1rem;
-  color: var(--text);
-}
-
-.feedbackItem {
-  background: var(--card);
-  padding: 1.5rem;
-  border-radius: var(--radius-md);
-  margin-bottom: 1rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border);
-}
-
-.feedbackHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  gap: 1rem;
-}
-
-.userAvatar {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-light);
-  color: var(--primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
-.userInfo {
-  flex: 1;
-}
-
-.userName {
-  font-weight: bold;
-  display: block;
-  color: var(--text);
-}
-
-.feedbackDate {
-  color: var(--text-light);
-  font-size: 0.8rem;
-}
-
-.feedbackRating {
-  color: var(--warning);
-  display: flex;
-  gap: 2px;
-}
-
-.feedbackText {
-  line-height: 1.6;
-  color: var(--text);
-}
-
-.emptyFeedback {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-light);
-  background: var(--bg-light);
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--border);
-}
-
-.emptyFeedback svg {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: var(--text-tertiary);
-}
-
-.emptyFeedback p {
-  margin: 0;
-}
-
-/* Testers Tab */
-.testerStats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-@media (max-width: 768px) {
-  .testerStats {
-    grid-template-columns: 1fr;
-  }
-}
-
-.statCard {
-  background: var(--card);
-  padding: 1.5rem;
-  border-radius: var(--radius-md);
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border);
-}
-
-.statCard h4 {
-  margin-bottom: 0.5rem;
-  color: var(--text-light);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.statCard p {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0;
-  color: var(--text);
-}
-
-.searchBox {
-  display: flex;
-  margin-bottom: 1rem;
-}
-
-.searchBox input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-  background: var(--bg);
-  color: var(--text);
-  transition: var(--transition);
-}
-
-.searchBox input:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.searchBox button {
-  padding: 0 1.25rem;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.searchBox button:hover {
-  background: var(--primary-hover);
-}
-
-.testerListItems {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.testerItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid var(--border);
-  transition: var(--transition);
-}
-
-.testerItem:hover {
-  background-color: var(--bg-light);
-}
-
-.testerItem:last-child {
-  border-bottom: none;
-}
-
-.testerProfile {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-light);
-  color: var(--primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
-.testerProfile h4 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.testerProfile p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--text-light);
-}
-
-.testerMeta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.rating {
-  color: var(--warning);
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.feedbackBadge {
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--success);
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.emptyTesters {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-light);
-  background: var(--bg-light);
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--border);
-}
-
-.emptyTesters svg {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: var(--text-tertiary);
-}
-
-.emptyTesters p {
-  margin: 0;
-}
-
-/* Related Projects */
-.relatedProjects {
-  margin-top: 50px;
-  border-top: 1px solid var(--border);
-  padding-top: 30px;
-}
-
-.relatedProjects h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--text);
-}
-
-.projectGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-/* Image Modal */
 .imageModal {
   position: fixed;
   top: 0;
@@ -841,33 +405,6 @@
   .projectImage {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
   }
-
-  .guideCard,
-  .mediaItem,
-  .feedbackForm,
-  .feedbackItem,
-  .statCard {
-    background: var(--card-dark);
-    border-color: var(--border-dark);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  }
-
-  .feedbackForm textarea,
-  .searchBox input {
-    background: var(--bg-dark);
-    border-color: var(--border-dark);
-    color: var(--text-dark);
-  }
-
-  .emptyFeedback,
-  .emptyTesters {
-    background: var(--bg-dark);
-    border-color: var(--border-dark);
-  }
-
-  .testerItem:hover {
-    background-color: var(--bg-dark-hover);
-  }
 }
 
 /* Responsive Design */
@@ -894,22 +431,15 @@
   }
 }
 .modalDescription {
-  background-color: #ffffffcc; /* 살짝 투명한 흰색 배경 */
-  color: #333;
+  background-color: var(--card); /* 살짝 투명한 흰색 배경 */
+  color: var(--text) !important;
   padding: 16px;
-  margin-top: 12px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   width: 350px;
   font-size: 16px;
   line-height: 1.5;
-}
-.modalBody {
-  display: flex;
-  height: 100%;
-  gap: 20px;
-  align-items: flex-start;
-  align-items: stretch; /* ✅ 핵심: 높이 맞춰줌 */
+  /* height: 100%; */
 }
 
 .modalImage {
@@ -917,17 +447,7 @@
   border-radius: 8px;
   object-fit: contain;
 }
-.closeButton {
-  position: absolute;
-  top: 24px;
-  right: 32px;
-  font-size: 48px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  z-index: 10;
-}
+
 .imageModal {
   position: fixed;
   top: 0;
@@ -1006,4 +526,128 @@
 .navButton:hover,
 .closeButton:hover {
   background: none;
+}
+/* ====== 기본 리셋 ====== */
+.instructionsContent {
+  all: initial; /* 상속 스타일 초기화 */
+  display: block;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* ====== 문단 스타일 ====== */
+.instructionsContent p {
+  margin: 0.5em 0 !important;
+  padding: 0 !important;
+  font-size: 15px;
+}
+
+/* ====== 리스트 스타일 ====== */
+.instructionsContent ol,
+.instructionsContent ul {
+  margin: 0.5em 0 !important;
+  padding-left: 1.5em !important;
+}
+
+.instructionsContent li {
+  margin: 0.25em 0 !important;
+  padding-left: 0.5em !important;
+  list-style-position: inside; /* 번호 삐져나오는 문제 해결 */
+}
+
+/* ====== 제목 스타일 ====== */
+.instructionsContent h3 {
+  font-size: 1.2em;
+  margin: 1em 0 0.5em 0 !important;
+  font-weight: 600;
+}
+
+/* 피드백 */
+/* 피드백 섹션 스타일 */
+.feedbackSection {
+  margin-top: 2rem;
+}
+
+.feedbackForm {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+}
+
+.feedbackForm textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.submitButton {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submitButton:hover {
+  background: var(--primary-hover);
+}
+
+/* 피드백 아이템 스타일 */
+.feedbackItem {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+}
+
+.feedbackHeader {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.userName {
+  font-weight: 600;
+  display: block;
+}
+
+.feedbackDate {
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+.feedbackText {
+  line-height: 1.6;
+}
+
+.emptyFeedback {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-light);
+  background: var(--bg-light);
+  border-radius: 0.5rem;
+  border: 1px dashed var(--border);
 }

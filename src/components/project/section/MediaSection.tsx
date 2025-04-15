@@ -1,15 +1,15 @@
 import React from "react";
 import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faImages,
   faCloudUploadAlt,
+  faImages,
   faPlus,
-  faTrashAlt,
   faPlusCircle,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { CATEGORIES, MAX_MEDIA_FILES } from "../../../type/contants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MAX_MEDIA_FILES } from "../../../type/contants";
 
 interface MediaSectionProps {
   thumbnailUrl: string | null; // null도 처리할 수 있게 변경
@@ -18,7 +18,6 @@ interface MediaSectionProps {
     description: string;
   }>;
   onThumbnailUpload: (file: File) => void;
-  onThumbnailDescriptionChange: (description: string) => void;
   onMediaUpload: (index: number, file: File) => void;
   onAddMedia: () => void;
   onDeleteMedia: (index: number) => void;
@@ -27,10 +26,8 @@ interface MediaSectionProps {
 
 const MediaSection: React.FC<MediaSectionProps> = ({
   thumbnailUrl,
-  thumbnailDescription,
   mediaFiles = [],
   onThumbnailUpload,
-  onThumbnailDescriptionChange,
   onMediaUpload,
   onAddMedia,
   onDeleteMedia,
@@ -45,7 +42,7 @@ const MediaSection: React.FC<MediaSectionProps> = ({
       <div className={styles.formGroup}>
         <label>썸네일 이미지 *</label>
         <div
-          className={styles.fileUpload}
+          className={`${styles.fileUpload} `}
           onClick={() => document.getElementById("thumbnail-upload")?.click()}
         >
           {thumbnailUrl ? (
@@ -61,7 +58,8 @@ const MediaSection: React.FC<MediaSectionProps> = ({
                 className={styles.uploadIcon}
               />
               <p className={styles.uploadText}>
-                클릭하여 파일 선택 (800x400 권장)
+                가로형 이미지 권장 (16:9)
+                <br />앱 아이콘 형태의 경우 정사각형 이미지 권장 (1:1)
               </p>
             </>
           )}
@@ -73,7 +71,7 @@ const MediaSection: React.FC<MediaSectionProps> = ({
               e.target.files?.[0] && onThumbnailUpload(e.target.files[0])
             }
             accept="image/*"
-            required
+            // required
           />
         </div>
       </div>

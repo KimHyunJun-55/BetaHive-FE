@@ -7,7 +7,12 @@ import { Link } from "react-router-dom";
 interface ProjectCardProps {
   project: Project;
 }
-
+const statusBadges = {
+  HOT: { text: "HOT", color: "#ff4757" },
+  NEW: { text: "NEW", color: "#2ed573" },
+  URGENT: { text: "마감임박", color: "#ffa502" },
+  LIMITED: { text: "선착순", color: "#3742fa" },
+};
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
     <div className={styles.projectCard}>

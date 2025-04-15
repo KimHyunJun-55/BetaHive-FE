@@ -1,9 +1,10 @@
 // constants.ts
 export const CATEGORIES = [
-  { value: "mobile", label: "모바일 앱" },
-  { value: "web", label: "웹 서비스" },
-  { value: "game", label: "게임" },
-  { value: "ai", label: "AI/ML 프로젝트" },
+  { value: "MOBILE", label: "모바일" },
+  { value: "WEB", label: "웹" },
+  { value: "WEB_MOBILE", label: "웹/모바일" },
+  // { value: "game", label: "게임" },
+  // { value: "ai", label: "AI/ML 프로젝트" },
 ];
 
 export const TEST_TYPES = [

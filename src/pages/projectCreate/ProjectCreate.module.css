@@ -632,7 +632,7 @@ select.formControl {
 /* 마크다운 */
 /* ==================== 마크다운 에디터 ==================== */
 /* ==================== 마크다운 에디터 ==================== */
-.markdownHeader {
+/* .markdownHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -690,7 +690,7 @@ select.formControl {
   border-radius: 3px;
   font-family: monospace;
   font-size: 0.85rem;
-}
+} */
 
 /* 다크 모드 대응 */
 :global(.theme-dark) .collapsibleGuide {
@@ -709,44 +709,6 @@ select.formControl {
 
 .smallButton svg {
   font-size: 12px !important;
-}
-
-/* 우측 플로팅 가이드 */
-.floatingGuide {
-  position: absolute;
-  right: -300px;
-  top: 20px;
-  width: 280px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 15px;
-  z-index: 10;
-  box-shadow: var(--shadow-md);
-  font-size: 0.85rem;
-  line-height: 1.5;
-}
-
-.floatingGuide h3 {
-  font-size: 1rem;
-  margin-top: 0;
-  color: var(--primary);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
-}
-
-.floatingGuide ul {
-  padding-left: 20px;
-}
-
-.floatingGuide code {
-  background: var(--code-bg);
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-family: monospace;
-  font-size: 0.8rem;
-  display: inline-block;
-  margin: 2px 0;
 }
 
 /* 다크 모드 대응 */
@@ -778,3 +740,28 @@ select.formControl {
   padding-left: 0; /* 기본 들여쓰기 제거 */
   margin: 0;
 }
+/* 모바일 이미지썸네일 */
+.squareThumbnail {
+  aspect-ratio: 1 / 1;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.formGroup a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.formGroup a:hover {
+  text-decoration: underline;
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+/* 우측 플로팅 가이드 */

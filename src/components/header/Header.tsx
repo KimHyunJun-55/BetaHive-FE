@@ -68,12 +68,12 @@ const Header: React.FC = () => {
         <Link to="/projects/create" onClick={handleProjectCreateClick}>
           <FaPlusCircle /> 프로젝트 등록
         </Link>
-        <Link to="/dashboard">
+        {/* <Link to="/dashboard">
           <FaChartLine /> 대시보드
         </Link>
         <Link to="/feedback">
           <FaCommentDots /> 피드백
-        </Link>
+        </Link> */}
       </nav>
 
       <div className={styles.headerRight}>
@@ -91,7 +91,7 @@ const Header: React.FC = () => {
               >
                 <FaSignOutAlt /> 로그아웃
               </button>
-              <Link to="/mypage" className={styles.userAvatar}>
+              <Link to="/my" className={styles.userAvatar}>
                 <span>{userInitial}</span>
                 {notificationCount > 0 && (
                   <span className={styles.notificationBadge}>

@@ -1,44 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./FilterBar.module.css";
 import {
-  FaThLarge,
   FaMobileAlt,
   FaGlobe,
-  FaGamepad,
   FaGift,
-  FaBolt,
   FaHourglassEnd,
+  FaBolt,
+  FaGamepad,
 } from "react-icons/fa";
+import { FilterType } from "../../type/types";
 
-const FilterBar: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState("전체");
+interface FilterBarProps {
+  activeFilter: FilterType;
+  onFilterChange: (filter: FilterType) => void;
+}
 
-  const filters = [
-    { icon: <FaThLarge />, label: "전체" },
-    { icon: <FaMobileAlt />, label: "모바일 앱" },
-    { icon: <FaGlobe />, label: "웹 서비스" },
-    { icon: <FaGamepad />, label: "게임" },
-    { icon: <FaGift />, label: "보상 있음" },
-    { icon: <FaBolt />, label: "긴급 테스트" },
-    { icon: <FaHourglassEnd />, label: "마감 임박" },
-  ];
-
+const filters = [
+  { icon: <FaMobileAlt />, label: "모바일 앱", value: FilterType.MOBILE },
+  { icon: <FaGlobe />, label: "웹 서비스", value: FilterType.WEB },
+  { icon: <FaGift />, label: "보상 있음", value: FilterType.REWARD },
+  { icon: <FaBolt />, label: "테스트 진행중", value: FilterType.IN_PROGRESS },
+  {
+    icon: <FaHourglassEnd />,
+    label: "테스트 종료",
+    value: FilterType.COMPLETED,
+  },
+  { icon: <FaGamepad />, label: "수정중", value: FilterType.MODIFYING },
+];
+const FilterBar: React.FC<FilterBarProps> = ({
+  activeFilter,
+  onFilterChange,
+}) => {
   return (
     <div className={styles.filterContainer}>
-      {/* <div className={styles.filterHeader}>
-        <h3 className={styles.filterTitle}>빠른 필터</h3>
-        <span className={styles.filterReset} onClick={() => setActiveFilter('전체')}>
-          초기화
-        </span>
-      </div> */}
       <div className={styles.filterBar}>
+        <button
+          className={`${styles.filterBtn} ${
+            activeFilter === FilterType.ALL ? styles.active : ""
+          }`}
+          onClick={() => onFilterChange(FilterType.ALL)}
+        >
+          전체
+        </button>
+
         {filters.map((filter) => (
           <button
-            key={filter.label}
+            key={filter.value}
             className={`${styles.filterBtn} ${
-              activeFilter === filter.label ? styles.active : ""
+              activeFilter === filter.value ? styles.active : ""
             }`}
-            onClick={() => setActiveFilter(filter.label)}
+            onClick={() => onFilterChange(filter.value)}
           >
             {filter.icon}
             {filter.label}

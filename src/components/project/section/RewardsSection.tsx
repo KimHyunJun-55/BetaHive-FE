@@ -10,11 +10,13 @@ interface RewardsSectionProps {
   baseReward: string;
   bonusRewards: string[];
   newBonusReward: string;
+  criteria: string;
   onHasRewardChange: (hasReward: boolean) => void;
   onBaseRewardChange: (reward: string) => void;
   onAddBonusReward: () => void;
   onRemoveBonusReward: (index: number) => void;
   onNewBonusRewardChange: (reward: string) => void;
+  onCriteriaChange: (value: string) => void;
 }
 
 const RewardsSection: React.FC<RewardsSectionProps> = ({
@@ -22,11 +24,13 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
   baseReward,
   bonusRewards,
   newBonusReward,
+  criteria,
   onHasRewardChange,
   onBaseRewardChange,
   onAddBonusReward,
   onRemoveBonusReward,
   onNewBonusRewardChange,
+  onCriteriaChange,
 }) => {
   return (
     <div className={styles.formSection}>
@@ -123,8 +127,10 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
             <label>우수 테스터 평가 기준</label>
             <input
               type="text"
+              value={criteria}
               placeholder="예: 가장 상세한 피드백을 제공한 테스터"
               className={styles.formControl}
+              onChange={(e) => onCriteriaChange(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();

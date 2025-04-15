@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .mainContainer {
@@ -108,4 +108,68 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
   margin-bottom: 40px;
+}
+/* 히어로 배너 */
+.heroBanner {
+  display: flex;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: var(--text);
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  /* transition: background 0.3s ease; */
+}
+
+/* 다크모드일 때 */
+
+.heroButtons {
+  display: flex;
+  gap: 12px;
+}
+.heroContent {
+  flex: 1;
+  color: var(--text);
+}
+
+.heroIllustration {
+  flex: 1;
+  text-align: right;
+}
+
+.heroIllustration img {
+  max-width: 80%;
+}
+
+/* 페이징 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0;
+  font-size: 14px;
+}
+
+.pageNumber,
+.activePageNumber,
+.ellipsis {
+  padding: 6px 10px;
+  min-width: 32px;
+  text-align: center;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.activePageNumber {
+  background-color: var(--bg);
+  color: var(--text);
+  font-weight: bold;
+}
+
+.ellipsis {
+  cursor: default;
+  border: none;
+  background: none;
+  color: #aaa;
 }
