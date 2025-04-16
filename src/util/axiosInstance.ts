@@ -1,6 +1,7 @@
 // utils/axiosIntercepter.ts
 import axios from "axios";
 import { getLoadingFunctions } from "./loadingUtils";
+import { toast } from "react-toastify";
 
 const { showLoading, hideLoading } = getLoadingFunctions();
 
@@ -54,7 +55,7 @@ axiosIntercepter.interceptors.response.use(
       try {
         // 재요청 전에 로딩 표시
         showLoading();
-        originalRequest.headers["Refresh-Token"] = refreshToken;
+        originalRequest.headers["refresh-token"] = refreshToken;
         const retryResponse = await axiosIntercepter(originalRequest);
 
         const newAccessToken = retryResponse.headers["access-token"];
@@ -68,15 +69,17 @@ axiosIntercepter.interceptors.response.use(
         hideLoading();
         return retryResponse;
       } catch (retryError) {
+        toast.error("로그인후에 이용해주세요");
+
         hideLoading();
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
-        return Promise.reject(retryError);
+        // localStorage.removeItem("accessToken");
+        // localStorage.removeItem("refreshToken");
+        window.location.href = "/";
+        // return Promise.reject(retryError);
       }
     }
 
-    return Promise.reject(error);
+    // return Promise.reject(error);
   }
 );
 

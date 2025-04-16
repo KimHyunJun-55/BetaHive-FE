@@ -1,3 +1,5 @@
+import { FilterType } from "./type/types";
+
 export interface Project {
   id: number;
   name: string;
@@ -11,6 +13,7 @@ export interface Project {
   progress: number;
   requirements?: [];
   testerBadgeType?: "required" | "recommended";
+  status: FilterType;
 }
 
 export interface Theme {

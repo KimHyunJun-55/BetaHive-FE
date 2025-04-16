@@ -27,7 +27,7 @@ export const uploadFile = async (file: File): Promise<string> => {
 // 프로젝트 생성 API
 export const createProject = async (projectData: ProjectSubmitData) => {
   try {
-    const response = await axiosIntercepter.post("/product", projectData, {
+    const response = await axiosIntercepter.post("/project", projectData, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -45,7 +45,7 @@ export const updateProject = async (
 ) => {
   try {
     const response = await axiosIntercepter.put(
-      `/product/${projectId}`,
+      `/project/${projectId}`,
       projectData,
       {
         headers: {
@@ -61,13 +61,13 @@ export const updateProject = async (
 };
 
 export const fetchProjectDetails = async (projectId: number) => {
-  const response = await axiosIntercepter.get(`product/${projectId}`);
+  const response = await axiosIntercepter.get(`project/${projectId}`);
   // console.log(response.data.data);
   return response.data.data;
 };
 
 export const updateStatus = async (projectId: number, status: string) => {
-  const response = await axiosIntercepter.patch(`product/${projectId}/status`, {
+  const response = await axiosIntercepter.patch(`project/${projectId}/status`, {
     status,
   });
   return response.data.data;
@@ -78,7 +78,7 @@ export const getAllProject = async (
   size: number,
   params: Record<string, any> = {}
 ) => {
-  const response = await axiosIntercepter.get("/product", {
+  const response = await axiosIntercepter.get("/project", {
     params: {
       page,
       size,
@@ -90,7 +90,7 @@ export const getAllProject = async (
 
 //내가등록한 프로젝트 조회
 export const getMyProjects = async (page: number, size: number = 8) => {
-  const response = await axiosIntercepter.get("/product/my-project", {
+  const response = await axiosIntercepter.get("/project/my-project", {
     params: { page, size },
   });
   return response.data.data;

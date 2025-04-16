@@ -113,44 +113,6 @@ body {
 }
 
 /* 다크 테마 */
-.app.theme-dark {
-  --primary: #4dabf7;
-  --primary-hover: #3d8fd6;
-  --primary-light: rgba(77, 171, 247, 0.1);
-  --secondary: #1e3a8a;
-  --accent: #ec4899;
-  --bg: #121212;
-  --card: #1e1e1e;
-  --text: #e0e0e0;
-  --text-light: #a0a0a0;
-  --text-lighter: #6b7280;
-  --border: #2e2e2e;
-  --error: #ff6b6b;
-  --success: #6ee7b7;
-  --warning: #fcd34d;
-  --overlay: rgba(0, 0, 0, 0.7);
-  --gradient-primary: linear-gradient(135deg, #4dabf7 0%, #1e3a8a 100%);
-}
-
-/* 프레시 그린 테마 */
-.app.theme-green {
-  --primary: #10b981;
-  --primary-hover: #0d9e6e;
-  --primary-light: rgba(16, 185, 129, 0.1);
-  --secondary: #047857;
-  --accent: #ec4899;
-  --bg: #f0fdf4;
-  --card: #ffffff;
-  --text: #1f2937;
-  --text-light: #6b7280;
-  --text-lighter: #9ca3af;
-  --border: #d1fae5;
-  --error: #ef4444;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --overlay: rgba(0, 0, 0, 0.5);
-  --gradient-primary: linear-gradient(135deg, #10b981 0%, #047857 100%);
-}
 
 /* 반응형 디자인 */
 @media (max-width: 1200px) {

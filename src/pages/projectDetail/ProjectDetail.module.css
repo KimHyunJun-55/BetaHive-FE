@@ -65,6 +65,8 @@
 
 .projectCategory {
   font-size: 14px;
+  display: flex;
+  align-items: center;
   color: var(--primary);
   background-color: var(--primary-light);
   padding: 4px 10px;
@@ -72,6 +74,8 @@
 }
 
 .projectStatus {
+  display: flex;
+  align-items: center;
   font-size: 14px;
   color: var(--success);
   background-color: rgba(16, 185, 129, 0.1);
@@ -84,6 +88,8 @@
 }
 
 .statusEdit {
+  display: flex;
+  align-items: center;
   font-size: 14px;
   color: white;
   background-color: #6366f1; /* 보라색 버튼 느낌 */
@@ -92,36 +98,7 @@
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s;
-  display: inline-block;
-}
-
-.dropdown {
-  position: absolute;
-  top: 120%;
-  left: 0;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  z-index: 10;
-  list-style: none;
-  padding: 4px 0;
-  margin: 0;
-  width: max-content;
-  min-width: 140px;
-}
-
-.dropdownItem {
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  transition: background 0.2s;
-}
-
-.dropdownItem:hover {
-  background-color: rgba(16, 185, 129, 0.08);
-  color: var(--success);
+  /* display: inline-block; */
 }
 
 .projectTitle {
@@ -188,15 +165,6 @@
   margin-bottom: 25px;
 }
 
-/* Action Buttons */
-.actionButtons {
-  padding-top: 10px;
-  display: flex;
-  gap: 15px;
-  margin-top: auto; /* 아래로 밀기 */
-  /* margin-bottom: auto; */
-  place-items: end;
-}
 @media (max-width: 480px) {
   .actionButtons {
     flex-direction: column;
@@ -534,19 +502,23 @@
   line-height: 1.6;
   color: var(--text);
 }
-
+.instructionsContent li > p {
+  margin: 0;
+  display: inline;
+}
 /* ====== 문단 스타일 ====== */
 .instructionsContent p {
   margin: 0.5em 0 !important;
   padding: 0 !important;
   font-size: 15px;
+  color: var(--text);
 }
 
 /* ====== 리스트 스타일 ====== */
 .instructionsContent ol,
 .instructionsContent ul {
   margin: 0.5em 0 !important;
-  padding-left: 1.5em !important;
+  padding-left: 0.3em !important;
 }
 
 .instructionsContent li {
@@ -650,4 +622,193 @@
   background: var(--bg-light);
   border-radius: 0.5rem;
   border: 1px dashed var(--border);
+}
+/* 메인 컨테이너 */
+.actionContainer {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  margin-top: auto;
+}
+
+/* 참여하기 메뉴 */
+.participationMenu {
+  position: relative;
+}
+
+/* 기본 액션 버튼 */
+.primaryAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 16px;
+  background-color: var(--bg);
+  padding: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.primaryAction:hover {
+  background-color: var(--card);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* transform: translateY(-1px); */
+}
+
+.actionLabel {
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.dropdownChevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dropdownChevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* 드롭다운 메뉴 */
+.dropdownMenu {
+  min-width: max-content;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 메뉴 아이템 */
+.menuItem {
+  padding: 12px 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.menuItem:hover {
+  background-color: var(--bg);
+}
+
+.menuItem:not(:last-child) {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.menuItemContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menuText {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuTitle {
+  font-weight: 500;
+  color: var(--text);
+  font-size: 14px;
+  margin-bottom: 2px;
+  padding: 2px 4px;
+}
+
+/* 보조 액션 버튼들 */
+/* 보조 액션 버튼 컨테이너 */
+.secondaryActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* 아이콘 래퍼 */
+.iconWrapper {
+  position: relative;
+}
+
+/* 아이콘 컨테이너 */
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.iconContainer:hover {
+  background-color: var(--bg-hover);
+  transform: translateY(-2px);
+}
+
+/* 아이콘 스타일 */
+.actionIcon {
+  font-size: 18px;
+  color: var(--text);
+}
+
+/* 툴팁 스타일 */
+.tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--card);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 툴팁 화살표 */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--bg) transparent;
+}
+
+/* 호버 시 툴팁 표시 */
+.iconContainer:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }

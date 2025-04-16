@@ -6,9 +6,11 @@ import {
   FaClock,
   FaCog,
   FaEdit,
+  FaEllipsisV,
   FaPlay,
   FaRegBookmark,
   FaShareAlt,
+  FaTimes,
   FaUserFriends,
   FaUsers,
 } from "react-icons/fa";
@@ -21,6 +23,10 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import styles from "./ProjectDetail.module.css";
 import ProjectFeedback from "./section/ProjectFeedback";
+import { toast } from "react-toastify";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { confirmAlert } from "react-confirm-alert";
+import ConfirmDeleteModal from "../../components/modal/ConfirmDeleteModal";
 
 interface MediaFile {
   url: string;
@@ -61,25 +67,45 @@ const ProjectDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"description" | "feedback">(
     "description"
   );
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const [feedbacks, setFeedbacks] = useState<any[]>([]); // 실제 API 데이터로 대체 필요
   const { userName } = useAuth();
   const navigate = useNavigate();
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<string | null>(
     project?.status
   );
+  //북마크
   const [isBookmarked, setIsBookmark] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [editMenuOpen, setEditMenuOpen] = useState(false);
+  const [showParticipationModal, setShowParticipationModal] = useState(false);
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("링크가 복사되었습니다!");
+    } catch (err) {
+      toast.error("링크 복사에 실패했어요 😢");
+    }
+  };
+
+  const CATEGORY_LABELS: { [key: string]: string } = {
+    MOBILE: "모바일",
+    WEB: "기술",
+    WEB_MOBILE: "웹/모바일",
+  };
 
   const STATUS_OPTIONS = [
     {
       value: "IN_PROGRESS",
-      label: "진행 중",
+      label: "테스트진행 중",
       icon: <FaPlay className={styles.statusIcon} />,
     },
     {
       value: "COMPLETED",
-      label: "완료됨",
+      label: "테스트종료",
       icon: <FaCheck className={styles.statusIcon} />,
     },
     {
@@ -88,6 +114,72 @@ const ProjectDetailPage: React.FC = () => {
       icon: <FaEdit className={styles.statusIcon} />,
     },
   ];
+  const EDIT_OPTIONS = [
+    {
+      value: "프로젝트 수정",
+      icon: <FaPlay className={styles.statusIcon} />,
+    },
+    {
+      value: "프로젝트 삭제",
+      icon: <FaCheck className={styles.statusIcon} />,
+    },
+  ];
+
+  interface ParticipationOption {
+    label: string;
+  }
+
+  type ParticipationOptions = {
+    WEB: ParticipationOption;
+    IOS: ParticipationOption;
+    ANDROID: ParticipationOption;
+  };
+  const PARTICIPATION_OPTIONS: ParticipationOptions = {
+    WEB: {
+      label: "웹 테스트 참여",
+    },
+
+    IOS: {
+      label: "iOS 테스트 참여",
+    },
+    ANDROID: {
+      label: "안드로이드 테스트 참여",
+    },
+  };
+
+  const [isParticipationDropdownOpen, setIsParticipationDropdownOpen] =
+    useState(false);
+
+  const handleSelectParticipation = (
+    option: keyof typeof PARTICIPATION_OPTIONS
+  ) => {
+    setIsParticipationDropdownOpen(false);
+
+    // 각 옵션에 맞는 링크로 이동 (예시)
+    let link = "";
+    switch (option) {
+      case "WEB":
+        link = "/web-test";
+        break;
+      case "MOBILE":
+        link = "/mobile-test";
+        break;
+      case "IOS":
+        link = "/ios-test";
+        break;
+      case "ANDROID":
+        link = "/android-test";
+        break;
+      case "WEB_MOBILE":
+        link = "/web-mobile-test";
+        break;
+      default:
+        link = "/";
+    }
+
+    navigate(link); // 해당 링크로 이동
+    // 또는 window.location.href = link; // 외부 링크일 경우
+  };
 
   console.log(project);
   useEffect(() => {
@@ -109,7 +201,12 @@ const ProjectDetailPage: React.FC = () => {
   }, [numericId]);
   const toggleBookmark = async () => {
     try {
-      const updatedStatus = await checkBookmarkStatus(numericId); // 서버 요청
+      const updatedStatus: boolean = await checkBookmarkStatus(numericId); // 서버 요청
+      if (updatedStatus) {
+        toast("내 관심목록에 저장되었습니다.");
+      } else {
+        toast("내 관심목록에서 삭제 되었습니다.");
+      }
       setIsBookmark(updatedStatus); // 응답 기반으로 상태 업데이트
     } catch (err) {
       console.error("북마크 토글 실패:", err);
@@ -132,7 +229,27 @@ const ProjectDetailPage: React.FC = () => {
       alert("상태 변경 중 오류가 발생했습니다.");
     }
   };
-
+  const handleEditMenu = async (status: string) => {
+    console.log(status);
+    if (status === "프로젝트 수정") {
+      handleEditClick();
+    }
+    if (status === "프로젝트 삭제") {
+      handleConfirmDelete();
+    }
+  };
+  const handleConfirmDelete = async () => {
+    try {
+      // await deleteProject(numericId); // 실제 삭제 API 호출
+      toast.success("삭제되었습니다");
+      navigate("/projects"); // 삭제 후 목록 페이지로 이동
+    } catch (error) {
+      toast.error("삭제 실패");
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
+  };
+  //수정페이지이동
   const handleEditClick = () => {
     navigate(`/projects/${project.id}/edit`);
   };
@@ -289,20 +406,26 @@ const ProjectDetailPage: React.FC = () => {
             <img
               src={project.thumbnailUrl}
               alt={project.name}
-              onClick={() =>
-                openImageModal({
-                  url: project.thumbnailUrl,
-                  description: project.name,
-                })
-              }
+              // onClick={() =>
+              //   openImageModal({
+              //     url: project.thumbnailUrl,
+              //     description: project.name,
+              //   })
+              // }
             />
           </div>
 
           <div className={styles.projectInfo}>
             {/* 프로젝트 메타 정보 */}
             <div className={styles.projectMeta}>
-              <span className={styles.projectCategory}>{project.category}</span>
-              <span className={styles.projectStatus}>{currentStatus}</span>
+              <span className={styles.projectCategory}>
+                {" "}
+                {CATEGORY_LABELS[project.category] ?? project.category}
+              </span>
+              <span className={styles.projectStatus}>
+                {STATUS_OPTIONS.find((s) => s.value === currentStatus)?.label ??
+                  currentStatus}
+              </span>{" "}
               {isCreator ? (
                 <div
                   className={styles.statusEdit}
@@ -312,21 +435,50 @@ const ProjectDetailPage: React.FC = () => {
                   상태 변경
                   <FaChevronDown style={{ marginLeft: 6 }} />
                   {dropdownOpen && (
-                    <ul className={styles.dropdown}>
+                    <div className={styles.dropdownMenu}>
                       {STATUS_OPTIONS.map((status) => (
-                        <li
+                        <div
                           key={status.value}
-                          className={styles.dropdownItem}
+                          className={styles.menuItem}
                           onClick={() => handleSelect(status.value)}
                         >
-                          {status.label}
+                          <div className={styles.menuText}>
+                            <span className={styles.menuTitle}>
+                              {status.label}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {isCreator && (
+                <div
+                  className={styles.statusEdit}
+                  onClick={() => setEditMenuOpen(!editMenuOpen)}
+                >
+                  <FaEllipsisV />
+
+                  {/* <FaChevronDown style={{ marginLeft: 6 }} /> */}
+                  {editMenuOpen && (
+                    <ul className={styles.dropdownMenu}>
+                      {EDIT_OPTIONS.map((status) => (
+                        <li
+                          key={status.value}
+                          className={styles.menuItem}
+                          onClick={() => handleEditMenu(status.value)}
+                        >
+                          <span className={styles.menuTitle}>
+                            {status.value}
+                          </span>
                         </li>
                       ))}
                     </ul>
                   )}
                 </div>
-              ) : (
-                <div></div>
               )}
             </div>
 
@@ -389,26 +541,82 @@ const ProjectDetailPage: React.FC = () => {
               )}
             </div>
 
-            <div className={styles.actionButtons}>
-              {isCreator ? (
-                <button
-                  className={styles.primaryButton}
-                  onClick={handleEditClick}
+            <div className={styles.actionContainer}>
+              <div className={styles.participationMenu}>
+                <div
+                  className={styles.primaryAction}
+                  onClick={() =>
+                    setIsParticipationDropdownOpen(!isParticipationDropdownOpen)
+                  }
                 >
-                  수정하기
-                </button>
-              ) : (
-                <button className={styles.primaryButton}>지금 참여하기</button>
-              )}
-              <div className={styles.secondaryButtons}>
-                <button className={styles.iconButton} onClick={toggleBookmark}>
-                  {isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
-                  <span>저장</span>
-                </button>
-                <button className={styles.iconButton}>
-                  <FaShareAlt />
-                  <span>공유</span>
-                </button>
+                  <span className={styles.actionLabel}>지금 참여하기</span>
+                  <div
+                    className={`${styles.dropdownChevron} ${
+                      isParticipationDropdownOpen ? styles.rotated : ""
+                    }`}
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 9L12 15L18 9"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                {isParticipationDropdownOpen && (
+                  <div className={styles.dropdownMenu}>
+                    {Object.entries(PARTICIPATION_OPTIONS).map(
+                      ([key, option]) => (
+                        <div
+                          key={key}
+                          className={styles.menuItem}
+                          onClick={() =>
+                            handleSelectParticipation(
+                              key as keyof typeof PARTICIPATION_OPTIONS
+                            )
+                          }
+                        >
+                          <div className={styles.menuItemContent}>
+                            <div className={styles.menuText}>
+                              <span className={styles.menuTitle}>
+                                {option.label}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.secondaryActions}>
+                <div className={styles.iconWrapper} onClick={toggleBookmark}>
+                  <div className={styles.iconContainer}>
+                    {isBookmarked ? (
+                      <FaBookmark className={styles.actionIcon} />
+                    ) : (
+                      <FaRegBookmark className={styles.actionIcon} />
+                    )}
+                    <span className={styles.tooltip}>저장하기</span>
+                  </div>
+                </div>
+                <div className={styles.iconWrapper} onClick={handleShare}>
+                  <div className={styles.iconContainer}>
+                    <FaShareAlt className={styles.actionIcon} />
+                    <span className={styles.tooltip}>공유하기</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -446,6 +654,12 @@ const ProjectDetailPage: React.FC = () => {
         {/* 탭 내용 */}
         <div className={styles.tabContent}>{renderTabContent()}</div>
       </div>
+      {/* 마지막에 컴포넌트 렌더 */}
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 };
