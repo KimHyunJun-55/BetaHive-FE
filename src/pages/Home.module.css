@@ -11,7 +11,7 @@
 
 .mainContent {
   flex: 1;
-  padding: 40px;
+  /* padding: 40px; */
   background-color: var(--bg);
   transition: var(--transition);
 }
@@ -109,36 +109,6 @@
   gap: 25px;
   margin-bottom: 40px;
 }
-/* 히어로 배너 */
-.heroBanner {
-  display: flex;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: var(--text);
-  padding: 40px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  /* transition: background 0.3s ease; */
-}
-
-/* 다크모드일 때 */
-
-.heroButtons {
-  display: flex;
-  gap: 12px;
-}
-.heroContent {
-  flex: 1;
-  color: var(--text);
-}
-
-.heroIllustration {
-  flex: 1;
-  text-align: right;
-}
-
-.heroIllustration img {
-  max-width: 80%;
-}
 
 /* 페이징 */
 .pagination {
@@ -172,4 +142,154 @@
   border: none;
   background: none;
   color: #aaa;
+}
+/* 전체 컨테이너 */
+.heroBetaPlatform {
+  background: var(--bg);
+  padding: 30px 0;
+  border-bottom: 1px solid #e0e7ff;
+}
+
+/* 콘텐츠 영역 */
+.heroBetaContent {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* 타이틀 스타일 */
+.heroBetaContent h1 {
+  font-size: 2.3rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 25px;
+}
+
+.heroBetaHighlight {
+  background: linear-gradient(90deg, #4f46e5 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+/* 서브타이틀 */
+.heroBetaSubtitle {
+  font-size: 1.1rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 700px;
+  margin-bottom: 40px;
+}
+
+/* 버튼 그룹 */
+.heroBetaButtons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 50px;
+}
+
+.heroBetaButtons button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.heroBetaButtons button:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+.heroBetaButtons a {
+  color: var(--text);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  border: 1px solid #c7d2fe;
+  padding: 12px 28px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.heroBetaButtons a:hover {
+  background: var(--card);
+}
+
+/* 시각적 요소 (오른쪽 카드) */
+.heroBetaVisual {
+  background: white;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e7ff;
+}
+
+.heroBetaCard {
+  text-align: left;
+}
+
+.cardHeader {
+  font-weight: 600;
+  color: #4f46e5;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.cardSteps {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cardSteps li {
+  padding: 10px 0;
+  color: #334155;
+  position: relative;
+  padding-left: 30px;
+}
+
+.cardSteps li:before {
+  content: "•";
+  color: #4f46e5;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+.rewardText {
+  color: #a855f7;
+  font-weight: 600;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .heroBetaContent h1 {
+    font-size: 1.8rem;
+  }
+
+  .heroBetaButtons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .heroBetaButtons button,
+  .heroBetaButtons a {
+    width: 100%;
+    justify-content: center;
+  }
 }

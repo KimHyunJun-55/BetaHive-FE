@@ -6,29 +6,40 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
+        {/* 왼쪽: 링크 */}
         <div className={styles.footerLinks}>
           <a href="/terms">이용약관</a>
           <a href="/privacy">개인정보처리방침</a>
-          <a href="/faq">자주묻는질문</a>
+          <a href="/faq">자주 묻는 질문</a>
           <a href="/contact">문의하기</a>
         </div>
 
-        <div className={styles.companyInfo}>
-          <p>
-            <FaRegCopyright /> 2023 BetaHive. All rights reserved.
+        {/* 오른쪽: 소개문구 + 소셜 + 링크 */}
+        <div className={styles.rightSection}>
+          <p className={styles.description}>
+            BetaHive는 새로운 아이디어를 실험하고,
+            <br />
+            사용자 피드백을 통해 함께 만들어가는 플랫폼입니다.
           </p>
-          {/* <p>대표: 홍길동 | 사업자등록번호: 123-45-67890</p>
-          <p>주소: 서울특별시 강남구 테헤란로 123</p> */}
-        </div>
 
-        {/* <div className={styles.socialLinks}>
-          <a href="https://github.com/yourrepo" aria-label="GitHub">
-            <FaGithub />
-          </a>
-          <a href="https://twitter.com/yourhandle" aria-label="Twitter">
-            <FaTwitter />
-          </a>
-        </div> */}
+          {/* <div className={styles.socialLinks}>
+            <a href="https://github.com/yourrepo" aria-label="GitHub">
+              <FaGithub />
+            </a>
+            <a href="https://twitter.com/yourhandle" aria-label="Twitter">
+              <FaTwitter />
+            </a>
+          </div> */}
+
+          <div className={styles.miniLinks}>
+            {/* <a href="/team">팀 소개</a> */}
+            <a href="/blog">업데이트 소식</a>
+          </div>
+
+          <p className={styles.copy}>
+            <FaRegCopyright /> 2025 BetaHive. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );

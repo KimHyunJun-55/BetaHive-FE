@@ -15,16 +15,29 @@ const RouterComponent: React.FC = () => {
     <Router>
       <Header />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/projects/create" element={<ProjectCreatePage />} /> */}
-        <Route path="/projects/create" element={<CreateProject />} />
-        <Route path="/projects/:projectId/edit" element={<CreateProject />} />
-        <Route path="/projects/detail/:id" element={<ProjectDetailPage />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/guide" element={<TesterGuide />} />
-        <Route path="/my" element={<MyPage />} />
-      </Routes>
+      <div className="container">
+        <div
+          className="
+        mainContent"
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/projects/create" element={<ProjectCreatePage />} /> */}
+            <Route path="/projects/create" element={<CreateProject />} />
+            <Route
+              path="/projects/:projectId/edit"
+              element={<CreateProject />}
+            />
+            <Route
+              path="/projects/detail/:id"
+              element={<ProjectDetailPage />}
+            />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/guide" element={<TesterGuide />} />
+            <Route path="/my" element={<MyPage />} />
+          </Routes>
+        </div>
+      </div>
       <Footer />
     </Router>
   );

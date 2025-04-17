@@ -31,18 +31,27 @@ const CreateProject: React.FC = () => {
     handleSubmit,
     resetForm,
   } = useProjectForm(projectId);
-  // console.log("렌더링되는 mediaFiles:", formState.media.mediaFiles);
+
   useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
     if (projectId) {
       const fetchProjectData = async () => {
         const data = await fetchProjectDetails(Number(projectId));
-        console.log(data);
-        // useProjectForm의 resetForm 또는 초기화 로직으로 데이터 채우기
-        resetForm(data); // 가정: useProjectForm에 resetForm 함수가 있다면
+        resetForm(data);
+
+        // 데이터 세팅 후에 약간의 시간차로 스크롤
+        setTimeout(scrollToTop, 100); // 0~100ms 정도
       };
       fetchProjectData();
+    } else {
+      // 새 프로젝트 생성일 경우에도 맨 위로
+      setTimeout(scrollToTop, 100);
     }
   }, [projectId]);
+
   return (
     <div className={styles.container}>
       <main className={styles.mainContent}>
@@ -51,9 +60,9 @@ const CreateProject: React.FC = () => {
             {projectId ? "프로젝트 수정" : "새 프로젝트 등록"}
           </h1>
           <div className={styles.pageActions}>
-            <button className={`${styles.btn} ${styles.btnOutline}`}>
+            {/* <button className={`${styles.btn} ${styles.btnOutline}`}>
               <FontAwesomeIcon icon={faQuestionCircle} /> 가이드 보기
-            </button>
+            </button> */}
           </div>
         </div>
 

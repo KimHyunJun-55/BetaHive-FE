@@ -1,42 +1,31 @@
-/* components/ThemeSelector/ThemeSelector.module.css */
 .themeSelectorContainer {
   position: fixed;
   bottom: 20px;
   right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   z-index: 1000;
 }
 
-.themeSelector {
+.controlBox {
+  background: var(--card);
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: var(--card);
-  padding: 10px 15px;
-  border-radius: 30px;
-  box-shadow: var(--shadow-lg);
   border: 1px solid var(--border);
-}
-
-.themeIcon {
-  color: var(--text-light);
-  font-size: 16px;
-}
-
-.themeBtn {
-  width: 24px;
-  height: 24px;
+  padding: 10px;
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  box-shadow: var(--shadow-md);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.themeBtn:hover {
-  transform: scale(1.1);
+.controlBox:hover {
+  background: var(--hover);
+  transform: scale(1.05);
 }
 
-.themeBtn.active {
-  border-color: var(--primary);
-  transform: scale(1.1);
-  box-shadow: 0 0 0 2px var(--primary-light);
+.icon {
+  font-size: 18px;
+  color: var(--text);
 }

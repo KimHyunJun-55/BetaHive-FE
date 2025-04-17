@@ -9,12 +9,14 @@ import { useEffect, useRef } from "react";
 import styles from "./TipTapEditor.module.css";
 
 interface TipTapEditorProps {
+  label: string;
   value: string;
   onChange: (content: string) => void;
   minHeight?: number;
 }
 
 const TipTapEditor = ({
+  label,
   value,
   onChange,
   minHeight = 200,
@@ -106,26 +108,29 @@ const TipTapEditor = ({
   }, [editor, value]);
 
   return (
-    <div
-      className={styles.holaWorldEditor}
-      style={{ minHeight: `${minHeight}px` }}
-    >
-      {/* 파일 입력 (숨김) */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleImageUpload}
-        accept="image/*"
-        style={{ display: "none" }}
-      />
+    <div>
+      <div className={styles.label}>{label}</div>
 
-      {/* 툴바 */}
-      <div className={styles.toolbar}>
-        {toolbarActions.map((action, index) => (
-          <button
-            key={index}
-            onClick={action.command}
-            className={`
+      <div
+        className={styles.holaWorldEditor}
+        style={{ minHeight: `${minHeight}px` }}
+      >
+        {/* 파일 입력 (숨김) */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImageUpload}
+          accept="image/*"
+          style={{ display: "none" }}
+        />
+
+        {/* 툴바 */}
+        <div className={styles.toolbar}>
+          {toolbarActions.map((action, index) => (
+            <button
+              key={index}
+              onClick={action.command}
+              className={`
               ${styles.toolButton} 
               ${
                 editor?.isActive(
@@ -139,19 +144,20 @@ const TipTapEditor = ({
                   : ""
               }
             `}
-            type="button"
-          >
-            {action.icon}
-          </button>
-        ))}
-      </div>
+              type="button"
+            >
+              {action.icon}
+            </button>
+          ))}
+        </div>
 
-      {/* 에디터 영역 */}
-      <div
-        onClick={() => editor?.commands.focus()}
-        style={{ cursor: "text", minHeight: `${minHeight - 40}px` }}
-      >
-        <EditorContent editor={editor} />
+        {/* 에디터 영역 */}
+        <div
+          onClick={() => editor?.commands.focus()}
+          style={{ cursor: "text", minHeight: `${minHeight - 40}px` }}
+        >
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </div>
   );

@@ -1,40 +1,39 @@
-// components/ThemeSelector/ThemeSelector.tsx
 import React from "react";
+import { FaArrowUp, FaMoon, FaSun } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeContext";
 import styles from "./ThemeSelector.module.css";
-import { FaPalette } from "react-icons/fa";
 
 const ThemeSelector: React.FC = () => {
   const { currentTheme, changeTheme } = useTheme();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const isDark = currentTheme.name === "dark";
+  const toggleTheme = () => {
+    changeTheme(isDark ? "default" : "dark");
+  };
+
   return (
     <div className={styles.themeSelectorContainer}>
-      <div className={styles.themeSelector}>
-        <FaPalette className={styles.themeIcon} />
-        <div
-          className={`${styles.themeBtn} ${
-            currentTheme?.name === "default" ? styles.active : ""
-          }`}
-          style={{ background: "#4361ee" }}
-          onClick={() => changeTheme("default")}
-          title="기본 테마"
-        ></div>
-        <div
-          className={`${styles.themeBtn} ${
-            currentTheme?.name === "dark" ? styles.active : ""
-          }`}
-          style={{ background: "#121212" }}
-          onClick={() => changeTheme("dark")}
-          title="다크 테마"
-        ></div>
-        <div
-          className={`${styles.themeBtn} ${
-            currentTheme?.name === "green" ? styles.active : ""
-          }`}
-          style={{ background: "#10b981" }}
-          onClick={() => changeTheme("green")}
-          title="그린 테마"
-        ></div>
+      <div
+        className={styles.controlBox}
+        onClick={scrollToTop}
+        title="맨 위로 이동"
+      >
+        <FaArrowUp className={styles.icon} />
+      </div>
+      <div
+        className={styles.controlBox}
+        onClick={toggleTheme}
+        title="테마 전환"
+      >
+        {isDark ? (
+          <FaSun className={styles.icon} />
+        ) : (
+          <FaMoon className={styles.icon} />
+        )}
       </div>
     </div>
   );

@@ -150,11 +150,16 @@
 }
 
 .statItem {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 14px;
   color: var(--text-light);
+}
+.statItem:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-20%);
 }
 
 .statItem svg {
@@ -180,39 +185,38 @@
 /* Tabs */
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 30px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 24px;
+  gap: 20px;
 }
 
-.tabButton {
-  padding: 12px 20px;
-  background: none;
-  border: none;
+.tabItem {
+  padding: 10px 0;
+  cursor: pointer;
   font-size: 15px;
   font-weight: 500;
-  color: var(--text-light);
-  cursor: pointer;
+  color: #888;
   position: relative;
-  transition: var(--transition);
+  transition: color 0.2s;
 }
 
-.tabButton:hover {
-  color: var(--text);
+.tabItem:hover {
+  color: #333;
 }
 
-.tabButton.active {
-  color: var(--primary);
+.tabItem.active {
+  color: #1a73e8;
   font-weight: 600;
 }
 
-.tabButton.active::after {
+.tabItem.active::after {
   content: "";
   position: absolute;
   bottom: -1px;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: var(--primary);
+  background-color: #1a73e8;
 }
 
 /* Tab Content */
@@ -501,10 +505,16 @@
   display: block;
   line-height: 1.6;
   color: var(--text);
+  margin-bottom: 30px;
 }
 .instructionsContent li > p {
   margin: 0;
   display: inline;
+}
+.instructionsContent h1,
+.instructionsContent h2 {
+  color: var(--text); /* 또는 원하는 색상 값 */
+  margin: 1rem 0;
 }
 /* ====== 문단 스타일 ====== */
 .instructionsContent p {
@@ -534,100 +544,11 @@
   font-weight: 600;
 }
 
-/* 피드백 */
-/* 피드백 섹션 스타일 */
-.feedbackSection {
-  margin-top: 2rem;
-}
-
-.feedbackForm {
-  background: var(--card);
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--border);
-}
-
-.feedbackForm textarea {
-  width: 100%;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  min-height: 120px;
-  resize: vertical;
-  font-family: inherit;
-}
-
-.submitButton {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.submitButton:hover {
-  background: var(--primary-hover);
-}
-
-/* 피드백 아이템 스타일 */
-.feedbackItem {
-  background: var(--card);
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--border);
-}
-
-.feedbackHeader {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.userAvatar {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-light);
-  color: var(--primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.userName {
-  font-weight: 600;
-  display: block;
-}
-
-.feedbackDate {
-  color: var(--text-light);
-  font-size: 0.8rem;
-}
-
-.feedbackText {
-  line-height: 1.6;
-}
-
-.emptyFeedback {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-light);
-  background: var(--bg-light);
-  border-radius: 0.5rem;
-  border: 1px dashed var(--border);
-}
 /* 메인 컨테이너 */
 .actionContainer {
   display: flex;
   gap: 12px;
-  margin-top: 32px;
+  padding-top: 12px;
   margin-top: auto;
 }
 
@@ -654,8 +575,8 @@
 }
 
 .primaryAction:hover {
-  background-color: var(--card);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* background-color: var(--card); */
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   /* transform: translateY(-1px); */
 }
 
@@ -746,9 +667,6 @@
 }
 
 /* 아이콘 래퍼 */
-.iconWrapper {
-  position: relative;
-}
 
 /* 아이콘 컨테이너 */
 .iconContainer {
@@ -764,7 +682,7 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.iconContainer:hover {
+.iconContainer:hover .tooltip {
   background-color: var(--bg-hover);
   transform: translateY(-2px);
 }

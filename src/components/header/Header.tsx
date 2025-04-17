@@ -1,36 +1,23 @@
 import React, { useState } from "react";
-import styles from "./Header.module.css";
-import {
-  FaBug,
-  FaSearch,
-  FaSignInAlt,
-  FaCompass,
-  FaPlusCircle,
-  FaChartLine,
-  FaCommentDots,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaSearch, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { GiHoneycomb } from "react-icons/gi"; // 벌집 전체 느낌
 import { Link, useNavigate } from "react-router-dom";
-import LoginModal from "../auth/LoginModal";
 import { useAuth } from "../../context/AuthContext";
-import { toast } from "react-toastify";
+import LoginModal from "../auth/LoginModal";
+import styles from "./Header.module.css";
+import { useTheme } from "../../context/ThemeContext";
+<Link to="/" className={styles.logo}>
+  <GiHoneycomb className={styles.logoIcon} />
+  <span>
+    <strong>Beta</strong>Hive
+  </span>
+</Link>;
 
 const Header: React.FC = () => {
   const { isLoggedIn, userName, login, logout } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
-
-  const handleProjectCreateClick = (e: React.MouseEvent) => {
-    if (!isLoggedIn) {
-      e.preventDefault(); // 링크 이동 방지
-      toast.warning("로그인 후 이용해주세요!", {
-        position: "bottom-center",
-        autoClose: 3000,
-      });
-      // 또는 커스텀 토스트 사용: showWarningToast("로그인 후 이용해주세요!");
-      setShowLoginModal(true); // 로그인 모달 열기
-    }
-  };
+  const { currentTheme } = useTheme(); // 요거 추가!
 
   // 더미 데이터 대신 context에서 가져온 userName 사용
   const userInitial = userName ? userName.charAt(0).toUpperCase() : "U";
@@ -56,25 +43,32 @@ const Header: React.FC = () => {
 
   return (
     <header className={styles.header}>
-      <a href="/" className={styles.logo}>
-        <FaBug className={styles.logoIcon} />
-        <span>BetaHive</span>
-      </a>
+      <Link to="/" className={styles.logo}>
+        <img
+          src={
+            currentTheme.name === "dark"
+              ? "/BetaHiveLogo2dark.png"
+              : "/BetaHiveLogo2.png"
+          }
+          alt="BetaHive 로고"
+          className={styles.logoIcon}
+        />
+      </Link>
 
-      <nav className={styles.navMain}>
+      {/* <nav className={styles.navMain}>
         <Link to="/" className={styles.active}>
           <FaCompass /> 프로젝트 탐색
         </Link>
         <Link to="/projects/create" onClick={handleProjectCreateClick}>
           <FaPlusCircle /> 프로젝트 등록
         </Link>
-        {/* <Link to="/dashboard">
+        <Link to="/dashboard">
           <FaChartLine /> 대시보드
         </Link>
         <Link to="/feedback">
           <FaCommentDots /> 피드백
-        </Link> */}
-      </nav>
+        </Link>
+      </nav> */}
 
       <div className={styles.headerRight}>
         <div className={styles.searchBar}>

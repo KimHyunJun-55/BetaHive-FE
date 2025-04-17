@@ -1,74 +1,114 @@
 import React from "react";
-import styles from "./ProjectCard.module.css";
-import { FaGift, FaUsers, FaClock } from "react-icons/fa";
-import { Project } from "../../types";
+import { FaRegComment, FaRegEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Project } from "../../types";
+import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
   project: Project;
 }
-const statusBadges = {
-  HOT: { text: "HOT", color: "#ff4757" },
-  NEW: { text: "NEW", color: "#2ed573" },
-  URGENT: { text: "마감임박", color: "#ffa502" },
-  LIMITED: { text: "선착순", color: "#3742fa" },
-};
+
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+  const createdDate = new Date(project.createdAt);
+  const now = new Date();
+  const timeDiff = now.getTime() - createdDate.getTime();
+  const dayDiff = timeDiff / (1000 * 60 * 60 * 24); // 밀리초 → 일로 변환
+  // 상태 표시 로직 간소화
+  const getStatusInfo = () => {
+    if (project.daysLeft <= 3) {
+      return { text: "마감임박", color: "#ff6b81" };
+    }
+
+    if (dayDiff <= 6) {
+      return { text: "신규", color: "#2ed573" };
+    }
+    return null;
+  };
+
+  const statusInfo = getStatusInfo();
+  console.log(project);
+
   return (
     <div className={styles.projectCard}>
-      <div className={styles.projectImage}>
+      {/* <div className={styles.projectImage}>
         <Link to={`/projects/detail/${project.id}`}>
-          <img src={project.thumbnailUrl} alt={project.name} />
-          {project.badge && (
-            <span className={styles.projectBadge}>{project.badge}</span>
-          )}
+          <img
+            src={project.thumbnailUrl || "/default-project-thumbnail.jpg"}
+            alt={project.name}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                "/default-project-thumbnail.jpg";
+            }}
+          />
+          
         </Link>
-      </div>
-      <div className={styles.projectContent}>
-        <div className={styles.projectHeader}>
-          <div>
+      </div> */}
+
+      <Link to={`/projects/detail/${project.id}`}>
+        <div className={styles.projectContent}>
+          <div className={styles.projectHeader}>
             <h3 className={styles.projectTitle}>{project.name}</h3>
-            {project.baseReward && (
-              <span className={styles.rewardTag}>
-                <FaGift /> {project.baseReward}
-              </span>
-            )}
-          </div>
-          <span className={styles.projectCategory}>{project.category}</span>
-        </div>
-        <p className={styles.projectDescription}>{project.description}</p>
-
-        <div className={styles.progressContainer}>
-          <div
-            className={styles.progressBar}
-            style={{ width: `${project.progress || 10}%` }}
-          ></div>
-        </div>
-
-        <div className={styles.projectMeta}>
-          <div className={styles.projectStats}>
-            <span className={styles.statItem}>
-              <FaUsers /> {project.participants}명 참여
-            </span>
-            <span className={styles.statItem}>
-              <FaClock /> {project.daysLeft ?? 7}일 남음
-            </span>
-          </div>
-        </div>
-        {project.requirements && project.requirements.length > 0 && (
-          <div className={styles.requirementsContainer}>
-            {project.requirements.map((req, index) => (
+            <span className={styles.projectCategory}>{project.category}</span>
+            {/* <span>{statusInfo}</span> */}
+            {/* {statusInfo && (
               <span
-                key={index}
-                className={styles.unifiedBadge}
-                title={req} // hover 시 전체 텍스트 보이기
+                className={styles.projectBadge}
+                style={{ backgroundColor: statusInfo.color }}
               >
-                {req}
+                {statusInfo.text}
               </span>
-            ))}
+            )} */}
           </div>
-        )}
-      </div>
+
+          <p className={styles.projectDescription} title={project.description}>
+            {project.description.length > 80
+              ? `${project.description.substring(0, 80)}...`
+              : project.description}
+          </p>
+
+          {/* 요구사항 표시 */}
+          {project.requirements?.length > 0 && (
+            <div className={styles.requirements}>
+              {project.requirements.slice(0, 3).map((req, index) => (
+                <span key={index} className={styles.requirementBadge}>
+                  {req}
+                </span>
+              ))}
+              {project.requirements.length > 3 && (
+                <span className={styles.requirementBadge}>
+                  +{project.requirements.length - 3}
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* 보상 정보 (있을 경우만 표시) */}
+          {/* {project.baseReward && (
+          <div className={styles.rewardInfo}>
+            <FaRegBell className={styles.rewardIcon} />
+            <span>보상: {project.baseReward}</span>
+            <span className={styles.rewardNote}>(프로젝트별 상이)</span>
+          </div>
+        )} */}
+
+          {/* 진행 상태 및 기간 */}
+          <div className={styles.projectFooter}>
+            <div className={styles.interestInfo}>
+              <FaRegEye className={styles.eyeIcon} />
+              <span>{project.viewCount}</span>
+              <span className={styles.tooltip}>조회수</span>
+            </div>
+
+            <div className={styles.commentInfo}>
+              <div className={styles.interestInfo}>
+                <FaRegComment className={styles.commentIcon} />
+                <span>{project.commentCount || 0}</span>
+                <span className={styles.tooltip}>댓글수</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 };

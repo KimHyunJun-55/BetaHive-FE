@@ -14,6 +14,8 @@ export interface Project {
   requirements?: [];
   testerBadgeType?: "required" | "recommended";
   status: FilterType;
+  createdAt: string;
+  viewCount: number;
 }
 
 export interface Theme {

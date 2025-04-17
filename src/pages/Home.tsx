@@ -96,29 +96,41 @@ const Home: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.mainContainer}>
         <main className={styles.mainContent}>
-          <div className={styles.heroBanner}>
-            <div className={styles.heroContent}>
-              <h2>당신의 피드백이 세상을 바꿉니다</h2>
-              <p style={{ color: "white" }}>
-                새로운 프로젝트에 참여하고 보상을 받아보세요
+          <div className={styles.heroBetaPlatform}>
+            <div className={styles.heroBetaContent}>
+              <h1>
+                <span className={styles.heroBetaHighlight}>런칭 전 서비스</span>
+                를<br />
+                무료로 체험해보고{" "}
+                <span className={styles.heroBetaHighlight}>피드백</span>을
+                남겨주세요
+              </h1>
+              <p className={styles.heroBetaSubtitle}>
+                취준생/개발자의 프로젝트가 성장할 수 있도록 도와주는{" "}
+                <strong>베타 테스터 커뮤니티</strong>입니다.
+                <br />
+                불완전할 수 있는 서비스를 먼저 경험하고, 보상이 있다면
+                받아가세요!
               </p>
-              <div className={styles.heroButtons}>
-                <button
-                  className={styles.primaryButton}
-                  onClick={handleNewProject}
-                >
-                  프로젝트 생성하기
-                </button>
-                <Link to="/guide">
-                  <button className={styles.secondaryButton}>
-                    테스터 가이드 보기
-                  </button>
-                </Link>
+              <div className={styles.heroBetaButtons}>
+                <button onClick={handleNewProject}>프로젝트 등록하기</button>
+                <Link to="/guide">테스터 가이드 →</Link>
               </div>
             </div>
-            <div className={styles.heroIllustration}>
-              <img src="/hero-illustration.png" alt="Hero Illustration" />
-            </div>
+            {/* <div className={styles.heroBetaVisual}>
+              <div className={styles.heroBetaCard}>
+                <div className={styles.cardHeader}>베타 테스트 단계</div>
+                <ul className={styles.cardSteps}>
+                  <li>1. 프로젝트 발견</li>
+                  <li>2. 간편 참여</li>
+                  <li>3. 피드백 제출</li>
+                  <li>
+                    4.{" "}
+                    <span className={styles.rewardText}>보상 수령 (선택)</span>
+                  </li>
+                </ul>
+              </div>
+            </div> */}
           </div>
 
           <FilterBar

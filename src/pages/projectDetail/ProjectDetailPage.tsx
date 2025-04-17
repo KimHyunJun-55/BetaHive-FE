@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import {
   FaBookmark,
   FaCheck,
@@ -9,24 +10,23 @@ import {
   FaEllipsisV,
   FaPlay,
   FaRegBookmark,
+  FaRegEye,
   FaShareAlt,
-  FaTimes,
   FaUserFriends,
   FaUsers,
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   checkBookmarkStatus,
   fetchProjectDetails,
   updateStatus,
 } from "../../api/project";
+import ConfirmDeleteModal from "../../components/modal/ConfirmDeleteModal";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./ProjectDetail.module.css";
 import ProjectFeedback from "./section/ProjectFeedback";
-import { toast } from "react-toastify";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import { confirmAlert } from "react-confirm-alert";
-import ConfirmDeleteModal from "../../components/modal/ConfirmDeleteModal";
+import { projects } from "../../data/dummy";
 
 interface MediaFile {
   url: string;
@@ -56,6 +56,10 @@ interface Project {
   progress?: number;
   participants?: number;
   daysLeft?: number;
+  androidLink?: string | null; // 안드로이드 참여 링크 (있을수도, 없을수도)
+  webLink?: string | null; // 웹 참여 링크 (있을수도, 없을수도)
+  iosLink?: string | null;
+  criteria: string;
 }
 
 const ProjectDetailPage: React.FC = () => {
@@ -80,7 +84,6 @@ const ProjectDetailPage: React.FC = () => {
   const [isBookmarked, setIsBookmark] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [editMenuOpen, setEditMenuOpen] = useState(false);
-  const [showParticipationModal, setShowParticipationModal] = useState(false);
 
   const handleShare = async () => {
     try {
@@ -93,7 +96,7 @@ const ProjectDetailPage: React.FC = () => {
 
   const CATEGORY_LABELS: { [key: string]: string } = {
     MOBILE: "모바일",
-    WEB: "기술",
+    WEB: "웹",
     WEB_MOBILE: "웹/모바일",
   };
 
@@ -125,63 +128,31 @@ const ProjectDetailPage: React.FC = () => {
     },
   ];
 
-  interface ParticipationOption {
-    label: string;
-  }
-
   type ParticipationOptions = {
-    WEB: ParticipationOption;
-    IOS: ParticipationOption;
-    ANDROID: ParticipationOption;
-  };
-  const PARTICIPATION_OPTIONS: ParticipationOptions = {
-    WEB: {
-      label: "웹 테스트 참여",
-    },
-
-    IOS: {
-      label: "iOS 테스트 참여",
-    },
-    ANDROID: {
-      label: "안드로이드 테스트 참여",
-    },
+    [key: string]: {
+      label: string;
+      link?: string;
+    };
   };
 
   const [isParticipationDropdownOpen, setIsParticipationDropdownOpen] =
     useState(false);
 
-  const handleSelectParticipation = (
-    option: keyof typeof PARTICIPATION_OPTIONS
-  ) => {
-    setIsParticipationDropdownOpen(false);
-
-    // 각 옵션에 맞는 링크로 이동 (예시)
-    let link = "";
-    switch (option) {
-      case "WEB":
-        link = "/web-test";
-        break;
-      case "MOBILE":
-        link = "/mobile-test";
-        break;
-      case "IOS":
-        link = "/ios-test";
-        break;
-      case "ANDROID":
-        link = "/android-test";
-        break;
-      case "WEB_MOBILE":
-        link = "/web-mobile-test";
-        break;
-      default:
-        link = "/";
+  //드랍다운 하나만
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!dropdownOpen);
+    if (editMenuOpen) {
+      setEditMenuOpen(false); // editMenu가 열려 있으면 닫기
     }
-
-    navigate(link); // 해당 링크로 이동
-    // 또는 window.location.href = link; // 외부 링크일 경우
   };
 
-  console.log(project);
+  const handleEditMenuToggle = () => {
+    setEditMenuOpen(!editMenuOpen);
+    if (dropdownOpen) {
+      setDropdownOpen(false); // dropdown이 열려 있으면 닫기
+    }
+  };
+
   useEffect(() => {
     const loadProject = async () => {
       try {
@@ -189,6 +160,7 @@ const ProjectDetailPage: React.FC = () => {
           fetchProjectDetails(numericId),
           checkBookmarkStatus(numericId),
         ]);
+        console.log(data);
         setProject(data);
         setCurrentStatus(data.status);
         setIsBookmark(isBookmarked); // 북마크 상태 반영
@@ -199,6 +171,8 @@ const ProjectDetailPage: React.FC = () => {
 
     loadProject();
   }, [numericId]);
+
+  //북마크 토글
   const toggleBookmark = async () => {
     try {
       const updatedStatus: boolean = await checkBookmarkStatus(numericId); // 서버 요청
@@ -214,6 +188,7 @@ const ProjectDetailPage: React.FC = () => {
     }
   };
 
+  console.log("아이디로 변경하기");
   const isCreator = userName === project?.creator;
 
   if (error) return <div className={styles.error}>{error}</div>;
@@ -238,6 +213,8 @@ const ProjectDetailPage: React.FC = () => {
       handleConfirmDelete();
     }
   };
+  console.log(project);
+
   const handleConfirmDelete = async () => {
     try {
       // await deleteProject(numericId); // 실제 삭제 API 호출
@@ -280,10 +257,10 @@ const ProjectDetailPage: React.FC = () => {
       case "description":
         return (
           <>
-            {/* 기존 설명 내용 유지 */}
+            {/* 프로젝트 설명 */}
             {project.description && (
               <div className={styles.descriptionContent}>
-                <h3>프로젝트 설명</h3>
+                <h3>📝 프로젝트 설명</h3>
                 <div
                   className={styles.descriptionText}
                   dangerouslySetInnerHTML={{
@@ -296,7 +273,7 @@ const ProjectDetailPage: React.FC = () => {
             {/* 상세 설명 */}
             {project.detailedDescription && (
               <div className={styles.descriptionContent}>
-                <h3>프로젝트 상세 설명</h3>
+                <h3>📚 프로젝트 상세 설명</h3>
                 <div
                   className={styles.descriptionText}
                   dangerouslySetInnerHTML={{
@@ -309,7 +286,7 @@ const ProjectDetailPage: React.FC = () => {
             {/* 요구사항 */}
             {project.requirements?.length > 0 && (
               <div className={styles.section}>
-                <h3>필수 요구사항</h3>
+                <h3>✅ 필수 요구사항</h3>
                 <div className={styles.descriptionText}>
                   {project.requirements.map((req, i) => (
                     <div key={i}>{req}</div>
@@ -318,10 +295,18 @@ const ProjectDetailPage: React.FC = () => {
               </div>
             )}
 
+            {/* 우수 테스터 선별 기준 */}
+            {project.criteria && (
+              <div className={styles.section}>
+                <h3>🏅 우수테스터 선별기준</h3>
+                <div className={styles.descriptionText}>{project.criteria}</div>
+              </div>
+            )}
+
             {/* 참여 방법 */}
             {project.instructions && (
               <div className={styles.section}>
-                <h3>참여 방법</h3>
+                <h3>🧭 참여 방법</h3>
                 <div
                   className={styles.instructionsContent}
                   dangerouslySetInnerHTML={{ __html: project.instructions }}
@@ -332,7 +317,7 @@ const ProjectDetailPage: React.FC = () => {
             {/* 미디어 설명 */}
             {project.mediaFiles?.length > 0 && (
               <div className={styles.section}>
-                <h3>프로젝트 미디어 설명</h3>
+                <h3>🖼️ 프로젝트 미디어 설명</h3>
                 <div className={styles.mediaGallery}>
                   {project.mediaFiles.map((media, index) => (
                     <div key={index} className={styles.mediaItem}>
@@ -344,14 +329,15 @@ const ProjectDetailPage: React.FC = () => {
                       </div>
                       <div
                         className={styles.mediaDescription}
-                        dangerouslySetInnerHTML={{ __html: media.description }}
+                        dangerouslySetInnerHTML={{
+                          __html: media.description,
+                        }}
                       ></div>
                     </div>
                   ))}
                 </div>
               </div>
             )}
-            {/* 다른 설명 섹션들... */}
           </>
         );
       case "feedback":
@@ -360,6 +346,7 @@ const ProjectDetailPage: React.FC = () => {
         return null;
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -429,7 +416,7 @@ const ProjectDetailPage: React.FC = () => {
               {isCreator ? (
                 <div
                   className={styles.statusEdit}
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  onClick={handleDropdownToggle}
                 >
                   <FaCog style={{ marginRight: 6 }} />
                   상태 변경
@@ -458,21 +445,19 @@ const ProjectDetailPage: React.FC = () => {
               {isCreator && (
                 <div
                   className={styles.statusEdit}
-                  onClick={() => setEditMenuOpen(!editMenuOpen)}
+                  onClick={handleEditMenuToggle}
                 >
                   <FaEllipsisV />
-
-                  {/* <FaChevronDown style={{ marginLeft: 6 }} /> */}
                   {editMenuOpen && (
                     <ul className={styles.dropdownMenu}>
-                      {EDIT_OPTIONS.map((status) => (
+                      {EDIT_OPTIONS.map((option) => (
                         <li
-                          key={status.value}
+                          key={option.value}
                           className={styles.menuItem}
-                          onClick={() => handleEditMenu(status.value)}
+                          onClick={() => handleEditMenu(option.value)}
                         >
                           <span className={styles.menuTitle}>
-                            {status.value}
+                            {option.value}
                           </span>
                         </li>
                       ))}
@@ -508,13 +493,14 @@ const ProjectDetailPage: React.FC = () => {
             {/* 프로젝트 통계 */}
             <div className={styles.projectStats}>
               <div className={styles.statItem}>
-                <FaUsers />
-                <span>{project.participants ?? 0}명 참여</span>
+                <FaRegEye className={styles.actionIcon} />
+                <span className={styles.tooltip}>조회수</span>
+                <span>{project.participants ?? 0}</span>
               </div>
-              <div className={styles.statItem}>
+              {/* <div className={styles.statItem}>
                 <FaUserFriends />
                 <span>목표 {project.testersCount ?? 0}명</span>
-              </div>
+              </div> */}
               <div className={styles.statItem}>
                 <FaClock />
                 <span>{project.daysLeft ?? 0}</span>
@@ -575,47 +561,84 @@ const ProjectDetailPage: React.FC = () => {
 
                 {isParticipationDropdownOpen && (
                   <div className={styles.dropdownMenu}>
-                    {Object.entries(PARTICIPATION_OPTIONS).map(
-                      ([key, option]) => (
-                        <div
-                          key={key}
-                          className={styles.menuItem}
-                          onClick={() =>
-                            handleSelectParticipation(
-                              key as keyof typeof PARTICIPATION_OPTIONS
-                            )
-                          }
-                        >
-                          <div className={styles.menuItemContent}>
-                            <div className={styles.menuText}>
-                              <span className={styles.menuTitle}>
-                                {option.label}
-                              </span>
-                            </div>
+                    {/* 안드로이드 링크가 있으면 표시 */}
+                    {project.androidLink && (
+                      <div
+                        className={styles.menuItem}
+                        onClick={() =>
+                          window.open(project.androidLink!, "_blank")
+                        }
+                      >
+                        <div className={styles.menuItemContent}>
+                          <div className={styles.menuText}>
+                            <span className={styles.menuTitle}>
+                              안드로이드 테스트 참여
+                            </span>
                           </div>
                         </div>
-                      )
+                      </div>
                     )}
+
+                    {/* 웹 링크가 있으면 표시 */}
+                    {project.webLink && (
+                      <div
+                        className={styles.menuItem}
+                        onClick={() => window.open(project.webLink!, "_blank")}
+                      >
+                        <div className={styles.menuItemContent}>
+                          <div className={styles.menuText}>
+                            <span className={styles.menuTitle}>
+                              웹 테스트 참여
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* iOS 링크가 있으면 표시 */}
+                    {project.iosLink && (
+                      <div
+                        className={styles.menuItem}
+                        onClick={() => window.open(project.iosLink!, "_blank")}
+                      >
+                        <div className={styles.menuItemContent}>
+                          <div className={styles.menuText}>
+                            <span className={styles.menuTitle}>
+                              iOS 테스트 참여
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 모든 링크가 없을 때 표시 */}
+                    {!project.androidLink &&
+                      !project.webLink &&
+                      !project.iosLink && (
+                        <div className={styles.menuItem}>
+                          <div className={styles.menuText}>
+                            <span className={styles.menuTitle}>
+                              참여 가능한 플랫폼이 없습니다
+                            </span>
+                          </div>
+                        </div>
+                      )}
                   </div>
                 )}
               </div>
 
               <div className={styles.secondaryActions}>
-                <div className={styles.iconWrapper} onClick={toggleBookmark}>
-                  <div className={styles.iconContainer}>
-                    {isBookmarked ? (
-                      <FaBookmark className={styles.actionIcon} />
-                    ) : (
-                      <FaRegBookmark className={styles.actionIcon} />
-                    )}
-                    <span className={styles.tooltip}>저장하기</span>
-                  </div>
+                <div className={styles.iconContainer} onClick={toggleBookmark}>
+                  {isBookmarked ? (
+                    <FaBookmark className={styles.actionIcon} />
+                  ) : (
+                    <FaRegBookmark className={styles.actionIcon} />
+                  )}
+                  <span className={styles.tooltip}>저장하기</span>
                 </div>
-                <div className={styles.iconWrapper} onClick={handleShare}>
-                  <div className={styles.iconContainer}>
-                    <FaShareAlt className={styles.actionIcon} />
-                    <span className={styles.tooltip}>공유하기</span>
-                  </div>
+                <div className={styles.iconContainer} onClick={handleShare}>
+                  <FaShareAlt className={styles.actionIcon} />
+                  <span className={styles.tooltip}>공유하기</span>
                 </div>
               </div>
             </div>
@@ -624,31 +647,30 @@ const ProjectDetailPage: React.FC = () => {
 
         {/* 탭 메뉴 */}
         <div className={styles.tabs}>
-          <button
-            className={`${styles.tabButton} ${
+          <div
+            className={`${styles.tabItem} ${
               activeTab === "description" ? styles.active : ""
             }`}
             onClick={() => setActiveTab("description")}
           >
             상세 설명
-          </button>
-          <button
-            className={`${styles.tabButton} ${
+          </div>
+          <div
+            className={`${styles.tabItem} ${
               activeTab === "feedback" ? styles.active : ""
             }`}
             onClick={() => setActiveTab("feedback")}
           >
             피드백 ({feedbacks.length})
-          </button>
-          {/*
-          <button
-            className={`${styles.tabButton} ${
-              activeTab === "testers" ? styles.active : ""
-            }`}
-            onClick={() => setActiveTab("testers")}
-          >
-            참여 테스터 ({testers.length})
-          </button> */}
+          </div>
+          {/* 
+  <div
+    className={`${styles.tabItem} ${activeTab === "testers" ? styles.active : ""}`}
+    onClick={() => setActiveTab("testers")}
+  >
+    참여 테스터 ({testers.length})
+  </div>
+  */}
         </div>
 
         {/* 탭 내용 */}

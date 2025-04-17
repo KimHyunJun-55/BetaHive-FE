@@ -14,18 +14,19 @@
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text);
-  text-decoration: none;
   display: flex;
   align-items: center;
+  /* font-size: 1.6rem; */
+  /* font-weight: 700; */
   gap: 10px;
+  /* color: var(--primary); */
+  text-decoration: none;
+  /* user-select: none; 텍스트 선택 방지 */
 }
 
 .logoIcon {
-  color: var(--primary);
-  font-size: 28px;
+  width: 16rem;
+  color: #f1c40f; /* 꿀벌 노랑 */
 }
 
 .navMain {
@@ -177,7 +178,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--card);
+  border: 1px solid var(--text);
 }
 .userMenu {
   position: absolute;

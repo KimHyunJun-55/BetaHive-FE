@@ -7,10 +7,10 @@ import { MediaFile, ProjectFormState } from "../type/types";
 
 const initialFormState: ProjectFormState = {
   basicInfo: {
-    name: "test",
-    category: "mobile",
-    description: "test",
-    detailedDescription: "test",
+    name: "",
+    category: "",
+    description: "",
+    detailedDescription: "",
     objective: "",
     webLink: "",
     androidLink: "",
