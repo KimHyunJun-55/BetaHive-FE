@@ -48,12 +48,28 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         </div>
 
         <div className={styles.modalActions}>
-          <button className={styles.cancelBtn} onClick={onCancel}>
+          <div
+            className={styles.cancelBtn}
+            onClick={onCancel}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") onCancel();
+            }}
+          >
             취소
-          </button>
-          <button className={styles.deleteBtn} onClick={onConfirm}>
+          </div>
+          <div
+            className={styles.deleteBtn}
+            onClick={onConfirm}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") onConfirm();
+            }}
+          >
             <FaTrash /> 삭제하기
-          </button>
+          </div>
         </div>
       </div>
     </div>

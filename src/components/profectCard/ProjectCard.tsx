@@ -2,6 +2,7 @@ import React from "react";
 import {
   FaCheck,
   FaEdit,
+  FaEyeSlash,
   FaPlay,
   FaRegComment,
   FaRegEye,
@@ -44,6 +45,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       label: "수정 중",
       icon: <FaEdit className={styles.statusIcon} />,
       badgeClass: styles.modifying, // 추가
+    },
+    {
+      value: "HIDDEN",
+      label: "숨김",
+      icon: <FaEyeSlash className={styles.statusIcon} />,
+      badgeClass: styles.hidden, // 추가
     },
   ];
   const statusInfo = getStatusInfo();

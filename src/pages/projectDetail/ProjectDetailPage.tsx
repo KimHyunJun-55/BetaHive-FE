@@ -17,6 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   checkBookmarkStatus,
+  deleteProject,
   fetchProjectDetails,
   updateStatus,
 } from "../../api/project";
@@ -232,8 +233,8 @@ const ProjectDetailPage: React.FC = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      // await deleteProject(numericId); // 실제 삭제 API 호출
-      toast.success("삭제되었습니다");
+      await deleteProject(numericId); // 실제 삭제 API 호출
+      toast.success(`${project.name}프로젝트가 삭제되었습니다`);
       navigate("/"); // 삭제 후 목록 페이지로 이동
     } catch (error) {
       toast.error("삭제 실패");
@@ -531,7 +532,7 @@ const ProjectDetailPage: React.FC = () => {
             <div className={styles.projectStats}>
               <div className={styles.statItem}>
                 <span>조회수 : </span>
-                <span>{project.participants ?? 0}</span>
+                <span>{project.viewCount ?? 0}</span>
               </div>
               {/* <div className={styles.statItem}>
                 <FaUserFriends />

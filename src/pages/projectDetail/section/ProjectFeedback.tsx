@@ -16,7 +16,7 @@ export interface FeedbackForm {
   score: number;
 }
 
-const ProjectFeedback: React.FC<{ projectId: number }> = ({ projectId }) => {
+const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   const [score, setScore] = useState(0);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);

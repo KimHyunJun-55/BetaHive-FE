@@ -23,8 +23,6 @@ const TipTapEditor = ({
 }: TipTapEditorProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  console.log("value : ", value);
-
   const editor = useEditor({
     extensions: [
       StarterKit.configure({

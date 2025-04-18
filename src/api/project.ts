@@ -65,6 +65,11 @@ export const fetchProjectDetails = async (projectId: number) => {
   return response.data.data;
 };
 
+export const deleteProject = async (projectId: number) => {
+  const response = await axiosIntercepter.delete(`/project/${projectId}`);
+  return response.data.data;
+};
+
 export const updateStatus = async (projectId: number, status: string) => {
   const response = await axiosIntercepter.patch(`project/${projectId}/status`, {
     status,

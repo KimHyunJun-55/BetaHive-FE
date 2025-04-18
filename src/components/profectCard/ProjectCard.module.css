@@ -224,6 +224,10 @@
   background-color: #fff3e0;
   color: #f57c00;
 }
+.statusBadge.hidden {
+  background-color: #f3bfa0;
+  color: #964b01;
+}
 
 /* 아이콘 스타일 */
 .statusIcon {

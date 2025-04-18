@@ -5,6 +5,7 @@ import { getBookmarkedProjects, getMyProjects } from "../../api/project";
 import ProjectCard from "../../components/profectCard/ProjectCard";
 import ProfileEditModal from "../../components/profile/ProfileEditModal";
 import styles from "./MyPage.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 const MyPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -18,6 +19,8 @@ const MyPage = () => {
     joinDate: "2023-01-01",
     rating: 4.5,
   });
+
+  const { userName } = useAuth();
 
   const navigate = useNavigate();
 
@@ -126,8 +129,8 @@ const MyPage = () => {
             <FaUser size={40} />
           </div>
           <div className={styles.userInfo}>
-            <h2>{user.name}</h2>
-            <p>{user.email}</p>
+            <h2>{userName}</h2>
+            {/* <p>{user.email}</p> */}
             <div className={styles.metaInfo}>
               <span>가입일: {user.joinDate}</span>
               <span>테스터 평점: ⭐{user.rating}</span>
