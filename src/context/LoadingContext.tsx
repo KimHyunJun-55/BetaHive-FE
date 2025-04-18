@@ -29,7 +29,6 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!loadingRef.current) {
       loadingRef.current = true;
       setIsLoading(true);
-      console.log("🔥 로딩 시작 (실제 상태 업데이트)");
     }
   }, []);
 
@@ -37,7 +36,6 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
     if (loadingRef.current) {
       loadingRef.current = false;
       setIsLoading(false);
-      console.log("💤 로딩 종료 (실제 상태 업데이트)");
     }
   }, []);
 

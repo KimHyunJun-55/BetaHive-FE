@@ -97,8 +97,12 @@ const CreateProject: React.FC = () => {
             newRequirement={formState.testSettings.newRequirement}
             instructions={formState.testSettings.instructions} // 추가
             contact={formState.testSettings.contact} // 추가
+            contactType={formState.testSettings.contactType}
             onInstructionsChange={(value) =>
               updateField("testSettings", "instructions", value)
+            }
+            onContectTypeChange={(value) =>
+              updateField("testSettings", "contactType", value)
             }
             onContactChange={(value) =>
               updateField("testSettings", "contact", value)

@@ -217,7 +217,7 @@ select.formControl {
 }
 
 .mediaItem {
-  margin-bottom: 15px;
+  margin-bottom: 45px;
   height: 145px;
 }
 
@@ -228,18 +228,19 @@ select.formControl {
   gap: 15px;
   align-items: flex-start;
 }
-
 .mediaUploadArea {
-  flex: 0 0 250px;
-  height: 200px;
+  flex: 0 0 250px; /* ✅ 이렇게 고쳐줘 */
+  height: 100%;
 }
 
 .mediaUploadLabel {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 150px;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  padding: 10px;
   border: 2px dashed var(--border);
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -271,13 +272,38 @@ select.formControl {
   background: var(--error);
   color: white;
   border: none;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  /* overflow: visible; 중요: tooltip 보이게 */
+}
+
+.mediaRemoveButton:hover {
+  background: red;
+}
+
+.tooltip {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: white;
+  color: black;
+  padding: 2px 6px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  opacity: 0;
+  transition: 0.2s ease;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.mediaRemoveButton:hover .tooltip {
+  opacity: 1;
 }
 
 .mediaDescriptionInput {
@@ -326,10 +352,6 @@ select.formControl {
   font-size: 24px;
   color: var(--text-light);
   margin-bottom: 10px;
-}
-
-.uploadText {
-  color: var(--text-light);
 }
 
 .testersCountValue {
@@ -766,3 +788,19 @@ select.formControl {
   }
 }
 /* 우측 플로팅 가이드 */
+.contactRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--card);
+  color: var(--text);
+}
+
+.contactInput {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}

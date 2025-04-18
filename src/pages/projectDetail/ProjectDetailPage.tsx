@@ -8,12 +8,10 @@ import {
   FaCog,
   FaEdit,
   FaEllipsisV,
+  FaEyeSlash,
   FaPlay,
   FaRegBookmark,
-  FaRegEye,
   FaShareAlt,
-  FaUserFriends,
-  FaUsers,
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -26,7 +24,6 @@ import ConfirmDeleteModal from "../../components/modal/ConfirmDeleteModal";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./ProjectDetail.module.css";
 import ProjectFeedback from "./section/ProjectFeedback";
-import { projects } from "../../data/dummy";
 
 interface MediaFile {
   url: string;
@@ -51,6 +48,7 @@ interface Project {
   thumbnailUrl: string;
   mediaFiles: MediaFile[];
   creator: string;
+  creatorId: number;
   createdAt: string;
   status: string;
   progress?: number;
@@ -60,6 +58,8 @@ interface Project {
   webLink?: string | null; // 웹 참여 링크 (있을수도, 없을수도)
   iosLink?: string | null;
   criteria: string;
+  viewCount: string;
+  commentCount: string;
 }
 
 const ProjectDetailPage: React.FC = () => {
@@ -73,17 +73,16 @@ const ProjectDetailPage: React.FC = () => {
   );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [feedbacks, setFeedbacks] = useState<any[]>([]); // 실제 API 데이터로 대체 필요
-  const { userName } = useAuth();
+  const { userId } = useAuth();
   const navigate = useNavigate();
 
-  const [currentStatus, setCurrentStatus] = useState<string | null>(
-    project?.status
-  );
   //북마크
   const [isBookmarked, setIsBookmark] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [editMenuOpen, setEditMenuOpen] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState<string | null>(
+    project?.status
+  );
 
   const handleShare = async () => {
     try {
@@ -116,6 +115,11 @@ const ProjectDetailPage: React.FC = () => {
       label: "수정 중",
       icon: <FaEdit className={styles.statusIcon} />,
     },
+    {
+      value: "HIDDEN",
+      label: "숨김",
+      icon: <FaEyeSlash className={styles.statusIcon} />,
+    },
   ];
   const EDIT_OPTIONS = [
     {
@@ -127,13 +131,6 @@ const ProjectDetailPage: React.FC = () => {
       icon: <FaCheck className={styles.statusIcon} />,
     },
   ];
-
-  type ParticipationOptions = {
-    [key: string]: {
-      label: string;
-      link?: string;
-    };
-  };
 
   const [isParticipationDropdownOpen, setIsParticipationDropdownOpen] =
     useState(false);
@@ -160,7 +157,6 @@ const ProjectDetailPage: React.FC = () => {
           fetchProjectDetails(numericId),
           checkBookmarkStatus(numericId),
         ]);
-        console.log(data);
         setProject(data);
         setCurrentStatus(data.status);
         setIsBookmark(isBookmarked); // 북마크 상태 반영
@@ -188,8 +184,7 @@ const ProjectDetailPage: React.FC = () => {
     }
   };
 
-  console.log("아이디로 변경하기");
-  const isCreator = userName === project?.creator;
+  const isCreator = userId === project?.creatorId;
 
   if (error) return <div className={styles.error}>{error}</div>;
   if (!project) return null;
@@ -199,27 +194,47 @@ const ProjectDetailPage: React.FC = () => {
       setCurrentStatus(status); // UI에 반영
       await updateStatus(numericId, status);
       setDropdownOpen(false);
+
+      // 상태에 따라 토스트 메시지 다르게 출력
+      switch (status) {
+        case "IN_PROGRESS":
+          toast.success("테스트가 진행 중 상태로 변경되었습니다.");
+          break;
+        case "COMPLETED":
+          toast.success("테스트가 종료 상태로 변경되었습니다.");
+          break;
+        case "MODIFYING":
+          toast.success("수정 중 상태로 변경되었습니다.");
+          break;
+        case "HIDDEN":
+          toast.success("숨김 처리되었습니다. 다른유저들에겐 보이지않습니다.");
+          break;
+        default:
+          toast.success("상태가 변경되었습니다.");
+          break;
+      }
     } catch (error) {
       console.error("상태 변경 실패:", error);
       alert("상태 변경 중 오류가 발생했습니다.");
     }
   };
+
   const handleEditMenu = async (status: string) => {
-    console.log(status);
     if (status === "프로젝트 수정") {
       handleEditClick();
     }
     if (status === "프로젝트 삭제") {
-      handleConfirmDelete();
+      setIsDeleteModalOpen(true); // 여기서 모달 열림 상태로 변경
+
+      // handleConfirmDelete();
     }
   };
-  console.log(project);
 
   const handleConfirmDelete = async () => {
     try {
       // await deleteProject(numericId); // 실제 삭제 API 호출
       toast.success("삭제되었습니다");
-      navigate("/projects"); // 삭제 후 목록 페이지로 이동
+      navigate("/"); // 삭제 후 목록 페이지로 이동
     } catch (error) {
       toast.error("삭제 실패");
     } finally {
@@ -285,7 +300,7 @@ const ProjectDetailPage: React.FC = () => {
 
             {/* 요구사항 */}
             {project.requirements?.length > 0 && (
-              <div className={styles.section}>
+              <div className={styles.descriptionContent}>
                 <h3>✅ 필수 요구사항</h3>
                 <div className={styles.descriptionText}>
                   {project.requirements.map((req, i) => (
@@ -297,15 +312,36 @@ const ProjectDetailPage: React.FC = () => {
 
             {/* 우수 테스터 선별 기준 */}
             {project.criteria && (
-              <div className={styles.section}>
+              <div className={styles.descriptionContent}>
                 <h3>🏅 우수테스터 선별기준</h3>
                 <div className={styles.descriptionText}>{project.criteria}</div>
+              </div>
+            )}
+            {project.hasReward && (
+              <div className={styles.rewardSection}>
+                <h3>🏆 보상 정보</h3>
+                <div className={styles.rewardDetails}>
+                  <strong>기본 보상</strong>
+                  <div className={styles.rewardItem}>
+                    - {project.baseReward}
+                  </div>
+                  {project.bonusRewards?.length > 0 && (
+                    <div className={styles.rewardDetails}>
+                      <strong>추가 보상</strong>
+                      {project.bonusRewards.map((reward, i) => (
+                        <div className={styles.rewardItem} key={i}>
+                          - {reward}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
             {/* 참여 방법 */}
             {project.instructions && (
-              <div className={styles.section}>
+              <div className={styles.descriptionContent}>
                 <h3>🧭 참여 방법</h3>
                 <div
                   className={styles.instructionsContent}
@@ -341,7 +377,7 @@ const ProjectDetailPage: React.FC = () => {
           </>
         );
       case "feedback":
-        return <ProjectFeedback projectId={project.id} feedbacks={feedbacks} />;
+        return <ProjectFeedback projectId={project.id} />;
       default:
         return null;
     }
@@ -431,6 +467,7 @@ const ProjectDetailPage: React.FC = () => {
                         >
                           <div className={styles.menuText}>
                             <span className={styles.menuTitle}>
+                              {status.icon}
                               {status.label}
                             </span>
                           </div>
@@ -493,8 +530,7 @@ const ProjectDetailPage: React.FC = () => {
             {/* 프로젝트 통계 */}
             <div className={styles.projectStats}>
               <div className={styles.statItem}>
-                <FaRegEye className={styles.actionIcon} />
-                <span className={styles.tooltip}>조회수</span>
+                <span>조회수 : </span>
                 <span>{project.participants ?? 0}</span>
               </div>
               {/* <div className={styles.statItem}>
@@ -502,29 +538,9 @@ const ProjectDetailPage: React.FC = () => {
                 <span>목표 {project.testersCount ?? 0}명</span>
               </div> */}
               <div className={styles.statItem}>
-                <FaClock />
+                <FaClock style={{ color: "var(--text)" }} />
                 <span>{project.daysLeft ?? 0}</span>
               </div>
-            </div>
-
-            <div className={styles.rewardSection}>
-              <h3>🏆 보상 정보</h3>
-              {project.hasReward ? (
-                <div className={styles.rewardDetails}>
-                  <strong>기본 보상</strong>
-                  <div>- {project.baseReward}</div>
-                  {project.bonusRewards?.length > 0 && (
-                    <div>
-                      <strong>추가 보상</strong>
-                      {project.bonusRewards.map((reward, i) => (
-                        <div key={i}>- {reward}</div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className={styles.rewardDetails}>보상 없음</div>
-              )}
             </div>
 
             <div className={styles.actionContainer}>
@@ -661,7 +677,7 @@ const ProjectDetailPage: React.FC = () => {
             }`}
             onClick={() => setActiveTab("feedback")}
           >
-            피드백 ({feedbacks.length})
+            댓글 ({project.commentCount})
           </div>
           {/* 
   <div
@@ -677,10 +693,12 @@ const ProjectDetailPage: React.FC = () => {
         <div className={styles.tabContent}>{renderTabContent()}</div>
       </div>
       {/* 마지막에 컴포넌트 렌더 */}
+      {/* // ProjectDetailPage.tsx 내에서 */}
       <ConfirmDeleteModal
         isOpen={isDeleteModalOpen}
         onConfirm={handleConfirmDelete}
         onCancel={() => setIsDeleteModalOpen(false)}
+        projectName={project?.name} // 프로젝트 이름 전달
       />
     </div>
   );

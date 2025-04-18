@@ -9,8 +9,8 @@
 
 .mainContent {
   flex: 1;
-  padding: 40px;
-  max-width: 1200px;
+  padding: 40px 0px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   width: 100%;
 }
@@ -38,7 +38,10 @@
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  max-height: 400px;
+  max-height: 16rem;
+  max-width: 16rem;
+  min-height: 16rem; /* 고정 정사각형 */
+  min-width: 16rem;
   box-shadow: var(--shadow-md);
 }
 
@@ -59,7 +62,7 @@
 
 .projectMeta {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 10px;
 }
 
@@ -115,7 +118,7 @@
   gap: 8px;
   font-size: 14px;
   color: var(--text-light);
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .progressContainer {
@@ -144,7 +147,8 @@
 
 .projectStats {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 4px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
@@ -174,12 +178,6 @@
   .actionButtons {
     flex-direction: column;
   }
-}
-
-/* Rating Section */
-
-.section {
-  color: var(--text);
 }
 
 /* Tabs */
@@ -226,6 +224,12 @@
 
 /* Description Content */
 .descriptionContent h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 15px;
+}
+.rewardSection h3 {
   font-size: 20px;
   font-weight: 600;
   color: var(--text);
@@ -446,7 +450,19 @@
   /* align-items: center; */
 }
 .rewardSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   color: var(--text);
+  margin-bottom: 30px;
+}
+.rewardDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rewardItem {
+  margin-left: 12px;
 }
 
 .modalImage {
@@ -656,6 +672,9 @@
   font-size: 14px;
   margin-bottom: 2px;
   padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* 보조 액션 버튼들 */
@@ -689,8 +708,11 @@
 
 /* 아이콘 스타일 */
 .actionIcon {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--text);
+  /* border-bottom: 1px solid var(--text); */
+  display: inline-block; /* 아이콘이 짝아지는 걸 방지 */
+  line-height: 1.2; /* 필요 시 조절 */
 }
 
 /* 툴팁 스타일 */

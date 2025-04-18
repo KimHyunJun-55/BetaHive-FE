@@ -32,7 +32,7 @@
   --radius-xl: 24px;
 
   --font-base: 14px;
-  --spacing-base: 16px;
+  --spacing-base: 12px;
 }
 
 .theme-dark {
@@ -85,9 +85,9 @@ body {
 }
 
 .mainContent {
-  max-width: 1280px;
+  max-width: 1310px;
   margin: 0 auto;
-  /* padding: 0 var(--spacing-base); */
+  padding: 0 1rem; /* 양옆 16px 여백 */
 }
 
 .projectFooter {

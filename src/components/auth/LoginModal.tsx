@@ -39,13 +39,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { nickname, accessToken, refreshToken } = await signIn({
+      const { nickname, accessToken, refreshToken, id } = await signIn({
         email,
         password,
       });
-      login(nickname, accessToken, refreshToken);
+      login(nickname, accessToken, refreshToken, id);
 
-      toast.success("성공");
+      toast.success(`${nickname}님 안녕하세요`);
       onClose();
     } catch (err) {
       setError("이메일 또는 비밀번호가 올바르지 않습니다.");
@@ -54,7 +54,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
   const handleSocialLogin = (provider: "google" | "kakao") => {
     // 소셜 로그인 처리 로직
-    console.log(`${provider} 로그인 시도`);
   };
 
   const handleSignup = async (e: React.FormEvent) => {

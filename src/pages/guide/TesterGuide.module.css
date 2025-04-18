@@ -1,16 +1,16 @@
 .guideContainer {
   margin: 0 auto;
-  padding: 40px 20px;
-  background: var(--bg-color);
+  /* padding: 40px 20px; */
+  background: var(--bg);
   color: var(--text-color);
   min-height: 100vh;
 }
 
 .mainGuideContainer {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 40px;
-  background: var(--card-bg);
+  background: var(--card);
   border-radius: 12px;
   box-shadow: var(--card-shadow);
 }
@@ -28,7 +28,7 @@
 
 .guideHeader p {
   font-size: 1.1rem;
-  color: var(--secondary-text);
+  color: var(--text);
 }
 
 .guideSection,
@@ -58,7 +58,7 @@
 .warningCard {
   padding: 25px;
   border-radius: 10px;
-  background: var(--card-bg);
+  background: var(--bg);
   border: 1px solid var(--card-border);
   transition: transform 0.2s;
 }
@@ -83,7 +83,7 @@
 .warningCard ul {
   padding-left: 20px;
   line-height: 1.7;
-  color: var(--text-color);
+  color: var(--text);
 }
 
 .guideCard li,
@@ -106,7 +106,7 @@
 
 .faqItem p {
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--text);
 }
 
 /* 다크모드 변수 */

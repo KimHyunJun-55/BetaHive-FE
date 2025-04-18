@@ -112,7 +112,7 @@ const TipTapEditor = ({
       <div className={styles.label}>{label}</div>
 
       <div
-        className={styles.holaWorldEditor}
+        className={styles.editorContainer}
         style={{ minHeight: `${minHeight}px` }}
       >
         {/* 파일 입력 (숨김) */}
@@ -154,7 +154,10 @@ const TipTapEditor = ({
         {/* 에디터 영역 */}
         <div
           onClick={() => editor?.commands.focus()}
-          style={{ cursor: "text", minHeight: `${minHeight - 40}px` }}
+          style={{
+            cursor: "text",
+            minHeight: `${minHeight - 40}px`,
+          }}
         >
           <EditorContent editor={editor} />
         </div>

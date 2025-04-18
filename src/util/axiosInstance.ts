@@ -18,7 +18,7 @@ axiosIntercepter.interceptors.request.use(
       config.headers["access-token"] = `${accessToken}`;
     }
 
-    console.log("🔄 인터셉터 요청 시작 - showLoading 호출"); // 추가
+    // console.log("🔄 인터셉터 요청 시작 - showLoading 호출"); // 추가
     showLoading();
     return config;
   },
@@ -31,7 +31,7 @@ axiosIntercepter.interceptors.request.use(
 // 응답 인터셉터
 axiosIntercepter.interceptors.response.use(
   (response) => {
-    console.log("✅ 인터셉터 응답 성공 - hideLoading 호출"); // 추가
+    // console.log("✅ 인터셉터 응답 성공 - hideLoading 호출"); // 추가
     hideLoading();
     return response;
   },

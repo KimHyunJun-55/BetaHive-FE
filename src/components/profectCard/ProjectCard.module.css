@@ -1,23 +1,33 @@
+/* ProjectCard.module.css */
+
 .projectCard {
   background: var(--card);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: var(--card);
+  box-shadow: var(--card-shadow);
   transition: transform 0.2s, box-shadow 0.2s;
   border: 1px solid var(--card-border);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-.projectCard a {
-  text-decoration: none; /* 밑줄 제거 */
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .projectCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: var(--card-hover-shadow);
 }
 
 .projectImage {
   position: relative;
-  height: 180px;
+  height: 160px;
   overflow: hidden;
 }
 
@@ -28,125 +38,135 @@
   transition: transform 0.3s;
 }
 
-/* .projectCard:hover .projectImage img {
-  transform: scale(1.05);
-} */
-
-.projectBadge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
 .projectContent {
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 20px;
+  flex-grow: 1;
 }
 
 .projectHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  gap: 12px;
 }
 
 .projectTitle {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
   color: var(--text);
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.badgeGroup {
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .projectCategory {
   background: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
 
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8rem;
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .projectDescription {
   color: var(--text);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.5;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .requirements {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .requirementBadge {
   background-color: var(--tag-bg);
   color: var(--tag-text);
-  padding: 4px 8px;
-  border-radius: 999px;
+  padding: 4px 10px;
+  border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 500;
 }
-
-/* 보상 정보 스타일 */
-.rewardInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-  color: var(--text);
-}
-
-.rewardIcon {
-  color: var(--text);
-}
-
-.rewardNote {
-  font-size: 0.8rem;
-  color: var(--text);
-}
-
-/* 푸터 스타일 */
 .projectFooter {
   margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--card-border);
   display: flex;
-  gap: 8px;
-  /* justify-content: space-between; */
-  align-items: center;
-  font-size: 0.9rem;
-  color: var(--text);
+  justify-content: space-between;
 }
 
-.dateInfo,
-.interestInfo {
+.metaInfo {
+  display: flex;
+  gap: 16px;
+}
+
+.metaItem {
   position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
-}
-.interestInfo:hover .tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-2rem);
-}
-.dateIcon {
-  color: var(--icon-color);
-}
-.commentInfo {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text);
 }
 
-.commentIcon {
-  color: var(--icon-color);
+.metaItem:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-120%);
+}
+.metaIcon {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* 다크모드 변수 */
+:root {
+  --card-bg: #ffffff;
+  --card-border: #e0e0e0;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --primary-text: #333333;
+  --secondary-text: #666666;
+  --tag-bg: #f0f4ff;
+  --tag-text: #4a6bff;
+  --icon-color: #888888;
+}
+
+[data-theme="dark"] {
+  --card-bg: #2d2d2d;
+  --card-border: #444444;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  --primary-text: #f0f0f0;
+  --secondary-text: #aaaaaa;
+  --tag-bg: #3a3a5a;
+  --tag-text: #8a9bff;
+  --icon-color: #bbbbbb;
 }
 .tooltip {
   position: absolute;
@@ -176,32 +196,36 @@
   border-style: solid;
   border-color: transparent transparent var(--bg) transparent;
 }
-
-/* 다크모드 변수 */
-:root {
-  --card-bg: #ffffff;
-  --card-border: #e0e0e0;
-  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  --primary-text: #333333;
-  --secondary-text: #666666;
-  --tag-bg: #f0f4ff;
-  --tag-text: #4a6bff;
-  --reward-color: #ff6b81;
-  --icon-color: #888888;
-  --accent-color: #4a6bff;
+/* 상태 뱃지 공통 스타일 */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  gap: 4px;
 }
 
-[data-theme="dark"] {
-  --card-bg: #2d2d2d;
-  --card-border: #444444;
-  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-  --primary-text: #f0f0f0;
-  --secondary-text: #aaaaaa;
-  --tag-bg: #3a3a5a;
-  --tag-text: #8a9bff;
-  --reward-color: #ff8d9e;
-  --icon-color: #bbbbbb;
-  --accent-color: #6d8bff;
+/* 진행 중 상태 스타일 */
+.statusBadge.inProgress {
+  background-color: #e1f5fe;
+  color: #0288d1;
+}
+
+/* 완료 상태 스타일 */
+.statusBadge.completed {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+/* 수정 중 상태 스타일 */
+.statusBadge.modifying {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+/* 아이콘 스타일 */
+.statusIcon {
+  font-size: 12px;
 }

@@ -6,9 +6,10 @@ import ProjectCard from "../components/profectCard/ProjectCard";
 import { Project } from "../types";
 import styles from "./Home.module.css";
 import { FilterType } from "../type/types";
+import { useLocation } from "react-router-dom";
 
 const Home: React.FC = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  // const [sidebarVisible, setSidebarVisible] = useState(false);
   const navigate = useNavigate();
 
   const [projectList, setProjectList] = useState<Project[]>([]);
@@ -16,7 +17,9 @@ const Home: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [sortOption, setSortOption] = useState("popular");
   const [activeFilter, setActiveFilter] = useState<FilterType>(FilterType.ALL);
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const keyword = queryParams.get("keyword") ?? "";
   const pageSize = 10;
   const visiblePages = 5;
   const start = Math.max(0, page - Math.floor(visiblePages / 2));
@@ -60,6 +63,7 @@ const Home: React.FC = () => {
       const response = await getAllProject(page, pageSize, {
         ...sortParams,
         ...filterParams,
+        ...(keyword && { keyword }), // keyword가 있을 때만 추가
       });
 
       setProjectList(response.content);
@@ -71,7 +75,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     fetchProjects(page);
-  }, [page, sortOption, activeFilter]);
+  }, [page, sortOption, activeFilter, keyword]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -99,19 +103,19 @@ const Home: React.FC = () => {
           <div className={styles.heroBetaPlatform}>
             <div className={styles.heroBetaContent}>
               <h1>
-                <span className={styles.heroBetaHighlight}>런칭 전 서비스</span>
+                <span className={styles.heroBetaHighlight}>새로운 서비스</span>
                 를<br />
-                무료로 체험해보고{" "}
-                <span className={styles.heroBetaHighlight}>피드백</span>을
-                남겨주세요
+                누구보다 먼저 만나보고{" "}
+                <span className={styles.heroBetaHighlight}>소중한 의견</span>을
+                들려주세요
               </h1>
               <p className={styles.heroBetaSubtitle}>
-                취준생/개발자의 프로젝트가 성장할 수 있도록 도와주는{" "}
-                <strong>베타 테스터 커뮤니티</strong>입니다.
+                여전히 발전 중인 서비스들이지만, 바로 지금 참여해 의견을
+                나눠주세요.
                 <br />
-                불완전할 수 있는 서비스를 먼저 경험하고, 보상이 있다면
-                받아가세요!
+                여러분의 피드백이 서비스를 더욱 빛나게 할 거예요!
               </p>
+
               <div className={styles.heroBetaButtons}>
                 <button onClick={handleNewProject}>프로젝트 등록하기</button>
                 <Link to="/guide">테스터 가이드 →</Link>
@@ -138,7 +142,7 @@ const Home: React.FC = () => {
             onFilterChange={handleFilterChange}
           />
 
-          <div className={styles.projectGridHeader}>
+          {/* <div className={styles.projectGridHeader}>
             <h2 className={styles.gridTitle}>추천 프로젝트</h2>
             <div className={styles.gridSort}>
               <span className={styles.sortLabel}>정렬:</span>
@@ -153,13 +157,21 @@ const Home: React.FC = () => {
                 <option value="reward">보상높은순</option>
               </select>
             </div>
-          </div>
-
-          <div className={styles.projectGrid}>
-            {projectList.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
+          </div> */}
+          {projectList.length === 0 ? (
+            <div className={styles.projectFlex}>
+              <div className={styles.noResult}>
+                <h3>🔍 검색 결과가 없습니다</h3>
+                <p>다른 키워드나 필터를 시도해보세요.</p>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.projectGrid}>
+              {projectList.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          )}
 
           <div className={styles.pagination}>
             {page > 2 && (

@@ -1,5 +1,11 @@
 import React from "react";
-import { FaRegComment, FaRegEye } from "react-icons/fa";
+import {
+  FaCheck,
+  FaEdit,
+  FaPlay,
+  FaRegComment,
+  FaRegEye,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Project } from "../../types";
 import styles from "./ProjectCard.module.css";
@@ -12,61 +18,81 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const createdDate = new Date(project.createdAt);
   const now = new Date();
   const timeDiff = now.getTime() - createdDate.getTime();
-  const dayDiff = timeDiff / (1000 * 60 * 60 * 24); // 밀리초 → 일로 변환
-  // 상태 표시 로직 간소화
-  const getStatusInfo = () => {
-    if (project.daysLeft <= 3) {
-      return { text: "마감임박", color: "#ff6b81" };
-    }
+  const dayDiff = timeDiff / (1000 * 60 * 60 * 24);
 
-    if (dayDiff <= 6) {
+  const getStatusInfo = () => {
+    if (dayDiff <= 2) {
       return { text: "신규", color: "#2ed573" };
     }
     return null;
   };
-
+  const STATUS_OPTIONS = [
+    {
+      value: "IN_PROGRESS",
+      label: "테스트진행 중",
+      icon: <FaPlay className={styles.statusIcon} />,
+      badgeClass: styles.inProgress, // 추가
+    },
+    {
+      value: "COMPLETED",
+      label: "테스트종료",
+      icon: <FaCheck className={styles.statusIcon} />,
+      badgeClass: styles.completed, // 추가
+    },
+    {
+      value: "MODIFYING",
+      label: "수정 중",
+      icon: <FaEdit className={styles.statusIcon} />,
+      badgeClass: styles.modifying, // 추가
+    },
+  ];
   const statusInfo = getStatusInfo();
-  console.log(project);
 
   return (
     <div className={styles.projectCard}>
-      {/* <div className={styles.projectImage}>
-        <Link to={`/projects/detail/${project.id}`}>
+      <Link to={`/projects/detail/${project.id}`} className={styles.cardLink}>
+        {/* 이미지 섹션 (주석 해제 필요시 사용) */}
+        {/* <div className={styles.projectImage}>
           <img
             src={project.thumbnailUrl || "/default-project-thumbnail.jpg"}
             alt={project.name}
             onError={(e) => {
-              (e.target as HTMLImageElement).src =
-                "/default-project-thumbnail.jpg";
+              (e.target as HTMLImageElement).src = "/default-project-thumbnail.jpg";
             }}
           />
-          
-        </Link>
-      </div> */}
+        </div> */}
 
-      <Link to={`/projects/detail/${project.id}`}>
         <div className={styles.projectContent}>
+          {/* 헤더 섹션 - 제목과 뱃지들 */}
           <div className={styles.projectHeader}>
             <h3 className={styles.projectTitle}>{project.name}</h3>
-            <span className={styles.projectCategory}>{project.category}</span>
-            {/* <span>{statusInfo}</span> */}
-            {/* {statusInfo && (
-              <span
-                className={styles.projectBadge}
-                style={{ backgroundColor: statusInfo.color }}
-              >
-                {statusInfo.text}
-              </span>
-            )} */}
+            <div className={styles.badgeGroup}>
+              <span className={styles.projectCategory}>{project.category}</span>
+              {statusInfo && (
+                <span
+                  className={styles.statusBadge}
+                  style={{ backgroundColor: statusInfo.color }}
+                >
+                  {statusInfo.text}
+                </span>
+              )}
+            </div>
           </div>
 
-          <p className={styles.projectDescription} title={project.description}>
-            {project.description.length > 80
-              ? `${project.description.substring(0, 80)}...`
-              : project.description}
-          </p>
+          {/* 프로젝트 설명 */}
+          {/* 프로젝트 설명 */}
+          <p
+            className={styles.projectDescription}
+            title={project.description}
+            dangerouslySetInnerHTML={{
+              __html:
+                project.description.length > 80
+                  ? `${project.description.substring(0, 80)}...`
+                  : project.description,
+            }}
+          />
 
-          {/* 요구사항 표시 */}
+          {/* 요구사항 태그들 */}
           {project.requirements?.length > 0 && (
             <div className={styles.requirements}>
               {project.requirements.slice(0, 3).map((req, index) => (
@@ -82,30 +108,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </div>
           )}
 
-          {/* 보상 정보 (있을 경우만 표시) */}
-          {/* {project.baseReward && (
-          <div className={styles.rewardInfo}>
-            <FaRegBell className={styles.rewardIcon} />
-            <span>보상: {project.baseReward}</span>
-            <span className={styles.rewardNote}>(프로젝트별 상이)</span>
-          </div>
-        )} */}
-
-          {/* 진행 상태 및 기간 */}
+          {/* 푸터 - 조회수, 댓글수 */}
           <div className={styles.projectFooter}>
-            <div className={styles.interestInfo}>
-              <FaRegEye className={styles.eyeIcon} />
-              <span>{project.viewCount}</span>
-              <span className={styles.tooltip}>조회수</span>
-            </div>
-
-            <div className={styles.commentInfo}>
-              <div className={styles.interestInfo}>
-                <FaRegComment className={styles.commentIcon} />
+            <div className={styles.metaInfo}>
+              <div className={styles.metaItem}>
+                <FaRegEye className={styles.metaIcon} />
+                <span>{project.viewCount}</span>
+                <span className={styles.tooltip}>조회수</span>
+              </div>
+              <div className={styles.metaItem}>
+                <FaRegComment className={styles.metaIcon} />
                 <span>{project.commentCount || 0}</span>
                 <span className={styles.tooltip}>댓글수</span>
               </div>
             </div>
+            <span
+              className={`${styles.statusBadge} ${
+                STATUS_OPTIONS.find((s) => s.value === project.status)
+                  ?.badgeClass || ""
+              }`}
+            >
+              {STATUS_OPTIONS.find((s) => s.value === project.status)?.icon}
+              {STATUS_OPTIONS.find((s) => s.value === project.status)?.label ??
+                project.status}
+            </span>
           </div>
         </div>
       </Link>

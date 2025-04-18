@@ -123,8 +123,10 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
               </ul>
             )}
           </div>
-          <div className={styles.formGroup}>
-            <label>우수 테스터 평가 기준</label>
+          <div className={styles.rewardTier}>
+            <div className={styles.rewardTierHeader}>
+              <h3 className={styles.rewardTierTitle}>우수 테스터 선별 기준</h3>
+            </div>
             <input
               type="text"
               value={criteria}

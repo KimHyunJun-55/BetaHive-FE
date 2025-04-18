@@ -9,6 +9,8 @@ import ProjectDetailPage from "./pages/projectDetail/ProjectDetailPage";
 import TesterGuide from "./pages/guide/TesterGuide";
 import Footer from "./components/footer/Footer";
 import MyPage from "./pages/mypage/MyPage";
+import PrivacyPage from "./pages/Privacy";
+import TermsPage from "./pages/Terms";
 
 const RouterComponent: React.FC = () => {
   return (
@@ -35,6 +37,8 @@ const RouterComponent: React.FC = () => {
             <Route path="*" element={<NotFound />} />
             <Route path="/guide" element={<TesterGuide />} />
             <Route path="/my" element={<MyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
           </Routes>
         </div>
       </div>

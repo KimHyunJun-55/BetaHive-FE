@@ -24,6 +24,7 @@ const initialFormState: ProjectFormState = {
     newRequirement: "",
     instructions: "",
     contact: "",
+    contactType: "",
   },
   media: {
     thumbnail: "",
@@ -67,6 +68,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
       newRequirement: "",
       instructions: data.instructions,
       contact: data.contact,
+      contactType: data.contactType,
     },
     media: {
       thumbnail: data.thumbnailUrl,
@@ -241,8 +243,8 @@ export const useProjectForm = (projectId?: string | undefined) => {
     if (!formState.basicInfo.name.trim())
       errors.push("프로젝트 이름을 입력해주세요");
     if (!formState.basicInfo.category) errors.push("카테고리를 선택해주세요");
-    if (!formState.media.thumbnail)
-      errors.push("썸네일 이미지를 업로드해주세요");
+    // if (!formState.media.thumbnail)
+    //   errors.push("썸네일 이미지를 업로드해주세요");
     if (formState.rewards.hasReward && !formState.rewards.baseReward.trim()) {
       errors.push("기본 참여 보상을 입력해주세요");
     }
@@ -262,7 +264,6 @@ export const useProjectForm = (projectId?: string | undefined) => {
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      console.log("폼 제출 시작");
 
       const validationErrors = validateForm();
       if (validationErrors.length > 0) {
@@ -274,7 +275,6 @@ export const useProjectForm = (projectId?: string | undefined) => {
 
       try {
         const projectData = flattenFormData(formState);
-        console.log("최종 전송 데이터:", JSON.stringify(projectData, null, 2));
 
         let resultProjectId;
 

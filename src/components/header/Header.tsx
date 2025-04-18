@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import LoginModal from "../auth/LoginModal";
 import styles from "./Header.module.css";
 import { useTheme } from "../../context/ThemeContext";
+import { getAllProject } from "../../api/project";
 <Link to="/" className={styles.logo}>
   <GiHoneycomb className={styles.logoIcon} />
   <span>
@@ -21,8 +22,7 @@ const Header: React.FC = () => {
 
   // 더미 데이터 대신 context에서 가져온 userName 사용
   const userInitial = userName ? userName.charAt(0).toUpperCase() : "U";
-  const notificationCount = 3; // 실제로는 API에서 가져오거나 context에 추가
-
+  // const notificationCount = 3; // 실제로는 API에서 가져오거나 context에 추가
   const handleLogin = () => {
     setShowLoginModal(true);
   };
@@ -39,6 +39,20 @@ const Header: React.FC = () => {
   ) => {
     login(name, token, refreshToken); // AuthContext의 login 함수 사용
     setShowLoginModal(false);
+  };
+
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
+
+  const handleSearch = () => {
+    if (searchKeyword.trim()) {
+      navigate(`/?keyword=${encodeURIComponent(searchKeyword.trim())}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -71,9 +85,18 @@ const Header: React.FC = () => {
       </nav> */}
 
       <div className={styles.headerRight}>
-        <div className={styles.searchBar}>
-          <FaSearch className={styles.searchIcon} />
-          <input type="text" placeholder="프로젝트 검색..." />
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder="어떤 프로젝트를 찾고 계신가요?"
+            className={styles.searchInput}
+            onKeyDown={handleKeyDown}
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+          <button className={styles.searchButton} onClick={handleSearch}>
+            <FaSearch />
+          </button>
         </div>
 
         <div className={styles.userActions}>
@@ -87,11 +110,11 @@ const Header: React.FC = () => {
               </button>
               <Link to="/my" className={styles.userAvatar}>
                 <span>{userInitial}</span>
-                {notificationCount > 0 && (
+                {/* {notificationCount > 0 && (
                   <span className={styles.notificationBadge}>
                     {notificationCount}
                   </span>
-                )}
+                )} */}
               </Link>
             </>
           ) : (

@@ -16,6 +16,7 @@ export interface Project {
   status: FilterType;
   createdAt: string;
   viewCount: number;
+  commentCount: number;
 }
 
 export interface Theme {

@@ -59,7 +59,7 @@ const MediaSection: React.FC<MediaSectionProps> = ({
               />
               <p className={styles.uploadText}>
                 가로형 이미지 권장 (16:9)
-                <br />앱 아이콘 형태의 경우 정사각형 이미지 권장 (1:1)
+                <br />앱 아이콘 형태의 정사각형 이미지 권장 (1:1)
               </p>
             </>
           )}
@@ -85,7 +85,6 @@ const MediaSection: React.FC<MediaSectionProps> = ({
               type="button"
               className={styles.mediaAddButton}
               onClick={() => {
-                console.log("추가 버튼 클릭"); // 디버깅용
                 onAddMedia();
               }}
               disabled={mediaFiles.length >= MAX_MEDIA_FILES}
@@ -116,22 +115,25 @@ const MediaSection: React.FC<MediaSectionProps> = ({
                         alt={`미디어 ${index + 1}`}
                         className={styles.mediaImage}
                       />
-                      {/* 삭제 버튼 위치 변경 (기존 위치 유지) */}
-                      <button
-                        type="button"
+                      <div
+                        // type="button"
                         className={styles.mediaRemoveButton}
                         onClick={() => onDeleteMedia(index)}
                       >
                         <FontAwesomeIcon icon={faTrashAlt} size="sm" />
-                      </button>
+                        <span className={styles.tooltip}>이미지삭제</span>
+                      </div>
                     </div>
                   ) : (
                     <label
                       htmlFor={`media-upload-${index}`}
                       className={styles.mediaUploadLabel}
                     >
-                      <FontAwesomeIcon icon={faPlusCircle} />
-                      <span>이미지 선택</span>
+                      <FontAwesomeIcon
+                        icon={faCloudUploadAlt}
+                        className={styles.uploadIcon}
+                      />
+                      <p className={styles.uploadText}>이미지를 업로드하세요</p>
                     </label>
                   )}
                 </div>

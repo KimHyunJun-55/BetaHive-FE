@@ -16,10 +16,9 @@ export const uploadFile = async (file: File): Promise<string> => {
       const percentCompleted = Math.round(
         (progressEvent.loaded * 100) / (progressEvent.total || 1)
       );
-      console.log(`파일 업로드 진행률: ${percentCompleted}%`);
+      // console.log(`파일 업로드 진행률: ${percentCompleted}%`);
     },
   });
-  console.log(response.data);
 
   return response.data; // 서버에서 반환된 파일 URL
 };
@@ -91,6 +90,13 @@ export const getAllProject = async (
 //내가등록한 프로젝트 조회
 export const getMyProjects = async (page: number, size: number = 8) => {
   const response = await axiosIntercepter.get("/project/my-project", {
+    params: { page, size },
+  });
+  return response.data.data;
+};
+
+export const getBookmarkedProjects = async (page: number, size: number = 8) => {
+  const response = await axiosIntercepter.get("/project/bookmarked", {
     params: { page, size },
   });
   return response.data.data;

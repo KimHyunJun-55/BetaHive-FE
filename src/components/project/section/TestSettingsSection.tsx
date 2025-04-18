@@ -1,14 +1,13 @@
-// TestSettingsSection.tsx
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCog,
   faPlusCircle,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
-import { TEST_DURATIONS, TEST_TYPES } from "../../../type/contants";
 import TipTapEditor from "../../tipTapEditor/TipTapEditor";
+import { TEST_TYPES } from "../../../type/contants";
 
 interface TestSettingsSectionProps {
   testersCount: number;
@@ -16,12 +15,14 @@ interface TestSettingsSectionProps {
   testDuration: string;
   requirements: string[];
   newRequirement: string;
-  instructions: string; // 추가
+  instructions: string;
   contact: string;
+  contactType: string;
   onInstructionsChange: (value: string) => void;
   onContactChange: (value: string) => void;
   onTestersCountChange: (count: number) => void;
   onTestTypeChange: (type: string) => void;
+  onContectTypeChange: (type: string) => void;
   onTestDurationChange: (duration: string) => void;
   onAddRequirement: () => void;
   onRemoveRequirement: (index: number) => void;
@@ -36,6 +37,7 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
   newRequirement,
   instructions,
   contact,
+  contactType,
   onContactChange,
   onInstructionsChange,
   onTestersCountChange,
@@ -44,12 +46,14 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
   onAddRequirement,
   onRemoveRequirement,
   onNewRequirementChange,
+  onContectTypeChange,
 }) => {
   return (
     <div className={styles.formSection}>
       <h2>
         <FontAwesomeIcon icon={faCog} /> 테스트 설정
       </h2>
+
       <div className={styles.mediaGrid}>
         <div className={styles.formGroup}>
           <label htmlFor="test-type">테스트 유형 *</label>
@@ -67,54 +71,66 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
             ))}
           </select>
         </div>
+
         <TipTapEditor
           label="참여 방법"
           value={instructions}
           onChange={onInstructionsChange}
-          // required
           minHeight={250}
         />
 
+        {/* 연락처 타입 + 입력 필드 */}
         <div className={styles.formGroup}>
-          <label htmlFor="test-duration">테스트 기간 *</label>
-          <select
-            id="test-duration"
-            className={styles.formControl}
-            value={testDuration}
-            onChange={(e) => onTestDurationChange(e.target.value)}
-            required
-          >
-            {TEST_DURATIONS.map((duration) => (
-              <option key={duration.value} value={duration.value}>
-                {duration.label}
-              </option>
-            ))}
-          </select>
+          <label htmlFor="contact-info">테스터 문의처 *</label>
+          <div className={styles.contactRow}>
+            <select
+              id="contact-type"
+              className={styles.formControl}
+              value={contactType}
+              onChange={(e) => onContectTypeChange(e.target.value)}
+              required
+              style={{ width: "fit-content", padding: "4px 24px" }}
+            >
+              <option value="email">이메일</option>
+              <option value="phone">전화번호</option>
+              <option value="googleForm">구글 폼</option>
+              <option value="kakaoLink">오픈 카카오톡 링크</option>
+              <option value="etc">기타</option>
+            </select>
+
+            <input
+              id="contact-info"
+              type={
+                contactType === "email"
+                  ? "email"
+                  : contactType === "phone"
+                  ? "tel"
+                  : contactType === "etc"
+                  ? "text"
+                  : "url"
+              }
+              value={contact}
+              onChange={(e) => onContactChange(e.target.value)}
+              className={styles.testerRequirementInput}
+              placeholder={
+                contactType === "email"
+                  ? "이메일을 입력해주세요."
+                  : contactType === "phone"
+                  ? "전화번호를 입력해주세요."
+                  : contactType === "googleForm"
+                  ? "구글 폼 링크를 입력해주세요."
+                  : contactType === "kakaoLink"
+                  ? "카카오톡 링크를 입력해주세요."
+                  : "연락처 정보를 입력해주세요." // etc인 경우
+              }
+              required
+            />
+          </div>
         </div>
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="testers-count" className={styles.testersCountLabel}>
-          필요 테스터 수 *: {testersCount}명
-        </label>
-        <input
-          type="range"
-          id="testers-count"
-          min="10"
-          max="500"
-          value={testersCount}
-          onChange={(e) => onTestersCountChange(parseInt(e.target.value))}
-          className={styles.testersCountRange}
-          required
-        />
-        <div className={styles.testersCountInfo}>
-          <span>10명</span>
-          <span>500명</span>
-        </div>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label>테스터 요구사항</label>
+        <label>테스터 요구사항 - 엔터키로 추가</label>
         <div className={styles.requirementsContainer}>
           <div className={styles.requirementInputContainer}>
             <input
@@ -125,18 +141,18 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
               onChange={(e) => onNewRequirementChange(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault(); // ★ 폼 제출 막기
-                  onAddRequirement(); // 원래 동작
+                  e.preventDefault();
+                  onAddRequirement();
                 }
               }}
             />
-            <button
+            {/* <button
               type="button"
               className={styles.addRequirementButton}
               onClick={onAddRequirement}
             >
               <FontAwesomeIcon icon={faPlusCircle} />
-            </button>
+            </button> */}
           </div>
           <div className={styles.requirementsTags}>
             {requirements.map((req, index) => (
@@ -150,23 +166,6 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
             ))}
           </div>
         </div>
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="contact-info">테스터 문의처 *</label>
-        <input
-          type="text"
-          id="contact-info"
-          value={contact}
-          onChange={(e) => onContactChange(e.target.value)}
-          className={styles.formControl}
-          placeholder="구글폼, 카카오톡링크 등.. 문의를 받을곳을 입력해주세요."
-          required
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
-        />
       </div>
     </div>
   );

@@ -51,6 +51,7 @@ export interface ProjectFormState {
     newRequirement: string;
     instructions: string;
     contact: string;
+    contactType: string;
   };
   media: {
     thumbnail: string;

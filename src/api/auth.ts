@@ -5,19 +5,15 @@ import axiosIntercepter from "../util/axiosInstance";
 export const signIn = async (loginData: LoginData) => {
   const response = await axiosIntercepter.post(`/member/sign-in`, loginData);
 
-  console.log(response);
-
   const accessToken = response.headers["access-token"];
   const refreshToken = response.headers["refresh-token"];
   // 로컬스토리지에 토큰 저장
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
 
-  console.log(accessToken);
-  console.log(refreshToken);
-
   return {
     nickname: response.data.data.nickname,
+    id: response.data.data.id,
     accessToken,
     refreshToken,
   };

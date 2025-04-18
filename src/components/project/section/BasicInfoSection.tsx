@@ -35,6 +35,11 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
       mobile: ["MOBILE", "WEB_MOBILE"].includes(formState.category),
     });
   }, [formState.category]);
+  // 데이터를 받아올 때 replace로 태그 제거
+  const convertBrToNewline = (text: string): string => {
+    return text.replace(/<br\s*\/?>/gi, "\n");
+  };
+  const displayDescription = convertBrToNewline(formState.description);
 
   return (
     <div className={styles.formSection}>
@@ -136,7 +141,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({
         <textarea
           id="project-description"
           className={`${styles.formControl} ${styles.textareaControl}`}
-          value={formState.description}
+          value={displayDescription}
           onChange={(e) => onFieldChange("description", e.target.value)}
           placeholder="프로젝트를 설명해주세요 (최대 200자)"
           maxLength={200}
