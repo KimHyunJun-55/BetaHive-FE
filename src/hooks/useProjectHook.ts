@@ -43,8 +43,7 @@ const initialFormState: ProjectFormState = {
 export const useProjectForm = (projectId?: string | undefined) => {
   const numericProjectId = projectId ? Number(projectId) : undefined;
 
-  const [formState, setFormState] =
-    useState<ProjectFormState>(initialFormState);
+  const [formState, setFormState] = useState<any>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const navigate = useNavigate();
@@ -88,7 +87,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   // 폼 필드 업데이트 함수들
   const updateField = useCallback(
     (section: keyof ProjectFormState, field: string, value: any) => {
-      setFormState((prev) => ({
+      setFormState((prev: any) => ({
         ...prev,
         [section]: {
           ...prev[section],
@@ -102,7 +101,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   const handleThumbnailUpload = useCallback(async (file: File) => {
     try {
       const uploadedUrl = await uploadFile(file);
-      setFormState((prev) => ({
+      setFormState((prev: any) => ({
         ...prev,
         media: {
           ...prev.media,
@@ -116,7 +115,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
 
   // useProjectForm.ts
   const handleAddMedia = useCallback(() => {
-    setFormState((prev) => {
+    setFormState((prev: any) => {
       // console.log("현재 mediaFiles 상태:", prev.media.mediaFiles);
       if (prev.media.mediaFiles.length >= MAX_MEDIA_FILES) return prev;
       const updated = {
@@ -137,7 +136,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   const handleMediaUpload = useCallback(async (index: number, file: File) => {
     try {
       const uploadedUrl = await uploadFile(file);
-      setFormState((prev) => {
+      setFormState((prev: any) => {
         const newMediaFiles = [...prev.media.mediaFiles];
         newMediaFiles[index] = {
           ...newMediaFiles[index],
@@ -157,7 +156,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   }, []);
 
   const handleDeleteMedia = useCallback((index: number) => {
-    setFormState((prev) => {
+    setFormState((prev: any) => {
       const newMediaFiles = [...prev.media.mediaFiles];
       newMediaFiles.splice(index, 1);
       return {
@@ -176,7 +175,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
       newRequirement.trim() &&
       !requirements.includes(newRequirement.trim())
     ) {
-      setFormState((prev) => ({
+      setFormState((prev: any) => ({
         ...prev,
         testSettings: {
           ...prev.testSettings,
@@ -191,7 +190,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   }, [formState.testSettings]);
 
   const handleRemoveRequirement = useCallback((index: number) => {
-    setFormState((prev) => {
+    setFormState((prev: any) => {
       const newRequirements = [...prev.testSettings.requirements];
       newRequirements.splice(index, 1);
       return {
@@ -206,7 +205,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
 
   const handleAddBonusReward = useCallback(() => {
     if (formState.rewards.newBonusReward.trim()) {
-      setFormState((prev) => ({
+      setFormState((prev: any) => ({
         ...prev,
         rewards: {
           ...prev.rewards,
@@ -221,7 +220,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   }, [formState.rewards.newBonusReward]);
 
   const handleRemoveBonusReward = useCallback((index: number) => {
-    setFormState((prev) => {
+    setFormState((prev: any) => {
       const newBonusRewards = [...prev.rewards.bonusRewards];
       newBonusRewards.splice(index, 1);
       return {

@@ -232,14 +232,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
           <div className={styles.socialButtons}>
             <button
               className={`${styles.socialButton} ${styles.kakao}`}
-              onClick={() => handleSocialLogin("kakao")}
+              // onClick={() => handleSocialLogin("kakao")}
             >
               <FaComment /> 카카오로 시작하기
             </button>
 
             <button
               className={`${styles.socialButton} ${styles.google}`}
-              onClick={() => handleSocialLogin("google")}
+              // onClick={() => handleSocialLogin("google")}
             >
               <FaGoogle /> Google로 시작하기
             </button>

@@ -21,6 +21,7 @@ interface MediaSectionProps {
   onAddMedia: () => void;
   onDeleteMedia: (index: number) => void;
   onMediaDescriptionChange: (index: number, description: string) => void;
+  uploadProgress: number;
 }
 
 const MediaSection: React.FC<MediaSectionProps> = ({

@@ -3,7 +3,7 @@ import { ProjectSubmitData } from "../type/types";
 import axiosIntercepter from "../util/axiosInstance";
 
 // 프로젝트 생성 API
-export const createProject = async (projectData: ProjectSubmitData) => {
+export const createProject = async (projectData: any) => {
   try {
     const response = await axiosIntercepter.post("/project", projectData, {
       headers: {
@@ -17,10 +17,7 @@ export const createProject = async (projectData: ProjectSubmitData) => {
   }
 };
 // 프로젝트 생성 API
-export const updateProject = async (
-  projectId: number,
-  projectData: ProjectSubmitData
-) => {
+export const updateProject = async (projectId: number, projectData: any) => {
   try {
     const response = await axiosIntercepter.put(
       `/project/${projectId}`,
