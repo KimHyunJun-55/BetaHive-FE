@@ -1,29 +1,28 @@
 import React from "react";
-import styles from "./Sidebar.module.css";
-import { MenuItem } from "../../types";
 import {
-  FaThLarge,
-  FaMobileAlt,
-  FaGlobe,
-  FaGamepad,
-  FaRobot,
-  FaGift,
-  FaBolt,
-  FaUsers,
-  FaHourglassEnd,
-  FaTasks,
-  FaComment,
   FaAward,
-  FaStar,
-  FaPlusCircle,
+  FaBolt,
   FaChartPie,
+  FaComment,
+  FaGamepad,
+  FaGift,
+  FaGlobe,
+  FaHourglassEnd,
+  FaMobileAlt,
+  FaPlusCircle,
+  FaRobot,
+  FaStar,
+  FaTasks,
+  FaThLarge,
   FaUserFriends,
+  FaUsers,
 } from "react-icons/fa";
-import { useTheme } from "../../context/ThemeContext";
+import { MenuItem } from "../../types";
+import styles from "./Sidebar.module.css";
 
 const Sidebar: React.FC = () => {
   // Context에서 테마 정보 가져오기
-  const { currentTheme, changeTheme } = useTheme();
+  // const { currentTheme, changeTheme } = useTheme();
   const categories: MenuItem[] = [
     { icon: <FaThLarge />, label: "전체 프로젝트", active: true },
     { icon: <FaMobileAlt />, label: "모바일 앱" },

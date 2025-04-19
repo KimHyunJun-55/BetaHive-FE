@@ -1,18 +1,14 @@
-import {
-  faCheck,
-  faQuestionCircle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { fetchProjectDetails } from "../../api/project";
 import BasicInfoSection from "../../components/project/section/BasicInfoSection";
 import MediaSection from "../../components/project/section/MediaSection";
 import RewardsSection from "../../components/project/section/RewardsSection";
 import TestSettingsSection from "../../components/project/section/TestSettingsSection";
 import { useProjectForm } from "../../hooks/useProjectHook";
 import styles from "./ProjectCreate.module.css";
-import { fetchProjectDetails } from "../../api/project";
 const CreateProject: React.FC = () => {
   const { projectId } = useParams();
   const {

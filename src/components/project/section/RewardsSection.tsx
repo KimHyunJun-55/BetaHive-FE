@@ -1,9 +1,9 @@
 // RewardsSection.tsx
-import React from "react";
-import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
+import { faGift, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGift, faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 import { toast } from "react-toastify";
+import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
 
 interface RewardsSectionProps {
   hasReward: boolean;

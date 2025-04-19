@@ -86,10 +86,10 @@ const Home: React.FC = () => {
     navigate("/projects/create");
   };
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.target.value);
-    setPage(0);
-  };
+  // const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSortOption(e.target.value);
+  //   setPage(0);
+  // };
 
   const handleFilterChange = (filter: FilterType) => {
     setActiveFilter(filter);

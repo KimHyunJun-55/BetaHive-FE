@@ -3,7 +3,6 @@ import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
 
 import {
   faCloudUploadAlt,
-  faExchangeAlt,
   faImages,
   faPlus,
   faTrashAlt,

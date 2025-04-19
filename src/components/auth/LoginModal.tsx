@@ -16,7 +16,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const [nickname, setNickname] = useState(""); // 추가: 회원가입용 이름 필드
   const [isLoginView, setIsLoginView] = useState(true);
   const { login } = useAuth();
-  const [error, setError] = useState("");
   const [isNicknameAvailable, setIsNicknameAvailable] = useState<
     boolean | null
   >(null);
@@ -51,14 +50,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
       toast.success(`${nickname}님 안녕하세요`);
       onClose();
     } catch (err) {
-      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
-      toast.error;
+      toast.error("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
   };
 
-  const handleSocialLogin = (provider: "google" | "kakao") => {
-    // 소셜 로그인 처리 로직
-  };
+  // const handleSocialLogin = (provider: "google" | "kakao") => {
+  //   // 소셜 로그인 처리 로직
+  // };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();

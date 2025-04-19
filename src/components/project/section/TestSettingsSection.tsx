@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import { faCog, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCog,
-  faPlusCircle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
-import TipTapEditor from "../../tipTapEditor/TipTapEditor";
 import { TEST_TYPES } from "../../../type/contants";
+import TipTapEditor from "../../tipTapEditor/TipTapEditor";
 
 interface TestSettingsSectionProps {
   testersCount: number;
@@ -30,9 +26,9 @@ interface TestSettingsSectionProps {
 }
 
 const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
-  testersCount,
+  // testersCount,
   testType,
-  testDuration,
+  // testDuration,
   requirements,
   newRequirement,
   instructions,
@@ -40,9 +36,9 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
   contactType,
   onContactChange,
   onInstructionsChange,
-  onTestersCountChange,
+  // onTestersCountChange,
   onTestTypeChange,
-  onTestDurationChange,
+  // onTestDurationChange,
   onAddRequirement,
   onRemoveRequirement,
   onNewRequirementChange,

@@ -1,6 +1,5 @@
-import React from "react";
-import styles from "./TesterGuide.module.css";
 import { FaClipboard, FaLock, FaQuestion } from "react-icons/fa";
+import styles from "./TesterGuide.module.css";
 
 const TesterGuide = () => {
   return (

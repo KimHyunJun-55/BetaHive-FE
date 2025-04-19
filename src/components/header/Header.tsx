@@ -3,10 +3,9 @@ import { FaSearch, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { GiHoneycomb } from "react-icons/gi"; // 벌집 전체 느낌
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 import LoginModal from "../auth/LoginModal";
 import styles from "./Header.module.css";
-import { useTheme } from "../../context/ThemeContext";
-import { getAllProject } from "../../api/project";
 <Link to="/" className={styles.logo}>
   <GiHoneycomb className={styles.logoIcon} />
   <span>
@@ -32,15 +31,15 @@ const Header: React.FC = () => {
     navigate("/");
   };
 
-  const handleLoginSuccess = (
-    name: string,
-    token: string,
-    refreshToken: string,
-    id: number
-  ) => {
-    login(name, token, refreshToken, id); // AuthContext의 login 함수 사용
-    setShowLoginModal(false);
-  };
+  // const handleLoginSuccess = (
+  //   name: string,
+  //   token: string,
+  //   refreshToken: string,
+  //   id: number
+  // ) => {
+  //   login(name, token, refreshToken, id); // AuthContext의 login 함수 사용
+  //   setShowLoginModal(false);
+  // };
 
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
 

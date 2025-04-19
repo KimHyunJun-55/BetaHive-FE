@@ -62,6 +62,7 @@ export interface ProjectFormState {
     baseReward: string;
     bonusRewards: string[];
     criteria: string;
+    newBonusReward: string;
   };
 }
 

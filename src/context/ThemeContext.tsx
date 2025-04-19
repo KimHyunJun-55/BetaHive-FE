@@ -4,7 +4,7 @@ import { themes } from "../theme";
 
 const ThemeContext = createContext({
   currentTheme: themes.default,
-  changeTheme: (themeName: string) => {},
+  changeTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({

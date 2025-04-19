@@ -49,7 +49,7 @@ export const updateNickname = async (nickname: string) => {
       },
     }
   );
-  return response.data;
+  return response.data.data;
 };
 
 export const getMyProfile = async () => {

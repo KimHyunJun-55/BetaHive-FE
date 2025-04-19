@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProject, updateProject } from "../api/project";
+import { uploadFile } from "../api/upload";
 import { MAX_MEDIA_FILES } from "../type/contants";
 import { MediaFile, ProjectFormState } from "../type/types";
-import { uploadFile } from "../api/upload";
 
 const initialFormState: ProjectFormState = {
   basicInfo: {
@@ -36,6 +36,7 @@ const initialFormState: ProjectFormState = {
     baseReward: "",
     bonusRewards: [],
     criteria: "",
+    newBonusReward: "",
   },
 };
 
@@ -80,7 +81,6 @@ export const useProjectForm = (projectId?: string | undefined) => {
       hasReward: data.hasReward,
       baseReward: data.baseReward,
       bonusRewards: data.bonusRewards || [],
-      newBonusReward: "",
       criteria: data.criteria,
     },
   });

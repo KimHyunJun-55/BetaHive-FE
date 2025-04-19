@@ -1,6 +1,5 @@
 //Privacy.tsx
 // src/pages/PrivacyPage.tsx
-import React from "react";
 import styles from "./LegalPage.module.css";
 
 const PrivacyPage = () => {

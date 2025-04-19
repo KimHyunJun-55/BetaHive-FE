@@ -30,10 +30,10 @@ const MyPage = () => {
   const [bookmarkedPage, setBookmarkedPage] = useState(0);
   const [bookmarkedTotalPages, setBookmarkedTotalPages] = useState(0);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   navigate("/login");
+  // };
 
   const [user, setUser] = useState<User>({ userName: "", createdAt: "" });
   const handleNicknameUpdate = (newNickname: string) => {
@@ -97,9 +97,9 @@ const MyPage = () => {
     if (projects.length > 0) {
       return (
         <div className={styles.projectGrid}>
-          {projects.map((project) => (
+          {projects.map((project, idx) => (
             <ProjectCard
-              key={project.id}
+              key={idx}
               project={project}
               // hoverEffect={false}
             />
