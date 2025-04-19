@@ -3,13 +3,13 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/", // ✅ 반드시 추가
+  base: "./", // 상대 경로로 변경
   build: {
-    outDir: "dist", // ✅ 빌드 출력 폴더 명시
+    outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: "./index.html", // ✅ 진입점 명시
+        main: "./index.html",
       },
     },
   },
