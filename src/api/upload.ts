@@ -9,13 +9,7 @@ export const uploadFile = async (file: File): Promise<string> => {
     headers: {
       "Content-Type": "multipart/form-data",
     },
-    onUploadProgress: (progressEvent) => {
-      const percentCompleted = Math.round(
-        (progressEvent.loaded * 100) / (progressEvent.total || 1)
-      );
-      // console.log(`파일 업로드 진행률: ${percentCompleted}%`);
-    },
   });
 
-  return response.data.data; // 서버에서 반환된 파일 URL
+  return response.data.data;
 };

@@ -35,9 +35,10 @@ const Header: React.FC = () => {
   const handleLoginSuccess = (
     name: string,
     token: string,
-    refreshToken: string
+    refreshToken: string,
+    id: number
   ) => {
-    login(name, token, refreshToken); // AuthContext의 login 함수 사용
+    login(name, token, refreshToken, id); // AuthContext의 login 함수 사용
     setShowLoginModal(false);
   };
 
@@ -129,10 +130,7 @@ const Header: React.FC = () => {
       </div>
 
       {showLoginModal && (
-        <LoginModal
-          onClose={() => setShowLoginModal(false)}
-          onLoginSuccess={handleLoginSuccess} // 수정된 부분
-        />
+        <LoginModal onClose={() => setShowLoginModal(false)} />
       )}
     </header>
   );

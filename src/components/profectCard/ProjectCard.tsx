@@ -100,16 +100,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           />
 
           {/* 요구사항 태그들 */}
-          {project.requirements?.length > 0 && (
+          {/* 요구사항 태그들 */}
+          {(project.requirements?.length ?? 0) > 0 && (
             <div className={styles.requirements}>
-              {project.requirements.slice(0, 3).map((req, index) => (
+              {project.requirements?.slice(0, 3).map((req, index) => (
                 <span key={index} className={styles.requirementBadge}>
                   {req}
                 </span>
               ))}
-              {project.requirements.length > 3 && (
+              {(project.requirements?.length ?? 0) > 3 && (
                 <span className={styles.requirementBadge}>
-                  +{project.requirements.length - 3}
+                  +{(project.requirements?.length ?? 0) - 3}
                 </span>
               )}
             </div>

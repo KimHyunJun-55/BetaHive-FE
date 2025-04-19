@@ -82,7 +82,7 @@ const ProjectDetailPage: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [editMenuOpen, setEditMenuOpen] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<string | null>(
-    project?.status
+    project?.status ?? null
   );
 
   const handleShare = async () => {

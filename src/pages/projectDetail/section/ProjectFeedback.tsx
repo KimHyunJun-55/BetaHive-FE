@@ -32,14 +32,6 @@ export interface FeedbackForm {
   score: number;
 }
 
-interface PageResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  number: number;
-  size: number;
-}
-
 const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   const [score, setScore] = useState(0);
   const [feedbackText, setFeedbackText] = useState("");

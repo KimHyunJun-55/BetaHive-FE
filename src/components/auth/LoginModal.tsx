@@ -8,7 +8,6 @@ import styles from "./LoginModal.module.css";
 
 interface LoginModalProps {
   onClose: () => void;
-  onLoginSuccess?: () => void;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
@@ -53,6 +52,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
       onClose();
     } catch (err) {
       setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+      toast.error;
     }
   };
 
