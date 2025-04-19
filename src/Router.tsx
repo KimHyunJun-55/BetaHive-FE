@@ -14,8 +14,8 @@ import ProjectDetailPage from "./pages/projectDetail/ProjectDetailPage";
 import TesterGuide from "./pages/guide/TesterGuide";
 import Footer from "./components/footer/Footer";
 import MyPage from "./pages/mypage/MyPage";
-import PrivacyPage from "./pages/Privacy";
 import TermsPage from "./pages/Terms";
+import PrivacyPage from "./pages/Privacy";
 
 const RouterComponent: React.FC = () => {
   const ScrollToTop = () => {

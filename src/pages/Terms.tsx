@@ -1,6 +1,6 @@
 // src/pages/TermsPage.tsx
 import styles from "./LegalPage.module.css";
-const TermsPage = () => {
+const TermsPage: React.FC = () => {
   return (
     <div className={styles.legalContainer}>
       <h1 className={styles.title}>개인정보 처리 방침</h1>
