@@ -18,8 +18,31 @@ export const createComment = async (
   return response.data.data;
 };
 
-export const getComments = async (projectId: number) => {
-  const response = await axiosIntercepter.get(`comment/${projectId}`);
+export const getComments = async (commentId: number) => {
+  const response = await axiosIntercepter.get(`comment/${commentId}`);
+  // console.log(response.data.data);
+  return response.data.data;
+};
+
+export const deleteComment = async (commentId: number) => {
+  const response = await axiosIntercepter.delete(`comment/${commentId}`);
+  // console.log(response.data.data);
+  return response.data.data;
+};
+
+export const updateComments = async (
+  commentId: number,
+  formdata: FeedbackForm
+) => {
+  const response = await axiosIntercepter.put(
+    `comment/${commentId}`,
+    formdata,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   // console.log(response.data.data);
   return response.data.data;
 };

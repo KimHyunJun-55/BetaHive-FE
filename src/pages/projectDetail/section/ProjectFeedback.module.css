@@ -248,3 +248,39 @@
 }
 
 /* 기존 .textareaFooter 삭제 */
+/* 기존 스타일에 추가 */
+.commentActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.editTextarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+  margin-bottom: 0.5rem;
+}

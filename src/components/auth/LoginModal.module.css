@@ -203,3 +203,41 @@
 .switchButton:hover {
   background-color: var(--primary-light);
 }
+.input {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* LoginModal.module.css에 추가 */
+.nicknameContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.checkButton {
+  padding: 8px 12px;
+  /* background-color: #f0f0f0; */
+  /* border: 1px solid #ddd; */
+  border-radius: 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.checkButton:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.nicknameStatus {
+  margin-top: 4px;
+  font-size: 0.875rem;
+}
+
+.available {
+  color: #28a745;
+}
+
+.unavailable {
+  color: #dc3545;
+}

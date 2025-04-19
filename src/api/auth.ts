@@ -23,3 +23,17 @@ export const signUp = async (signUpData: SignUpData) => {
   const response = await axiosIntercepter.post(`/member/sign-up`, signUpData);
   return response.data;
 };
+
+// api/auth.ts
+export const checkNickname = async (nickname: string) => {
+  const response = await axiosIntercepter.post(
+    "/member/check-nickname",
+    { nickname }, // 객체로 감싸서 전송
+    {
+      headers: {
+        "Content-Type": "application/json", // 명시적으로 JSON 타입 지정
+      },
+    }
+  );
+  return response.data.data;
+};

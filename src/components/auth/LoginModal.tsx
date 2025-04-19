@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaComment, FaGoogle, FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { signIn, signUp } from "../../api/auth";
+import { checkNickname, signIn, signUp } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import { SignUpData } from "../../type/authTypes";
 import styles from "./LoginModal.module.css";
@@ -14,10 +14,14 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const [email, setEmail] = useState("test@test.test");
   const [password, setPassword] = useState("123123123");
-  const [nickname, setNickanme] = useState(""); // 추가: 회원가입용 이름 필드
+  const [nickname, setNickname] = useState(""); // 추가: 회원가입용 이름 필드
   const [isLoginView, setIsLoginView] = useState(true);
   const { login } = useAuth();
   const [error, setError] = useState("");
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState<
+    boolean | null
+  >(null);
+  const [nicknameCheckLoading, setNicknameCheckLoading] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -58,17 +62,56 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 닉네임 체크 확인
+    if (isNicknameAvailable === null) {
+      toast.error("닉네임 중복 확인을 해주세요.");
+      return;
+    }
+
+    if (!isNicknameAvailable) {
+      toast.error("사용할 수 없는 닉네임입니다.");
+      return;
+    }
+
     const signUpData: SignUpData = {
       email,
       password,
       nickname,
     };
+
     try {
       await signUp(signUpData);
       toast.success("회원가입이 완료되었습니다.");
       onClose();
     } catch (error) {
       console.error("회원가입 실패:", error);
+      toast.error("회원가입 중 문제가 발생했습니다.");
+    }
+  };
+
+  // 닉네임 중복 체크 함수
+  const handleCheckNickname = async () => {
+    if (!nickname.trim()) {
+      toast.error("닉네임을 입력해주세요");
+      return;
+    }
+
+    setNicknameCheckLoading(true);
+    try {
+      const isAvailable = await checkNickname(nickname);
+      console.log(isAvailable);
+      setIsNicknameAvailable(isAvailable);
+      if (isAvailable) {
+        toast.success("사용 가능한 닉네임입니다.");
+      } else {
+        toast.error("이미 사용 중인 닉네임입니다.");
+      }
+    } catch (error) {
+      console.error("닉네임 체크 실패:", error);
+      toast.error("닉네임 확인 중 오류가 발생했습니다.");
+    } finally {
+      setNicknameCheckLoading(false);
     }
   };
 
@@ -116,18 +159,46 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
           <form onSubmit={handleSignup} className={styles.authForm}>
             <div className={styles.formGroup}>
               <label htmlFor="username">닉네임</label>
-              <input
-                type="text"
-                id="username"
-                value={nickname}
-                onChange={(e) => setNickanme(e.target.value)}
-                placeholder="이름을 입력하세요"
-                required
-              />
+              <div className={styles.nicknameContainer}>
+                <input
+                  className={styles.userInput}
+                  type="text"
+                  id="username"
+                  value={nickname}
+                  onChange={(e) => {
+                    setNickname(e.target.value);
+                    setIsNicknameAvailable(null); // 닉네임 변경 시 상태 초기화
+                  }}
+                  placeholder="사용할 닉네임을 입력하세요"
+                  required
+                />
+                <button
+                  type="button"
+                  className={styles.checkButton}
+                  onClick={handleCheckNickname}
+                  disabled={nicknameCheckLoading || !nickname.trim()}
+                >
+                  {nicknameCheckLoading ? "확인 중..." : "중복 확인"}
+                </button>
+              </div>
+              {isNicknameAvailable !== null && (
+                <div className={styles.nicknameStatus}>
+                  {isNicknameAvailable ? (
+                    <span className={styles.available}>
+                      ✓ 사용 가능한 닉네임입니다.
+                    </span>
+                  ) : (
+                    <span className={styles.unavailable}>
+                      ✗ 이미 사용 중인 닉네임입니다.
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="email">이메일</label>
               <input
+                className={styles.userInput}
                 type="email"
                 id="email"
                 value={email}
@@ -139,6 +210,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
             <div className={styles.formGroup}>
               <label htmlFor="password">비밀번호 (최소 6자)</label>
               <input
+                className={styles.userInput}
                 type="password"
                 id="password"
                 value={password}
