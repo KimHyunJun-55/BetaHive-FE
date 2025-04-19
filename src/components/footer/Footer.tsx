@@ -1,5 +1,6 @@
 import { FaRegCopyright } from "react-icons/fa";
 import styles from "./Footer.module.css";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -7,10 +8,10 @@ const Footer = () => {
       <div className={styles.footerContent}>
         {/* 왼쪽: 링크 */}
         <div className={styles.footerLinks}>
-          <a href="/terms">이용약관</a>
-          <a href="/privacy">개인정보처리방침</a>
-          <a href="/faq">자주 묻는 질문</a>
-          <a href="/contact">문의하기</a>
+          <Link to="/terms">이용약관</Link>
+          <Link to="/privacy">개인정보처리방침</Link>
+          <Link to="/faq">자주 묻는 질문</Link>
+          <Link to="/contact">문의하기</Link>
         </div>
 
         {/* 오른쪽: 소개문구 + 소셜 + 링크 */}
