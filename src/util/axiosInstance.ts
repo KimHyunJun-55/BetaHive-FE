@@ -11,7 +11,7 @@ const { showLoading, hideLoading } = getLoadingFunctions();
 // });
 
 const axiosIntercepter = axios.create({
-  baseURL: `http://13.125.133.147:8080/api/v1`, // EC2의 퍼블릭 IP 주소로 설정
+  baseURL: `https://beta-hive.duckdns.org/api/v1`, // EC2의 퍼블릭 IP 주소로 설정
   withCredentials: true,
 });
 
