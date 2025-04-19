@@ -3,9 +3,9 @@ import styles from "../../../pages/projectCreate/ProjectCreate.module.css";
 
 import {
   faCloudUploadAlt,
+  faExchangeAlt,
   faImages,
   faPlus,
-  faPlusCircle,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -92,21 +92,11 @@ const MediaSection: React.FC<MediaSectionProps> = ({
               <FontAwesomeIcon icon={faPlus} /> 추가
             </button>
           </div>
-
+          {/* // 기존 코드는 동일하고 mediaFiles.map 부분만 수정 */}
           {mediaFiles.map((media, index) => (
             <div key={index} className={styles.mediaItem}>
               <div className={styles.mediaInputGroup}>
-                <input
-                  type="file"
-                  id={`media-upload-${index}`}
-                  style={{ display: "none" }}
-                  onChange={(e) =>
-                    e.target.files?.[0] &&
-                    onMediaUpload(index, e.target.files[0])
-                  }
-                  accept="image/*,video/*"
-                />
-
+                {/* 이미지 업로드/변경 영역 */}
                 <div className={styles.mediaUploadArea}>
                   {media.url ? (
                     <div className={styles.mediaPreview}>
@@ -115,14 +105,13 @@ const MediaSection: React.FC<MediaSectionProps> = ({
                         alt={`미디어 ${index + 1}`}
                         className={styles.mediaImage}
                       />
-                      <div
-                        // type="button"
-                        className={styles.mediaRemoveButton}
-                        onClick={() => onDeleteMedia(index)}
+                      {/* 이미지 변경 버튼 (이미지 내부) */}
+                      <label
+                        htmlFor={`media-upload-${index}`}
+                        className={styles.mediaChangeButton}
                       >
-                        <FontAwesomeIcon icon={faTrashAlt} size="sm" />
-                        <span className={styles.tooltip}>이미지삭제</span>
-                      </div>
+                        <span>이미지 변경</span>
+                      </label>
                     </div>
                   ) : (
                     <label
@@ -136,17 +125,38 @@ const MediaSection: React.FC<MediaSectionProps> = ({
                       <p className={styles.uploadText}>이미지를 업로드하세요</p>
                     </label>
                   )}
+                  <input
+                    type="file"
+                    id={`media-upload-${index}`}
+                    style={{ display: "none" }}
+                    onChange={(e) =>
+                      e.target.files?.[0] &&
+                      onMediaUpload(index, e.target.files[0])
+                    }
+                    accept="image/*,video/*"
+                  />
                 </div>
 
-                <textarea
-                  className={styles.mediaDescriptionInput}
-                  placeholder="이미지 설명을 입력하세요"
-                  value={media.description}
-                  onChange={(e) =>
-                    onMediaDescriptionChange(index, e.target.value)
-                  }
-                  rows={3}
-                />
+                {/* 설명 입력 영역과 탭 삭제 버튼 */}
+                <div className={styles.mediaDescriptionContainer}>
+                  <textarea
+                    className={styles.mediaDescriptionInput}
+                    placeholder="이미지 설명을 입력하세요"
+                    value={media.description}
+                    onChange={(e) =>
+                      onMediaDescriptionChange(index, e.target.value)
+                    }
+                    rows={3}
+                  />
+                  {/* 탭 삭제 버튼 (우측 하단) */}
+                  <div
+                    onClick={() => onDeleteMedia(index)}
+                    className={styles.removeButton}
+                  >
+                    <FontAwesomeIcon icon={faTrashAlt} size="sm" />
+                    탭삭제
+                  </div>
+                </div>
               </div>
             </div>
           ))}

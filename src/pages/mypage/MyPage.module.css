@@ -57,7 +57,7 @@
   top: 20px;
   right: 20px;
   cursor: pointer;
-  color: #3498db;
+  color: var(--primary);
   transition: color 0.3s;
 }
 

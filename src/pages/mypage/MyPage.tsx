@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { FaArrowRight, FaEdit, FaPlus, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { getMyProfile } from "../../api/auth";
 import { getBookmarkedProjects, getMyProjects } from "../../api/project";
 import ProjectCard from "../../components/profectCard/ProjectCard";
 import ProfileEditModal from "../../components/profile/ProfileEditModal";
 import styles from "./MyPage.module.css";
-import { useAuth } from "../../context/AuthContext";
+
+type User = {
+  userName: string;
+  createdAt: string;
+};
 
 const MyPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -13,21 +18,7 @@ const MyPage = () => {
     "participated" | "bookmarked" | "created"
   >("bookmarked");
 
-  const [user, setUser] = useState({
-    name: "현재 닉네임",
-    email: "user@example.com",
-    joinDate: "2023-01-01",
-    rating: 4.5,
-  });
-
-  const { userName } = useAuth();
-
   const navigate = useNavigate();
-
-  const handleSaveProfile = (newNickname: string) => {
-    setUser((prev) => ({ ...prev, name: newNickname }));
-    // API 호출 로직 추가 가능
-  };
 
   // 등록한 프로젝트 상태
   const [createdProjects, setCreatedProjects] = useState([]);
@@ -44,13 +35,35 @@ const MyPage = () => {
     navigate("/login");
   };
 
+  const [user, setUser] = useState<User>({ userName: "", createdAt: "" });
+  const handleNicknameUpdate = (newNickname: string) => {
+    setUser((prev) => ({
+      ...prev,
+      userName: newNickname,
+    }));
+  };
+
   useEffect(() => {
-    if (activeTab === "created") {
-      fetchCreatedProjects(createdPage);
-    } else if (activeTab === "bookmarked") {
-      fetchBookmarkedProjects(bookmarkedPage);
-    }
-    // 참여 프로젝트는 추후 구현
+    const fetchData = async () => {
+      try {
+        const userData = await getMyProfile();
+        console.log(userData);
+        setUser({
+          userName: userData.nickname,
+          createdAt: userData.createdAt, // 없으면 임시 값 또는 null 처리
+        });
+
+        if (activeTab === "created") {
+          fetchCreatedProjects(createdPage);
+        } else if (activeTab === "bookmarked") {
+          fetchBookmarkedProjects(bookmarkedPage);
+        }
+      } catch (error) {
+        console.error("유저 정보를 불러오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchData();
   }, [activeTab, createdPage, bookmarkedPage]);
 
   const fetchCreatedProjects = async (page: number) => {
@@ -88,7 +101,7 @@ const MyPage = () => {
             <ProjectCard
               key={project.id}
               project={project}
-              hoverEffect={false}
+              // hoverEffect={false}
             />
           ))}
         </div>
@@ -129,11 +142,11 @@ const MyPage = () => {
             <FaUser size={40} />
           </div>
           <div className={styles.userInfo}>
-            <h2>{userName}</h2>
+            <h2>{user.userName}</h2>
             {/* <p>{user.email}</p> */}
             <div className={styles.metaInfo}>
-              <span>가입일: {user.joinDate}</span>
-              <span>테스터 평점: ⭐{user.rating}</span>
+              <span>가입일: {user.createdAt}</span>
+              {/* <span>테스터 평점: ⭐{user.rating}</span> */}
             </div>
           </div>
           <div
@@ -177,9 +190,9 @@ const MyPage = () => {
 
         {showEditModal && (
           <ProfileEditModal
-            currentNickname={user.name}
+            currentNickname={user?.userName}
             onClose={() => setShowEditModal(false)}
-            onSave={handleSaveProfile}
+            onNicknameUpdate={handleNicknameUpdate}
           />
         )}
       </div>

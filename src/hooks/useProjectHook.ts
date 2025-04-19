@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createProject, updateProject, uploadFile } from "../api/project";
+import { createProject, updateProject } from "../api/project";
 import { MAX_MEDIA_FILES } from "../type/contants";
 import { MediaFile, ProjectFormState } from "../type/types";
+import { uploadFile } from "../api/upload";
 
 const initialFormState: ProjectFormState = {
   basicInfo: {

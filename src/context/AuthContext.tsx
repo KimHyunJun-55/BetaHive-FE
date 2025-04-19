@@ -13,6 +13,7 @@ interface AuthContextType {
     id: number
   ) => void;
   logout: () => void;
+  updateUserName: (newName: string) => void; // 추가!
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -39,6 +40,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoggedIn(true);
     }
   }, []);
+
+  const updateUserName = (newName: string) => {
+    setUserName(newName);
+    localStorage.setItem("userName", newName);
+  };
 
   const login = (name: string, token: string, refresh: string, id: number) => {
     setUserId(id);
@@ -76,6 +82,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         userId,
         login,
         logout,
+        updateUserName,
       }}
     >
       {children}

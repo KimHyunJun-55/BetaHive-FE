@@ -37,3 +37,22 @@ export const checkNickname = async (nickname: string) => {
   );
   return response.data.data;
 };
+
+// 닉네임 변경 API
+export const updateNickname = async (nickname: string) => {
+  const response = await axiosIntercepter.put(
+    "/member/nickname",
+    { nickname },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.data;
+};
+
+export const getMyProfile = async () => {
+  const response = await axiosIntercepter.get("/member");
+  return response.data.data;
+};

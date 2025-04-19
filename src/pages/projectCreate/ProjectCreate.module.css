@@ -101,7 +101,7 @@
 }
 
 .formGroup label {
-  display: block;
+  /* display: block; */
   margin-bottom: 8px;
   font-weight: 500;
   font-size: 14px;
@@ -252,12 +252,58 @@ select.formControl {
   border-color: var(--primary);
   color: var(--primary);
 }
+.mediaChangeButton {
+  /* position: absolute; */
+  top: 8px;
+  right: 8px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  /* background-color: red; */
+  color: var(--text);
+  width: fit-content;
+  height: 28px;
+  /* border-radius: 50%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+  font-size: 12px;
+}
+.mediaChangeButton:hover {
+  background: var(--card);
+}
+.mediaDescriptionContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* position: relative; 삭제 버튼 위치 기준 */
+}
+
+/* 탭 삭제 버튼 스타일 (우측 하단) */
+.removeButton {
+  margin-top: 3px;
+  color: var(--primary);
+  margin-left: auto;
+  padding: 2px 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+  background: var(--card);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.removeButton:hover {
+  color: var(--primary-hover);
+  background: rgba(120, 99, 241, 0.1); /* #7863f1의 rgba 버전 */
+}
 
 .mediaPreview {
   position: relative;
   height: 150px;
+  width: 100%;
 }
-
 .mediaImage {
   width: 100%;
   height: 100%;
@@ -652,68 +698,6 @@ select.formControl {
   background: var(--primary);
   border-color: var(--card);
 }
-/* 마크다운 */
-/* ==================== 마크다운 에디터 ==================== */
-/* ==================== 마크다운 에디터 ==================== */
-/* .markdownHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.markdownActions {
-  display: flex;
-  gap: 12px;
-}
-
-.guideToggleButton {
-  background: var(--primary-light);
-  color: var(--primary);
-  border: none;
-  padding: 6px 12px;
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: var(--transition);
-}
-
-.guideToggleButton:hover {
-  background: var(--primary);
-  color: white;
-}
-
-.collapsibleGuide {
-  background: var(--bg-secondary);
-  padding: 15px;
-  border-radius: var(--radius-md);
-  margin-bottom: 15px;
-  border: 1px solid var(--border);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.collapsibleGuide h3 {
-  font-size: 1rem;
-  margin-top: 0;
-  color: var(--primary);
-}
-
-.collapsibleGuide ul {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.collapsibleGuide code {
-  background: var(--code-bg);
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-family: monospace;
-  font-size: 0.85rem;
-} */
 
 /* 다크 모드 대응 */
 :global(.theme-dark) .collapsibleGuide {

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   FaCheck,
+  FaChevronDown,
+  FaChevronUp,
   FaEdit,
   FaPaperPlane,
   FaTimes,
@@ -30,6 +32,14 @@ export interface FeedbackForm {
   score: number;
 }
 
+interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+}
+
 const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   const [score, setScore] = useState(0);
   const [feedbackText, setFeedbackText] = useState("");
@@ -38,6 +48,10 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
   const { userId } = useAuth();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalComments, setTotalComments] = useState(0);
+  const pageSize = 5; // 페이지당 댓글 수
 
   const toggleExpand = (id: number) => {
     setExpandedFeedbackIds((prev) =>
@@ -48,7 +62,6 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 유효성 검사 추가
     if (!feedbackText.trim()) {
       toast.error("댓글을 입력해주세요");
       return;
@@ -63,8 +76,7 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
       await createComment(projectId, newFeedback);
       setFeedbackText("");
       setScore(0);
-      const updated = await getComments(projectId);
-      setFeedbacks(updated.content);
+      loadFeedbacks(currentPage); // 현재 페이지 다시 로드
       toast.success("댓글이 등록되었습니다.");
     } catch (error) {
       console.error("댓글 전송 실패:", error);
@@ -83,7 +95,6 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   };
 
   const handleEditSubmit = async (commentId: number) => {
-    // 유효성 검사 추가
     if (!editText.trim()) {
       toast.error("댓글을 입력해주세요");
       return;
@@ -95,8 +106,7 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
         score: score,
       };
       await updateComments(commentId, newFeedback);
-      const updated = await getComments(projectId);
-      setFeedbacks(updated.content);
+      loadFeedbacks(currentPage); // 현재 페이지 다시 로드
       setEditingCommentId(null);
       setEditText("");
       toast.success("댓글이 수정되었습니다.");
@@ -110,8 +120,7 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
     if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
       try {
         await deleteComment(commentId);
-        const updated = await getComments(projectId);
-        setFeedbacks(updated.content);
+        loadFeedbacks(currentPage); // 현재 페이지 다시 로드
         toast.success("댓글이 삭제되었습니다.");
       } catch (error) {
         console.error("댓글 삭제 실패:", error);
@@ -120,31 +129,42 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
     }
   };
 
-  // 줄바꿈으로 인한 높이 계산 함수
-  const shouldShowToggle = (content: string, elementId: number) => {
-    if (!content) return false;
+  const shouldShowToggle = (content: string) => {
+    return content.length > 100 || (content.match(/\n/g) || []).length >= 3;
+  };
 
-    // 내용 길이가 100자 이상인 경우
-    if (content.length > 100) return true;
-
-    // DOM 요소로 높이 체크 (줄바꿈으로 인한 경우)
-    const element = document.getElementById(`feedback-content-${elementId}`);
-    if (element) {
-      return element.scrollHeight > element.clientHeight;
+  const loadFeedbacks = async (page: number = 0) => {
+    try {
+      const pageData = await getComments(projectId, page, pageSize);
+      setFeedbacks(pageData.content);
+      setTotalComments(pageData.totalElements);
+      setTotalPages(pageData.totalPages);
+      setCurrentPage(page);
+    } catch (err) {
+      console.error("댓글 불러오기 실패:", err);
     }
-    return false;
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      loadFeedbacks(newPage);
+      setTimeout(() => {
+        const feedbackList = document.querySelector(`.${styles.feedbackList}`);
+        if (feedbackList) {
+          const offset = 70;
+          const elementPosition = feedbackList.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
+        }
+      }, 100); // 데이터 로딩 후 실행되도록 약간의 지연 추가
+    }
   };
 
   useEffect(() => {
-    const loadFeedbacks = async () => {
-      try {
-        const updated = await getComments(projectId);
-        setFeedbacks(updated.content);
-      } catch (err) {
-        console.error("댓글 불러오기 실패:", err);
-      }
-    };
-
     loadFeedbacks();
   }, [projectId]);
 
@@ -181,104 +201,198 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
 
       {/* Feedback List */}
       <div className={styles.feedbackList}>
-        <h3 className={styles.sectionTitle}>댓글 목록 ({feedbacks.length})</h3>
+        <h3 className={styles.sectionTitle}>
+          댓글 목록 ({totalComments.toLocaleString()})
+        </h3>
         {feedbacks.length === 0 ? (
           <div className={styles.emptyFeedback}>
             아직 등록된 댓글이 없습니다.
           </div>
         ) : (
-          <div className={styles.feedbackItems}>
-            {feedbacks.map((feedback) => (
-              <div key={feedback.commentId} className={styles.feedbackItem}>
-                <div className={styles.feedbackHeader}>
-                  <div className={styles.userAvatar}>
-                    {feedback.nickname.substring(0, 1)}
-                  </div>
-                  <div className={styles.userInfo}>
-                    <span className={styles.userName}>{feedback.nickname}</span>
-                    <span className={styles.feedbackDate}>
-                      {feedback.createdAt}
-                    </span>
-                  </div>
-                  {userId === feedback.writerId && (
-                    <div className={styles.commentActions}>
-                      {editingCommentId === feedback.commentId ? (
-                        <>
-                          <div
-                            className={styles.actionButton}
-                            onClick={() => handleEditSubmit(feedback.commentId)}
-                          >
-                            <FaCheck />
-                            <span>전송</span>
-                          </div>
-                          <button
-                            className={styles.actionButton}
-                            onClick={cancelEditing}
-                          >
-                            <FaTimes />
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            className={styles.actionButton}
-                            onClick={() => startEditing(feedback)}
-                          >
-                            <FaEdit />
-                            <span>수정</span>
-                          </button>
-                          <button
-                            className={styles.actionButton}
-                            onClick={() => handleDelete(feedback.commentId)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </>
-                      )}
+          <>
+            <div className={styles.feedbackItems}>
+              {feedbacks.map((feedback) => (
+                <div key={feedback.commentId} className={styles.feedbackItem}>
+                  <div className={styles.feedbackHeader}>
+                    <div className={styles.userAvatar}>
+                      {feedback.nickname.substring(0, 1)}
                     </div>
-                  )}
-                </div>
-                <div className={styles.feedbackText}>
-                  {editingCommentId === feedback.commentId ? (
-                    <textarea
-                      className={styles.editTextarea}
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                      maxLength={300}
-                    />
-                  ) : (
-                    <>
-                      <div
-                        id={`feedback-content-${feedback.commentId}`}
-                        className={
-                          expandedFeedbackIds.includes(feedback.commentId)
-                            ? styles.expandedText
-                            : styles.collapsedText
-                        }
-                      >
-                        {feedback.content}
+                    <div className={styles.userInfo}>
+                      <span className={styles.userName}>
+                        {feedback.nickname}
+                      </span>
+                      <span className={styles.feedbackDate}>
+                        {feedback.createdAt}
+                      </span>
+                    </div>
+                    {userId === feedback.writerId && (
+                      <div className={styles.commentActions}>
+                        {editingCommentId === feedback.commentId ? (
+                          <>
+                            <div
+                              className={styles.actionButton}
+                              onClick={() =>
+                                handleEditSubmit(feedback.commentId)
+                              }
+                            >
+                              <FaCheck />
+                              <span>전송</span>
+                            </div>
+                            <button
+                              className={styles.actionButton}
+                              onClick={cancelEditing}
+                            >
+                              <FaTimes />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className={styles.actionButton}
+                              onClick={() => startEditing(feedback)}
+                            >
+                              <FaEdit />
+                              <span>수정</span>
+                            </button>
+                            <button
+                              className={styles.actionButton}
+                              onClick={() => handleDelete(feedback.commentId)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </>
+                        )}
                       </div>
-                      {shouldShowToggle(
-                        feedback.content,
-                        feedback.commentId
-                      ) && (
+                    )}
+                  </div>
+                  <div className={styles.feedbackText}>
+                    {editingCommentId === feedback.commentId ? (
+                      <textarea
+                        className={styles.editTextarea}
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        maxLength={300}
+                      />
+                    ) : (
+                      <>
                         <div
-                          className={styles.toggleButton}
-                          onClick={() => toggleExpand(feedback.commentId)}
+                          id={`feedback-content-${feedback.commentId}`}
+                          className={
+                            expandedFeedbackIds.includes(feedback.commentId)
+                              ? styles.expandedText
+                              : styles.collapsedText
+                          }
                         >
-                          {expandedFeedbackIds.includes(feedback.commentId) ? (
-                            <>접기</>
-                          ) : (
-                            <>더보기</>
-                          )}
+                          {feedback.content}
                         </div>
-                      )}
-                    </>
-                  )}
+                        {/* // 더보기 버튼 렌더링 부분 수정 */}
+                        {shouldShowToggle(feedback.content) && (
+                          <div
+                            className={styles.toggleButton}
+                            onClick={() => toggleExpand(feedback.commentId)}
+                          >
+                            {expandedFeedbackIds.includes(
+                              feedback.commentId
+                            ) ? (
+                              <>
+                                <FaChevronUp className={styles.toggleIcon} />
+                                <span className={styles.toggleIcon}>접기</span>
+                              </>
+                            ) : (
+                              <>
+                                <FaChevronDown className={styles.toggleIcon} />
+                                <span className={styles.toggleIcon}>
+                                  더보기
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className={styles.pagination}>
+                <div
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  className={styles.pageNumber}
+                  style={{
+                    visibility: currentPage === 0 ? "hidden" : "visible",
+                  }}
+                >
+                  &lt;
+                </div>
+
+                {currentPage > 2 && (
+                  <>
+                    <div
+                      onClick={() => handlePageChange(0)}
+                      className={
+                        0 === currentPage
+                          ? styles.activePageNumber
+                          : styles.pageNumber
+                      }
+                    >
+                      1
+                    </div>
+                    {currentPage > 3 && (
+                      <div className={styles.ellipsis}>...</div>
+                    )}
+                  </>
+                )}
+
+                {Array.from({ length: totalPages }, (_, i) => i)
+                  .filter((i) => i >= currentPage - 2 && i <= currentPage + 2)
+                  .map((i) => (
+                    <div
+                      key={i}
+                      onClick={() => handlePageChange(i)}
+                      className={
+                        i === currentPage
+                          ? styles.activePageNumber
+                          : styles.pageNumber
+                      }
+                    >
+                      {i + 1}
+                    </div>
+                  ))}
+
+                {currentPage < totalPages - 3 && (
+                  <>
+                    {currentPage < totalPages - 4 && (
+                      <div className={styles.ellipsis}>...</div>
+                    )}
+                    <div
+                      onClick={() => handlePageChange(totalPages - 1)}
+                      className={
+                        totalPages - 1 === currentPage
+                          ? styles.activePageNumber
+                          : styles.pageNumber
+                      }
+                    >
+                      {totalPages}
+                    </div>
+                  </>
+                )}
+
+                <div
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  className={styles.pageNumber}
+                  style={{
+                    visibility:
+                      currentPage >= totalPages - 1 ? "hidden" : "visible",
+                  }}
+                >
+                  &gt;
                 </div>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -64,7 +64,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #4a90e2, #3a7bc8);
+  background: var(--primary);
   color: white;
   border: none;
   padding: 0px 12px;
@@ -80,9 +80,9 @@
 }
 
 .submitButton:hover {
-  background: linear-gradient(135deg, #3a7bc8, #2a6bb8);
+  background: var(--primary-hover);
   /* transform: translateY(-2px); */
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+  /* box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4); */
 }
 
 .submitButton:focus {
@@ -270,12 +270,14 @@
 }
 
 .actionButton:hover {
-  color: var(--text);
+  color: var(--primary);
   background: rgba(0, 0, 0, 0.05);
 }
 
 .editTextarea {
   width: 100%;
+  background: var(--bg);
+  color: var(--text);
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -283,4 +285,59 @@
   resize: vertical;
   font-family: inherit;
   margin-bottom: 0.5rem;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0;
+  font-size: 14px;
+}
+
+.pageNumber,
+.activePageNumber,
+.ellipsis {
+  padding: 6px 10px;
+  min-width: 32px;
+  text-align: center;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+
+.activePageNumber {
+  background-color: var(--bg);
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.ellipsis {
+  cursor: default;
+  border: none;
+  background: none;
+  color: #aaa;
+}
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  font-size: 14px;
+  color: #3a7bc8;
+  cursor: pointer;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.toggleButton:hover {
+  background-color: rgba(58, 79, 200, 0.1);
+}
+
+.toggleIcon {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary);
 }

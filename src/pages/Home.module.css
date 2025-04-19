@@ -195,7 +195,7 @@
 }
 
 .heroBetaButtons button {
-  background: #4f46e5;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 12px 28px;
@@ -206,7 +206,7 @@
 }
 
 .heroBetaButtons button:hover {
-  background: #4338ca;
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 

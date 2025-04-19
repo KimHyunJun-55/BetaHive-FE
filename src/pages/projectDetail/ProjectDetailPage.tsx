@@ -174,9 +174,9 @@ const ProjectDetailPage: React.FC = () => {
     try {
       const updatedStatus: boolean = await checkBookmarkStatus(numericId); // 서버 요청
       if (updatedStatus) {
-        toast("내 관심목록에 저장되었습니다.");
+        toast.success("내 관심목록에 저장되었습니다.");
       } else {
-        toast("내 관심목록에서 삭제 되었습니다.");
+        toast.success("내 관심목록에서 삭제 되었습니다.");
       }
       setIsBookmark(updatedStatus); // 응답 기반으로 상태 업데이트
     } catch (err) {
@@ -389,37 +389,60 @@ const ProjectDetailPage: React.FC = () => {
       <div className={styles.mainContent}>
         {/* 이미지 확대 모달 */}
         {expandedMedia && (
-          <div className={styles.imageModal}>
-            <button
-              className={`${styles.navButton} ${styles.left}`}
-              onClick={goPrev}
+          <div
+            className={`${styles.imageModal} ${styles.open}`}
+            onClick={closeImageModal}
+          >
+            <div
+              className={styles.flexWrapper}
+              onClick={(e) => e.stopPropagation()}
             >
-              &#10094;
-            </button>
-            <button
-              className={`${styles.navButton} ${styles.right}`}
-              onClick={goNext}
-            >
-              &#10095;
-            </button>
+              <div
+                className={`${styles.navButton} ${styles.left}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goPrev();
+                }}
+              >
+                &#10094;
+              </div>
 
-            <div className={styles.modalContent}>
-              <button className={styles.closeButton} onClick={closeImageModal}>
-                &times;
-              </button>
+              <div className={styles.modalContainer}>
+                <div className={styles.modalHeader}>
+                  <div className={styles.closeButton} onClick={closeImageModal}>
+                    &times;
+                  </div>
+                </div>
 
-              <img
-                src={expandedMedia.url}
-                alt="확대 이미지"
-                className={styles.modalImage}
-              />
+                <div className={styles.modalBody}>
+                  <div className={styles.imageContainer}>
+                    <img
+                      src={expandedMedia.url}
+                      alt="확대 이미지"
+                      className={styles.modalImage}
+                    />
+                  </div>
+
+                  <div className={styles.descriptionContainer}>
+                    <div
+                      className={styles.modalDescription}
+                      dangerouslySetInnerHTML={{
+                        __html: expandedMedia.description,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
 
               <div
-                className={styles.modalDescription}
-                dangerouslySetInnerHTML={{
-                  __html: expandedMedia.description,
+                className={`${styles.navButton} ${styles.right}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goNext();
                 }}
-              ></div>
+              >
+                &#10095;
+              </div>
             </div>
           </div>
         )}

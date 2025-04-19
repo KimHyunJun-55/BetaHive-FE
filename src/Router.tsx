@@ -1,6 +1,11 @@
 // src/Router.tsx
-import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Header from "./components/header/Header";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -13,6 +18,15 @@ import PrivacyPage from "./pages/Privacy";
 import TermsPage from "./pages/Terms";
 
 const RouterComponent: React.FC = () => {
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  };
   return (
     <Router>
       <Header />
@@ -22,6 +36,7 @@ const RouterComponent: React.FC = () => {
           className="
         mainContent"
         >
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             {/* <Route path="/projects/create" element={<ProjectCreatePage />} /> */}

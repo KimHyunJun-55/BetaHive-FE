@@ -18,9 +18,18 @@ export const createComment = async (
   return response.data.data;
 };
 
-export const getComments = async (commentId: number) => {
-  const response = await axiosIntercepter.get(`comment/${commentId}`);
-  // console.log(response.data.data);
+// api/comment.ts
+export const getComments = async (
+  projectId: number,
+  page: number = 0,
+  size: number = 5
+) => {
+  const response = await axiosIntercepter.get(`/comment/${projectId}`, {
+    params: {
+      page,
+      size,
+    },
+  });
   return response.data.data;
 };
 
