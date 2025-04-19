@@ -20,10 +20,10 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// ReactDOM.createRoot(document.getElementById("root")!).render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
 
-// ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
