@@ -42,8 +42,9 @@
   gap: 8px;
 }
 .imagePreview {
-  max-height: 400px; /* 높이를 적절한 크기로 제한 */
-  object-fit: cover; /* 이미지 비율을 유지하면서 잘리도록 설정 */
+  height: 100%;
+  width: 100%; /* 높이를 적절한 크기로 제한 */
+  object-fit: scale-down; /* 이미지 비율을 유지하면서 잘리도록 설정 */
 }
 .btnPrimary {
   background-color: var(--primary);
@@ -171,7 +172,7 @@ select.formControl {
 }
 .fileUpload {
   border: 2px dashed var(--border);
-  min-height: 200px;
+  height: 400px;
   padding: 30px;
   text-align: center;
   border-radius: var(--radius-md);
@@ -406,6 +407,7 @@ select.formControl {
 
 .testerRequirementInput {
   padding: 8px 15px;
+  width: 100%;
   border-radius: 20px;
   border: 1px solid var(--border);
 }

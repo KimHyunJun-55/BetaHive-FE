@@ -40,7 +40,7 @@ const MediaSection: React.FC<MediaSectionProps> = ({
       </h2>
 
       <div className={styles.formGroup}>
-        <label>썸네일 이미지 *</label>
+        <label>썸네일 이미지</label>
         <div
           className={`${styles.fileUpload} `}
           onClick={() => document.getElementById("thumbnail-upload")?.click()}
@@ -57,10 +57,7 @@ const MediaSection: React.FC<MediaSectionProps> = ({
                 icon={faCloudUploadAlt}
                 className={styles.uploadIcon}
               />
-              <p className={styles.uploadText}>
-                가로형 이미지 권장 (16:9)
-                <br />앱 아이콘 형태의 정사각형 이미지 권장 (1:1)
-              </p>
+              <p className={styles.uploadText}>썸네일을 등록 해 주세요.</p>
             </>
           )}
           <input

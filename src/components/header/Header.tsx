@@ -1,47 +1,38 @@
-import React, { useState } from "react";
+// src/components/header/Header.tsx
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { FaSearch, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { GiHoneycomb } from "react-icons/gi"; // 벌집 전체 느낌
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import LoginModal from "../auth/LoginModal";
 import styles from "./Header.module.css";
-<Link to="/" className={styles.logo}>
-  <GiHoneycomb className={styles.logoIcon} />
-  <span>
-    <strong>Beta</strong>Hive
-  </span>
-</Link>;
 
-const Header: React.FC = () => {
-  const { isLoggedIn, userName, login, logout } = useAuth();
+export interface HeaderHandle {
+  showLoginModal: () => void;
+}
+
+const Header = forwardRef<HeaderHandle>((props, ref) => {
+  const { isLoggedIn, userName, logout } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
-  const { currentTheme } = useTheme(); // 요거 추가!
+  const { currentTheme } = useTheme();
 
-  // 더미 데이터 대신 context에서 가져온 userName 사용
   const userInitial = userName ? userName.charAt(0).toUpperCase() : "U";
-  // const notificationCount = 3; // 실제로는 API에서 가져오거나 context에 추가
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  // ref를 통해 부모 컴포넌트에서 모달 제어 가능
+  useImperativeHandle(ref, () => ({
+    showLoginModal: () => setShowLoginModal(true),
+  }));
+
   const handleLogin = () => {
     setShowLoginModal(true);
   };
 
   const handleLogout = () => {
-    logout(); // AuthContext의 logout 함수 사용
+    logout();
     navigate("/");
   };
-
-  // const handleLoginSuccess = (
-  //   name: string,
-  //   token: string,
-  //   refreshToken: string,
-  //   id: number
-  // ) => {
-  //   login(name, token, refreshToken, id); // AuthContext의 login 함수 사용
-  //   setShowLoginModal(false);
-  // };
-
-  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
 
   const handleSearch = () => {
     if (searchKeyword.trim()) {
@@ -69,21 +60,6 @@ const Header: React.FC = () => {
         />
       </Link>
 
-      {/* <nav className={styles.navMain}>
-        <Link to="/" className={styles.active}>
-          <FaCompass /> 프로젝트 탐색
-        </Link>
-        <Link to="/projects/create" onClick={handleProjectCreateClick}>
-          <FaPlusCircle /> 프로젝트 등록
-        </Link>
-        <Link to="/dashboard">
-          <FaChartLine /> 대시보드
-        </Link>
-        <Link to="/feedback">
-          <FaCommentDots /> 피드백
-        </Link>
-      </nav> */}
-
       <div className={styles.headerRight}>
         <div className={styles.searchContainer}>
           <input
@@ -110,11 +86,6 @@ const Header: React.FC = () => {
               </button>
               <Link to="/my" className={styles.userAvatar}>
                 <span>{userInitial}</span>
-                {/* {notificationCount > 0 && (
-                  <span className={styles.notificationBadge}>
-                    {notificationCount}
-                  </span>
-                )} */}
               </Link>
             </>
           ) : (
@@ -129,10 +100,20 @@ const Header: React.FC = () => {
       </div>
 
       {showLoginModal && (
-        <LoginModal onClose={() => setShowLoginModal(false)} />
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          onLoginSuccess={() => {
+            // 로그인 성공 후 원래 요청한 경로로 리다이렉트
+            const redirectPath = sessionStorage.getItem("redirectPath");
+            if (redirectPath) {
+              sessionStorage.removeItem("redirectPath");
+              navigate(redirectPath);
+            }
+          }}
+        />
       )}
     </header>
   );
-};
+});
 
 export default Header;

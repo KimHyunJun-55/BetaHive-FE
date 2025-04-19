@@ -1,23 +1,28 @@
 // src/Router.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Route,
   BrowserRouter as Router,
   Routes,
   useLocation,
 } from "react-router-dom";
+import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
+import TesterGuide from "./pages/guide/TesterGuide";
 import Home from "./pages/Home";
+import MyPage from "./pages/mypage/MyPage";
 import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
 import CreateProject from "./pages/projectCreate/ProjectCreate";
 import ProjectDetailPage from "./pages/projectDetail/ProjectDetailPage";
-import TesterGuide from "./pages/guide/TesterGuide";
-import Footer from "./components/footer/Footer";
-import MyPage from "./pages/mypage/MyPage";
-import TermsPage from "./pages/Terms";
-import PrivacyPage from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import { useAuth } from "./context/AuthContext";
+import ProtectedRoute from "./ProtectedRoute";
 
 const RouterComponent: React.FC = () => {
+  const { isLoggedIn } = useAuth(); // AuthContext에서 isLoggedIn 사용
+  const headerRef = useRef<{ showLoginModal: () => void }>(null);
+
   const ScrollToTop = () => {
     const { pathname } = useLocation();
 
@@ -29,7 +34,7 @@ const RouterComponent: React.FC = () => {
   };
   return (
     <Router>
-      <Header />
+      <Header ref={headerRef} />
 
       <div className="container">
         <div
@@ -39,11 +44,25 @@ const RouterComponent: React.FC = () => {
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/projects/create" element={<ProjectCreatePage />} /> */}
-            <Route path="/projects/create" element={<CreateProject />} />
+            <Route
+              path="/projects/create"
+              element={
+                <ProtectedRoute
+                  showModal={() => headerRef.current?.showLoginModal()}
+                >
+                  <CreateProject />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/projects/:projectId/edit"
-              element={<CreateProject />}
+              element={
+                <ProtectedRoute
+                  showModal={() => headerRef.current?.showLoginModal()}
+                >
+                  <CreateProject />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/projects/detail/:id"
@@ -51,9 +70,18 @@ const RouterComponent: React.FC = () => {
             />
             <Route path="*" element={<NotFound />} />
             <Route path="/guide" element={<TesterGuide />} />
-            <Route path="/my" element={<MyPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route
+              path="/my"
+              element={
+                <ProtectedRoute
+                  showModal={() => headerRef.current?.showLoginModal()}
+                >
+                  <MyPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
           </Routes>
         </div>
       </div>

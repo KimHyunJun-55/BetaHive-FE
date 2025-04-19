@@ -1,6 +1,6 @@
 // src/pages/TermsPage.tsx
 import styles from "./LegalPage.module.css";
-const TermsPage: React.FC = () => {
+const Terms: React.FC = () => {
   return (
     <div className={styles.legalContainer}>
       <h1 className={styles.title}>개인정보 처리 방침</h1>
@@ -54,4 +54,4 @@ BetaHive(이하 당사)는 「개인정보 보호법」 등 관련 법령상의 
   );
 };
 
-export default TermsPage;
+export default Terms;

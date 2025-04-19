@@ -1,3 +1,4 @@
+// src/components/auth/LoginModal.tsx
 import React, { useEffect, useState } from "react";
 import { FaComment, FaGoogle, FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -8,12 +9,13 @@ import styles from "./LoginModal.module.css";
 
 interface LoginModalProps {
   onClose: () => void;
+  onLoginSuccess?: () => void; // 추가된 prop
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
+const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
   const [email, setEmail] = useState("test@test.test");
   const [password, setPassword] = useState("123123123");
-  const [nickname, setNickname] = useState(""); // 추가: 회원가입용 이름 필드
+  const [nickname, setNickname] = useState("");
   const [isLoginView, setIsLoginView] = useState(true);
   const { login } = useAuth();
   const [isNicknameAvailable, setIsNicknameAvailable] = useState<
@@ -31,13 +33,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
-  // 모달 외부 클릭 시 닫기
+
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
-  //로그인버튼
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -46,22 +48,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
         password,
       });
       login(nickname, accessToken, refreshToken, id);
-
       toast.success(`${nickname}님 안녕하세요`);
       onClose();
+      onLoginSuccess?.(); // 로그인 성공 콜백 호출
     } catch (err) {
       toast.error("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
   };
 
-  // const handleSocialLogin = (provider: "google" | "kakao") => {
-  //   // 소셜 로그인 처리 로직
-  // };
-
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 닉네임 체크 확인
     if (isNicknameAvailable === null) {
       toast.error("닉네임 중복 확인을 해주세요.");
       return;
@@ -81,14 +78,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     try {
       await signUp(signUpData);
       toast.success("회원가입이 완료되었습니다.");
-      onClose();
+      setIsLoginView(true); // 회원가입 후 로그인 화면으로 전환
     } catch (error) {
       console.error("회원가입 실패:", error);
       toast.error("회원가입 중 문제가 발생했습니다.");
     }
   };
 
-  // 닉네임 중복 체크 함수
   const handleCheckNickname = async () => {
     if (!nickname.trim()) {
       toast.error("닉네임을 입력해주세요");
@@ -98,7 +94,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     setNicknameCheckLoading(true);
     try {
       const isAvailable = await checkNickname(nickname);
-      console.log(isAvailable);
       setIsNicknameAvailable(isAvailable);
       if (isAvailable) {
         toast.success("사용 가능한 닉네임입니다.");
@@ -112,7 +107,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
       setNicknameCheckLoading(false);
     }
   };
-
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={styles.modalContainer}>

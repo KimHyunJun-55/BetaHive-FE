@@ -39,7 +39,7 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   const [expandedFeedbackIds, setExpandedFeedbackIds] = useState<number[]>([]);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
-  const { userId } = useAuth();
+  const { userId, isLoggedIn } = useAuth();
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalComments, setTotalComments] = useState(0);
@@ -53,7 +53,10 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    if (!isLoggedIn) {
+      toast.error("로그인후에 이용할 수 있습니다.");
+      return;
+    }
     if (!feedbackText.trim()) {
       toast.error("댓글을 입력해주세요");
       return;
@@ -87,6 +90,10 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
   };
 
   const handleEditSubmit = async (commentId: number) => {
+    if (!isLoggedIn) {
+      toast.error("로그인후에 이용할 수 있습니다.");
+      return;
+    }
     if (!editText.trim()) {
       toast.error("댓글을 입력해주세요");
       return;
@@ -167,9 +174,15 @@ const ProjectFeedback: React.FC<{ projectId: any }> = ({ projectId }) => {
         <h3 className={styles.sectionTitle}>댓글 작성</h3>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.textareaContainer}>
+            {isLoggedIn}
             <textarea
               className={styles.textarea}
-              placeholder="프로젝트에 대해 어떠셨나요? 개발자에게 댓글을 남겨주세요!"
+              placeholder={
+                isLoggedIn
+                  ? "프로젝트에 대해 어떠셨나요? 개발자에게 댓글을 남겨주세요!"
+                  : "로그인 후에 댓글을 남길 수 있어요!"
+              }
+              disabled={!isLoggedIn}
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
               maxLength={300}

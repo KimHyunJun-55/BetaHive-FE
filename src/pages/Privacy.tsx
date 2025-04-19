@@ -2,7 +2,7 @@
 // src/pages/PrivacyPage.tsx
 import styles from "./LegalPage.module.css";
 
-const PrivacyPage: React.FC = () => {
+const Privacy: React.FC = () => {
   return (
     <div className={styles.legalContainer}>
       <h1 className={styles.title}>개인정보처리방침</h1>
@@ -80,4 +80,4 @@ const PrivacyPage: React.FC = () => {
   );
 };
 
-export default PrivacyPage;
+export default Privacy;

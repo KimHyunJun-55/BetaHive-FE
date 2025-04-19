@@ -74,7 +74,7 @@ const ProjectDetailPage: React.FC = () => {
   );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const { userId } = useAuth();
+  const { userId, isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   //북마크
@@ -171,17 +171,21 @@ const ProjectDetailPage: React.FC = () => {
 
   //북마크 토글
   const toggleBookmark = async () => {
-    try {
-      const updatedStatus: boolean = await checkBookmarkStatus(numericId); // 서버 요청
-      if (updatedStatus) {
-        toast.success("내 관심목록에 저장되었습니다.");
-      } else {
-        toast.success("내 관심목록에서 삭제 되었습니다.");
+    if (isLoggedIn) {
+      try {
+        const updatedStatus: boolean = await checkBookmarkStatus(numericId); // 서버 요청
+        if (updatedStatus) {
+          toast.success("내 관심목록에 저장되었습니다.");
+        } else {
+          toast.success("내 관심목록에서 삭제 되었습니다.");
+        }
+        setIsBookmark(updatedStatus); // 응답 기반으로 상태 업데이트
+      } catch (err) {
+        console.error("북마크 토글 실패:", err);
+        alert("북마크 변경 중 오류가 발생했습니다.");
       }
-      setIsBookmark(updatedStatus); // 응답 기반으로 상태 업데이트
-    } catch (err) {
-      console.error("북마크 토글 실패:", err);
-      alert("북마크 변경 중 오류가 발생했습니다.");
+    } else {
+      toast.error("로그인후에 이용해주세요!");
     }
   };
 
@@ -449,10 +453,11 @@ const ProjectDetailPage: React.FC = () => {
 
         {/* 프로젝트 헤더 섹션 */}
         <div className={styles.projectHeader}>
-          <div className={styles.projectImage}>
+          <div className={styles.projectThumbnail}>
             <img
               src={project.thumbnailUrl}
               alt={project.name}
+              className={styles.thumbnail}
               // onClick={() =>
               //   openImageModal({
               //     url: project.thumbnailUrl,
@@ -466,7 +471,6 @@ const ProjectDetailPage: React.FC = () => {
             {/* 프로젝트 메타 정보 */}
             <div className={styles.projectMeta}>
               <span className={styles.projectCategory}>
-                {" "}
                 {CATEGORY_LABELS[project.category] ?? project.category}
               </span>
               <span className={styles.projectStatus}>
