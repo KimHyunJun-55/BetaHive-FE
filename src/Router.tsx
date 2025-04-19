@@ -68,7 +68,6 @@ const RouterComponent: React.FC = () => {
               path="/projects/detail/:id"
               element={<ProjectDetailPage />}
             />
-            <Route path="*" element={<NotFound />} />
             <Route path="/guide" element={<TesterGuide />} />
             <Route
               path="/my"
@@ -82,6 +81,7 @@ const RouterComponent: React.FC = () => {
             />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
