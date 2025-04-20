@@ -7,7 +7,6 @@ import { Project } from "../types";
 import styles from "./Home.module.css";
 import { FilterType } from "../type/types";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "@react-helmet-async/core";
 
 const Home: React.FC = () => {
   // const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -99,7 +98,7 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <Helmet>
+      {/* <Helmet>
         <title>Hive | 베타 테스트 플랫폼</title>
         <meta
           name="description"
@@ -116,7 +115,7 @@ const Home: React.FC = () => {
           property="og:image"
           content="https://beta-hive-fe.vercel.app/og-image.png"
         />
-      </Helmet>
+      </Helmet> */}
       <div className={styles.mainContainer}>
         <main className={styles.mainContent}>
           <div className={styles.heroBetaPlatform}>
@@ -129,10 +128,16 @@ const Home: React.FC = () => {
                 들려주세요
               </h1>
               <p className={styles.heroBetaSubtitle}>
-                새로운 아이디어를 실험하고,
+                여전히 발전 중인 서비스들이지만, 지금 참여해서 의견을
+                나눠주세요.
+                <br />
+                여러분의 피드백이 서비스를 더욱 빛나게 만듭니다!
+              </p>
+              {/* <p className={styles.heroBetaSubtitle}>
+                새로운 아이디어를 실험하고
                 <br />
                 사용자 피드백을 통해 함께 만들어가는 플랫폼입니다.
-              </p>
+              </p> */}
 
               <div className={styles.heroBetaButtons}>
                 <button onClick={handleNewProject}>프로젝트 등록하기</button>
