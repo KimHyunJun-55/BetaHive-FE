@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/auth/callback/kakao",
+      "destination": "/index.html"
+    }
+  ]
+}
