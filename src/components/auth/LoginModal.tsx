@@ -29,9 +29,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
   const [nicknameCheckLoading, setNicknameCheckLoading] = useState(false);
 
   const KAKAO_CLIENT_ID = "72e8020ab2fd918caa233d175be614ff"; // 여기서 제공한 JavaScript 키
-  // const REDIRECT_URI =
-  //   "https://beta-hive-fe.vercel.app/api/auth/callback/kakao"; // 등록한 리디렉트 URI
-  const REDIRECT_URI = "http://localhost:5173/api/auth/callback/kakao";
+  const REDIRECT_URI =
+    "https://beta-hive-fe.vercel.app/api/auth/callback/kakao"; // 등록한 리디렉트 URI
+  // const REDIRECT_URI = "http://localhost:5173/api/auth/callback/kakao";
 
   const handleSocialLogin = (provider: "kakao" | "google") => {
     console.log(provider);
