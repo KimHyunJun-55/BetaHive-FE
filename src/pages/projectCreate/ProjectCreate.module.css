@@ -114,7 +114,7 @@
   padding: 12px 15px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: var(--bg);
+  background: var(--card);
   color: var(--text);
   font-family: inherit;
   transition: var(--transition);

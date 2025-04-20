@@ -47,7 +47,7 @@ const MyPage = () => {
     const fetchData = async () => {
       try {
         const userData = await getMyProfile();
-        console.log(userData);
+        // console.log(userData);
         setUser({
           userName: userData.nickname,
           createdAt: userData.createdAt, // 없으면 임시 값 또는 null 처리

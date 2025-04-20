@@ -49,7 +49,7 @@ export const useProjectForm = (projectId?: string | undefined) => {
   const navigate = useNavigate();
 
   // 미리보기 URL 정리
-  console.log(formState);
+  // console.log(formState);
   const inflateFormData = (data: any) => ({
     basicInfo: {
       name: data.name,

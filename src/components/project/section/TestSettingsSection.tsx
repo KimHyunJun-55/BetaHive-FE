@@ -76,7 +76,7 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
         />
 
         {/* 연락처 타입 + 입력 필드 */}
-        <div className={styles.formGroup}>
+        {/* <div className={styles.formGroup}>
           <label htmlFor="contact-info">테스터 문의처 *</label>
           <div className={styles.contactRow}>
             <select
@@ -122,7 +122,7 @@ const TestSettingsSection: React.FC<TestSettingsSectionProps> = ({
               required
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className={styles.formGroup}>
