@@ -98,24 +98,6 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      {/* <Helmet>
-        <title>Hive | 베타 테스트 플랫폼</title>
-        <meta
-          name="description"
-          content="새로운 서비스를 가장 먼저 경험하고 피드백을 제공하세요. 프로젝트에 참여하거나 직접 등록할 수 있습니다."
-        />
-        <meta property="og:title" content="Hive - 베타 테스트 플랫폼" />
-        <meta
-          property="og:description"
-          content="새로운 서비스에 참여하고 보상을 받으세요!"
-        />
-        <meta property="og:url" content="https://beta-hive-fe.vercel.app/" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://beta-hive-fe.vercel.app/og-image.png"
-        />
-      </Helmet> */}
       <div className={styles.mainContainer}>
         <main className={styles.mainContent}>
           <div className={styles.heroBetaPlatform}>
