@@ -5,13 +5,8 @@ import { toast } from "react-toastify";
 
 const { showLoading, hideLoading } = getLoadingFunctions();
 
-// const axiosIntercepter = axios.create({
-//   baseURL: "http://localhost:8080/api/v1",
-//   withCredentials: true,
-// });
-
 const axiosIntercepter = axios.create({
-  baseURL: `https://beta-hive.duckdns.org/api/v1`, // EC2의 퍼블릭 IP 주소로 설정
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
 });
 

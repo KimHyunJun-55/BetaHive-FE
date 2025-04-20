@@ -1,13 +1,8 @@
 // src/components/auth/LoginModal.tsx
 import React, { useEffect, useState } from "react";
-import { FaComment, FaGoogle, FaTimes } from "react-icons/fa";
+import { FaComment, FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
-import {
-  checkNickname,
-  sendKakaoCodeToServer,
-  signIn,
-  signUp,
-} from "../../api/auth";
+import { checkNickname, signIn, signUp } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import { SignUpData } from "../../type/authTypes";
 import styles from "./LoginModal.module.css";
@@ -28,10 +23,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
   >(null);
   const [nicknameCheckLoading, setNicknameCheckLoading] = useState(false);
 
-  const KAKAO_CLIENT_ID = "72e8020ab2fd918caa233d175be614ff"; // 여기서 제공한 JavaScript 키
-  const REDIRECT_URI =
-    "https://beta-hive-fe.vercel.app/api/auth/callback/kakao"; // 등록한 리디렉트 URI
-  // const REDIRECT_URI = "http://localhost:5173/api/auth/callback/kakao";
+  const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
+  const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
   const handleSocialLogin = (provider: "kakao" | "google") => {
     console.log(provider);
