@@ -27,7 +27,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
   const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
   const handleSocialLogin = (provider: "kakao" | "google") => {
-    console.log(provider);
+    // console.log(provider);
     if (provider === "kakao") {
       const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
       window.location.href = kakaoAuthUrl;
