@@ -128,9 +128,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
       <div className={styles.modalContainer}>
-        <button className={styles.closeButton} onClick={onClose}>
+        <div className={styles.closeButton} onClick={onClose}>
           <FaTimes />
-        </button>
+        </div>
         <h2 className={styles.modalTitle}>
           {isLoginView ? "로그인" : "회원가입"}
         </h2>
@@ -249,12 +249,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
               <FaComment /> 카카오로 시작하기
             </button>
 
-            <button
+            {/* <button
               className={`${styles.socialButton} ${styles.google}`}
               // onClick={() => handleSocialLogin("google")}
             >
               <FaGoogle /> Google로 시작하기
-            </button>
+            </button> */}
           </div>
         </div>
         <div className={styles.switchView}>
