@@ -129,10 +129,9 @@ const Home: React.FC = () => {
                 들려주세요
               </h1>
               <p className={styles.heroBetaSubtitle}>
-                여전히 발전 중인 서비스들이지만, 지금 참여해서 의견을
-                나눠주세요.
+                새로운 아이디어를 실험하고,
                 <br />
-                여러분의 피드백이 서비스를 더욱 빛나게 만듭니다!
+                사용자 피드백을 통해 함께 만들어가는 플랫폼입니다.
               </p>
 
               <div className={styles.heroBetaButtons}>
