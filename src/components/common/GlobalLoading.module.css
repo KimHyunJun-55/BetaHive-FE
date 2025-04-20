@@ -1,17 +1,27 @@
 /* GlobalLoading.module.css */
 /* GlobalLoading.module.css */
 .overlay {
-  z-index: 2147483647; /* 최대값 (32-bit 정수 최댓값) */
   position: fixed;
-  background: rgba(0, 0, 0, 0.7) !important;
-  /* 하위 요소 차단 */
-  pointer-events: auto !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2147483647;
+  pointer-events: auto;
 }
+
 .spinner {
   text-align: center;
   color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-
 .dualRing {
   display: inline-block;
   width: 64px;

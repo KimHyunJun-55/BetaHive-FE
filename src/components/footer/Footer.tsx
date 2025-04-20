@@ -33,7 +33,13 @@ const Footer = () => {
 
           <div className={styles.miniLinks}>
             {/* <a href="/team">팀 소개</a> */}
-            <a href="/blog">업데이트 소식</a>
+            <a
+              href="https://pond-hovercraft-344.notion.site/1db549415a8a80c8adfce9aaec5e261d"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              업데이트 소식
+            </a>
           </div>
 
           <p className={styles.copy}>

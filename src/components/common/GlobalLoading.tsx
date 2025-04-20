@@ -8,9 +8,14 @@ const GlobalLoading = () => {
   if (!isLoading) return null;
 
   return (
-    <div className={styles.overlay}>
+    <div
+      className={styles.overlay}
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
       <div className={styles.spinner}>
-        <div className={styles.dualRing}></div>
+        <div className={styles.dualRing} aria-hidden="true"></div>
         <p>Loading...</p>
       </div>
     </div>

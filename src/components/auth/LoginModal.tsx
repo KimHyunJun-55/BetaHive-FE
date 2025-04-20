@@ -2,7 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { FaComment, FaGoogle, FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { checkNickname, signIn, signUp } from "../../api/auth";
+import {
+  checkNickname,
+  sendKakaoCodeToServer,
+  signIn,
+  signUp,
+} from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import { SignUpData } from "../../type/authTypes";
 import styles from "./LoginModal.module.css";
@@ -22,6 +27,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
     boolean | null
   >(null);
   const [nicknameCheckLoading, setNicknameCheckLoading] = useState(false);
+
+  const KAKAO_CLIENT_ID = "72e8020ab2fd918caa233d175be614ff"; // 여기서 제공한 JavaScript 키
+  // const REDIRECT_URI =
+  //   "https://beta-hive-fe.vercel.app/api/auth/callback/kakao"; // 등록한 리디렉트 URI
+  const REDIRECT_URI = "http://localhost:5173/api/auth/callback/kakao";
+
+  const handleSocialLogin = (provider: "kakao" | "google") => {
+    console.log(provider);
+    if (provider === "kakao") {
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+      window.location.href = kakaoAuthUrl;
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -226,7 +244,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
           <div className={styles.socialButtons}>
             <button
               className={`${styles.socialButton} ${styles.kakao}`}
-              // onClick={() => handleSocialLogin("kakao")}
+              onClick={() => handleSocialLogin("kakao")}
             >
               <FaComment /> 카카오로 시작하기
             </button>
