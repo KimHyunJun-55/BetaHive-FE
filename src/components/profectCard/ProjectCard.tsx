@@ -58,19 +58,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
     <div className={styles.projectCard}>
       <Link to={`/projects/detail/${project.id}`} className={styles.cardLink}>
-        {/* 이미지 섹션 (주석 해제 필요시 사용) */}
-        {/* <div className={styles.projectImage}>
-          <img
-            src={project.thumbnailUrl || "/default-project-thumbnail.jpg"}
-            alt={project.name}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/default-project-thumbnail.jpg";
-            }}
-          />
-        </div> */}
-
         <div className={styles.projectContent}>
-          {/* 헤더 섹션 - 제목과 뱃지들 */}
+          {/* 이미지 섹션 추가 */}
+          <div className={styles.projectImageSmall}>
+            <img
+              src={project.thumbnailUrl || "/default-project-thumbnail.jpg"}
+              alt={project.name}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  "/default-project-thumbnail.jpg";
+              }}
+            />
+          </div>
+
+          {/* 제목 + 뱃지 */}
           <div className={styles.projectHeader}>
             <h3 className={styles.projectTitle}>{project.name}</h3>
             <div className={styles.badgeGroup}>
@@ -86,8 +87,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </div>
           </div>
 
-          {/* 프로젝트 설명 */}
-          {/* 프로젝트 설명 */}
+          {/* 설명 */}
           <p
             className={styles.projectDescription}
             title={project.description}
@@ -99,8 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             }}
           />
 
-          {/* 요구사항 태그들 */}
-          {/* 요구사항 태그들 */}
+          {/* 요구사항 */}
           {(project.requirements?.length ?? 0) > 0 && (
             <div className={styles.requirements}>
               {project.requirements?.slice(0, 3).map((req, index) => (
@@ -116,7 +115,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </div>
           )}
 
-          {/* 푸터 - 조회수, 댓글수 */}
+          {/* 하단 정보 */}
           <div className={styles.projectFooter}>
             <div className={styles.metaInfo}>
               <div className={styles.metaItem}>
