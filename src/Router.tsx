@@ -19,6 +19,7 @@ import Terms from "./pages/Terms";
 import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import KakaoCallbackPage from "./pages/KakaoCallbackPage";
+import GoogleCallbackPage from "./pages/GoogleCallbackPage";
 
 const RouterComponent: React.FC = () => {
   const { isLoggedIn } = useAuth(); // AuthContext에서 isLoggedIn 사용
@@ -84,6 +85,11 @@ const RouterComponent: React.FC = () => {
               path="/api/auth/callback/kakao"
               element={<KakaoCallbackPage />}
             />
+            <Route
+              path="/api/auth/callback/google"
+              element={<GoogleCallbackPage />}
+            />
+
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="*" element={<NotFound />} />

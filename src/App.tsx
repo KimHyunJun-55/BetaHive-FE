@@ -31,7 +31,7 @@ const App: React.FC = () => {
           <ToastContainer
             position="bottom-center"
             autoClose={1250}
-            hideProgressBar
+            hideProgressBar={false}
             transition={Fade}
             toastClassName="custom-toast"
           />

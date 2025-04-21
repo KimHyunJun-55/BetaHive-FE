@@ -1,6 +1,6 @@
 // src/components/auth/LoginModal.tsx
 import React, { useEffect, useState } from "react";
-import { FaComment, FaTimes } from "react-icons/fa";
+import { FaComment, FaGoogle, FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { checkNickname, signIn, signUp } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
@@ -25,12 +25,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
 
   const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
   const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const GOOGLE_REDIRECT_URI = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
 
   const handleSocialLogin = (provider: "kakao" | "google") => {
-    // console.log(provider);
+    console.log(provider);
     if (provider === "kakao") {
       const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
       window.location.href = kakaoAuthUrl;
+    } else if (provider === "google") {
+      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email`;
+      window.location.href = googleAuthUrl;
     }
   };
 
@@ -242,12 +247,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
               <FaComment /> 카카오로 시작하기
             </button>
 
-            {/* <button
+            <button
               className={`${styles.socialButton} ${styles.google}`}
-              // onClick={() => handleSocialLogin("google")}
+              onClick={() => handleSocialLogin("google")}
             >
               <FaGoogle /> Google로 시작하기
-            </button> */}
+            </button>
           </div>
         </div>
         <div className={styles.switchView}>
