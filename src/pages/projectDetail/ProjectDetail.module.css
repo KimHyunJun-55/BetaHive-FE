@@ -262,6 +262,8 @@
   line-height: 1.7;
   margin-bottom: 30px;
   color: var(--text);
+  white-space: normal; /* 줄바꿈 허용 */
+  word-break: break-word; /* ✅ 이거 추가로 확실하게 줄바꿈 허용 */
 }
 
 .descriptionText p {
@@ -547,6 +549,8 @@
   line-height: 1.6;
   color: var(--text);
   margin-bottom: 30px;
+  white-space: normal; /* 줄바꿈 허용 */
+  word-break: break-word; /* ✅ 연속된 긴 단어도 줄바꿈 허용 */
 }
 .instructionsContent li > p {
   margin: 0;

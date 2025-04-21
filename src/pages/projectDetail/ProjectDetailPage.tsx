@@ -565,10 +565,10 @@ const ProjectDetailPage: React.FC = () => {
                 <FaUserFriends />
                 <span>목표 {project.testersCount ?? 0}명</span>
               </div> */}
-              <div className={styles.statItem}>
+              {/* <div className={styles.statItem}>
                 <FaClock style={{ color: "var(--text)" }} />
                 <span>{project.daysLeft ?? 0}</span>
-              </div>
+              </div> */}
             </div>
 
             <div className={styles.actionContainer}>

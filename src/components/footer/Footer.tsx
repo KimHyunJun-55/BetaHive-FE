@@ -1,6 +1,14 @@
 import { FaRegCopyright } from "react-icons/fa";
 import styles from "./Footer.module.css";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+const notDevelop = () => {
+  toast.error(`
+    개발단계 입니다.
+     추후 업데이트를 기대해주세요!
+     `);
+};
 
 const Footer = () => {
   return (
@@ -10,8 +18,14 @@ const Footer = () => {
         <div className={styles.footerLinks}>
           <Link to="/terms">이용약관</Link>
           <Link to="/privacy">개인정보처리방침</Link>
-          <Link to="/faq">자주 묻는 질문</Link>
-          <Link to="/contact">문의하기</Link>
+          {/* <Link to="/faq">자주 묻는 질문</Link> */}
+          {/* <Link to="/contact">문의하기</Link> */}
+          <div onClick={notDevelop} style={{ cursor: "pointer" }}>
+            자주 묻는 질문
+          </div>
+          <div onClick={notDevelop} style={{ cursor: "pointer" }}>
+            문의하기
+          </div>
         </div>
 
         {/* 오른쪽: 소개문구 + 소셜 + 링크 */}

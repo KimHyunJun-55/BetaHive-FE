@@ -60,6 +60,9 @@
   color: var(--text);
   line-height: 1.4;
   flex-grow: 1;
+  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 말줄임(...) 표시 */
 }
 
 .badgeGroup {
@@ -91,18 +94,22 @@
   color: var(--text);
   font-size: 0.9rem;
   line-height: 1.5;
-  margin-bottom: 16px;
+  height: 19%;
+
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+
   overflow: hidden;
+  word-break: break-word;
+  white-space: normal; /* 꼭 pre-wrap이 아니라 normal이어야 함! */
 }
 
 .requirements {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-top: auto;
 }
 
 .requirementBadge {
@@ -114,8 +121,8 @@
   font-weight: 500;
 }
 .projectFooter {
-  margin-top: auto;
-  padding-top: 12px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid var(--card-border);
   display: flex;
   justify-content: space-between;

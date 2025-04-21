@@ -32,6 +32,9 @@
 .footerLinks a:hover {
   color: var(--primary);
 }
+.footerLinks div:hover {
+  color: var(--primary);
+}
 
 .rightSection {
   text-align: right;
