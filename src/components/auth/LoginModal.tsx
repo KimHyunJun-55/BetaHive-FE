@@ -247,12 +247,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
               <FaComment /> 카카오로 시작하기
             </button>
 
-            <button
+            {/* <button
               className={`${styles.socialButton} ${styles.google}`}
               onClick={() => handleSocialLogin("google")}
             >
               <FaGoogle /> Google로 시작하기
-            </button>
+            </button> */}
           </div>
         </div>
         <div className={styles.switchView}>
