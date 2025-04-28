@@ -82,11 +82,11 @@ const RouterComponent: React.FC = () => {
               }
             />
             <Route
-              path="/api/auth/callback/kakao"
+              path="/hive/auth/callback/kakao"
               element={<KakaoCallbackPage />}
             />
             <Route
-              path="/api/auth/callback/google"
+              path="/hive/auth/callback/google"
               element={<GoogleCallbackPage />}
             />
 
